@@ -1,6 +1,7 @@
-package de.balloncon.cedh_tool_backend.model;
+package de.balloncon.cedh_tool_backend.pod;
 
 
+import de.balloncon.cedh_tool_backend.player.Player;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
