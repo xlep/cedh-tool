@@ -1,8 +1,5 @@
-package de.balloncon.cedh_tool_backend.controller;
+package de.balloncon.cedh_tool_backend.pod;
 
-import de.balloncon.cedh_tool_backend.model.Pod;
-import de.balloncon.cedh_tool_backend.service.PodService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

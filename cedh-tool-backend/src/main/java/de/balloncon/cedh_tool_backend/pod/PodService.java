@@ -1,7 +1,6 @@
-package de.balloncon.cedh_tool_backend.service;
+package de.balloncon.cedh_tool_backend.pod;
 
-import de.balloncon.cedh_tool_backend.model.Player;
-import de.balloncon.cedh_tool_backend.model.Pod;
+import de.balloncon.cedh_tool_backend.player.Player;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,10 +10,10 @@ import java.util.List;
 public class PodService {
 
     public List<Pod> getAllPods() {
-        Player p1 = new Player("1", "Raphi");
-        Player p2 = new Player("2", "Sigi");
-        Player p3 = new Player("3", "Tino");
-        Player p4 = new Player("4", "Moe");
+        Player p1 = new Player("1", "Raphi", "", "");
+        Player p2 = new Player("2", "Sigi", "", "");
+        Player p3 = new Player("3", "Tino", "", "");
+        Player p4 = new Player("4", "Moe", "", "");
 
 
         Pod pod = new Pod();
