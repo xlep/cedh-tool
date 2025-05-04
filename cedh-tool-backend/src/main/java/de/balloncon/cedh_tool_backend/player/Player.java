@@ -1,28 +1,46 @@
 package de.balloncon.cedh_tool_backend.player;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import de.balloncon.cedh_tool_backend.pod.Seat;
+import de.balloncon.cedh_tool_backend.tournament.Tournamentplayer;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
+@Table(name = "player")
 public class Player {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name= "playerid", columnDefinition = "uuid", updatable = false, nullable = false)
-    UUID playerId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
+    private UUID id;
 
-    String nickname;
+    @Column(name = "nickname", length = Integer.MAX_VALUE)
+    private String nickname;
 
-    @Column(name = "firstname")
-    String firstName;
+    @Column(name = "firstname", length = Integer.MAX_VALUE)
+    private String firstname;
 
-    @Column(name = "lastname")
-    String lastName;
+    @Column(name = "lastname", length = Integer.MAX_VALUE)
+    private String lastname;
+
+    @Column(name = "email", length = Integer.MAX_VALUE)
+    private String email;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<Seat> seats = new LinkedHashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<Tournamentplayer> tournamentplayers = new LinkedHashSet<>();
 }

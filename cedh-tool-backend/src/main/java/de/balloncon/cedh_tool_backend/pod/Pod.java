@@ -1,18 +1,33 @@
 package de.balloncon.cedh_tool_backend.pod;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-import de.balloncon.cedh_tool_backend.player.Player;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Getter
+@Setter
+@Entity
+@Table(name = "pod")
 public class Pod {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
+    private UUID id;
 
-   Player seatOne;
-   Player seatTwo;
-   Player seatThree;
-   Player seatFour;
+    @Column(name = "name")
+    private Integer name;
+
+    @Column(name = "round")
+    private Integer round;
+
+    @OneToMany(mappedBy = "pod")
+    private Set<Seat> seats = new LinkedHashSet<>();
+
 }
