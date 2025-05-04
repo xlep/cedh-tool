@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class PlayerService {
@@ -15,7 +16,7 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public Player findPlayerById(String id) {
+    public Player findPlayerById(UUID id) {
         return playerRepository.findById(id).orElse(null);
     }
 }

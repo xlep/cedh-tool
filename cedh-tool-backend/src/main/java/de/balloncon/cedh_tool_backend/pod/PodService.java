@@ -5,15 +5,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class PodService {
 
     public List<Pod> getAllPods() {
-        Player p1 = new Player("1", "Raphi", "", "");
-        Player p2 = new Player("2", "Sigi", "", "");
-        Player p3 = new Player("3", "Tino", "", "");
-        Player p4 = new Player("4", "Moe", "", "");
+        Player p1 = new Player(UUID.randomUUID(), "Raphi", "", "");
+        Player p2 = new Player(UUID.randomUUID(), "Sigi", "", "");
+        Player p3 = new Player(UUID.randomUUID(), "Tino", "", "");
+        Player p4 = new Player(UUID.randomUUID(), "Moe", "", "");
 
 
         Pod pod = new Pod();

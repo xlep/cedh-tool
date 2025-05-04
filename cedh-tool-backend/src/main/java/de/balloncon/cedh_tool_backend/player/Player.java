@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -12,8 +14,9 @@ import lombok.NoArgsConstructor;
 public class Player {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name= "playerid", columnDefinition = "uuid", updatable = false, nullable = false)
+    UUID playerId;
 
     String nickname;
 

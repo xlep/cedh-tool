@@ -1,17 +1,16 @@
 package de.balloncon.cedh_tool_backend.player;
 
-import de.balloncon.cedh_tool_backend.CedhToolBackendApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 class PlayerServiceTest {
 
     @Autowired
