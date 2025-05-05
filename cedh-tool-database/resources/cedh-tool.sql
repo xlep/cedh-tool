@@ -30,7 +30,7 @@ CREATE TABLE tournament (
 CREATE TABLE tournamentplayers (
    tournament UUID references tournament(id),
    player UUID references player(id),
-   score NUMERIC(6,4),
+   score NUMERIC(7,3),
    PRIMARY KEY (tournament, player)
 );
 
