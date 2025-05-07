@@ -1,14 +1,11 @@
 package de.balloncon.cedh_tool_backend.player;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import de.balloncon.cedh_tool_backend.pod.Seat;
-import de.balloncon.cedh_tool_backend.tournament.Tournamentplayer;
+import de.balloncon.cedh_tool_backend.seat.Seat;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -42,5 +39,5 @@ public class Player {
 
     @JsonIgnore
     @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
-    private Set<Tournamentplayer> tournamentplayers = new LinkedHashSet<>();
+    private Set<TournamentPlayer> tournamentplayers = new LinkedHashSet<>();
 }
