@@ -1,4 +1,4 @@
-package de.balloncon.cedh_tool_backend.tournament;
+package de.balloncon.cedh_tool_backend.tournament.player;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -14,21 +14,21 @@ import java.util.UUID;
 @Getter
 @Setter
 @Embeddable
-public class TournamentplayerId implements Serializable {
+public class TournamentPlayerId implements Serializable {
     private static final long serialVersionUID = -6721082864744376078L;
     @NotNull
-    @Column(name = "tournament", nullable = false)
+    @Column(name = "tournament_id", nullable = false)
     private UUID tournament;
 
     @NotNull
-    @Column(name = "player", nullable = false)
+    @Column(name = "player_id", nullable = false)
     private UUID player;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        TournamentplayerId entity = (TournamentplayerId) o;
+        TournamentPlayerId entity = (TournamentPlayerId) o;
         return Objects.equals(this.tournament, entity.tournament) &&
                 Objects.equals(this.player, entity.player);
     }
