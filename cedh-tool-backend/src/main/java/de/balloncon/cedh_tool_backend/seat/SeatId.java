@@ -1,4 +1,4 @@
-package de.balloncon.cedh_tool_backend.pod;
+package de.balloncon.cedh_tool_backend.seat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
