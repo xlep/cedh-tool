@@ -1,10 +1,9 @@
-package de.balloncon.cedh_tool_backend.pod;
+package de.balloncon.cedh_tool_backend.seat;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import de.balloncon.cedh_tool_backend.player.Player;
+import de.balloncon.cedh_tool_backend.pod.Pod;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Table(name = "seats")
 public class Seat {
     @EmbeddedId
-    private SeatId id;
+    private SeatId id = new SeatId();
 
     @JsonIgnore
     @MapsId("pod")
