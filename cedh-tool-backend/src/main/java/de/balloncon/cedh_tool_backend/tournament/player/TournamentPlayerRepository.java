@@ -1,7 +1,7 @@
 package de.balloncon.cedh_tool_backend.tournament.player;
 
 import de.balloncon.cedh_tool_backend.player.Player;
-import de.balloncon.cedh_tool_backend.player.score.view.PlayerScoreView;
+import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreView;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,7 +21,7 @@ public interface TournamentPlayerRepository extends JpaRepository <TournamentPla
         JOIN player p ON tp.player = p.id
         WHERE tp.tournament = :tournamentId
         """, nativeQuery = true)
-    List<PlayerScoreView> findPlayerScoresByTournament(@Param("tournamentId") UUID tournamentId);
+    List<TournamentPlayerScoreView> findPlayerScoresByTournament(@Param("tournamentId") UUID tournamentId);
 
     @Query("SELECT tp.player FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId")
     List<Player> findPlayersByTournamentId(@Param("tournamentId") UUID tournamentId);
