@@ -4,9 +4,7 @@ import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 public class PodService {
@@ -16,5 +14,10 @@ public class PodService {
 
     public Pod getPodById( UUID podId) {
         return podRepository.findById(podId).orElse(null);
+    }
+
+    public Optional<List<Pod>> getPodsByTournamentId(UUID tournamentId) {
+        List<Pod> pods = podRepository.findByTournamentId(tournamentId);
+        return pods.isEmpty() ? Optional.empty() : Optional.of(pods);
     }
 }
