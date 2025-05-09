@@ -162,7 +162,7 @@ public class TournamentService {
             List<Integer> podSizes = new ArrayList<>();
             int fullPods = totalPlayers / podSize;
             int remaining = totalPlayers % podSize;
-
+            final int podSizeThreePlayers = 3;
             for (int i = 0; i < fullPods; i++) {
                 podSizes.add(podSize);
             }
@@ -170,14 +170,14 @@ public class TournamentService {
             return switch (remaining) {
                 case 0 -> podSizes;
                 case 3 -> {
-                    podSizes.add(3);
+                    podSizes.add(podSizeThreePlayers);
                     yield podSizes;
                 }
                 case 2 -> {
                     if (podSizes.size() == 0) yield null;
                     podSizes.remove(podSizes.size() - 1);
-                    podSizes.add(3);
-                    podSizes.add(3);
+                    podSizes.add(podSizeThreePlayers);
+                    podSizes.add(podSizeThreePlayers);
                     yield podSizes;
                 }
                 case 1 -> null;
@@ -198,8 +198,9 @@ public class TournamentService {
         }
 
         private boolean arePodsValid(List<List<Player>> pods, Map<UUID, Map<UUID, Integer>> pairingMatrix, int roundNumber) {
-            int maxRepeats = 0;  // Allow no repeat the first 4 rounds
-            if (roundNumber > 4) {
+        final int roundNumberForRepetition = 4;
+        int maxRepeats = 0;  // Allow no repeat the first 4 rounds
+            if (roundNumber > roundNumberForRepetition) {
                 maxRepeats = 1;  // Allow one repeats after round 4
             }
 
