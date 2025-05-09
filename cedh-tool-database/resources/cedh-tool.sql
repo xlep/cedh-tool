@@ -36,9 +36,11 @@ CREATE TABLE tournamentplayers (
 
 
 CREATE TABLE pod (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name INTEGER,
-    round INTEGER
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   tournament_id UUID NOT NULL,
+   name INTEGER,
+   round INTEGER,
+   CONSTRAINT fk_tournament FOREIGN KEY (tournament_id) REFERENCES tournament(id)
 );
 
 CREATE TABLE seats (
@@ -53,7 +55,7 @@ CREATE TABLE seats (
 -- test data players
 WITH ids(id) AS (
     SELECT UNNEST(ARRAY[
-                      '22321b1c-cade-4e9e-866c-34610510922b',
+                  '22321b1c-cade-4e9e-866c-34610510922b',
                   '8dd9b669-929e-4fe2-8f95-3d64fa2d11d2',
                   'ea070c1f-83cc-49ae-af54-95b661d07b3f',
                   '54256855-f77e-449b-ade3-c986168a56ca',
