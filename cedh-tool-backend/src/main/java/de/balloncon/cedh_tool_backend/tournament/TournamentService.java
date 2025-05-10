@@ -16,27 +16,44 @@ import java.util.*;
 @Transactional
 public class TournamentService {
 
-  @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
+    @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
+    @Autowired private PodRepository podRepository;
+    @Autowired private SeatRepository seatRepository;
+    @Autowired private TournamentRepository tournamentRepository;
 
-  @Autowired private PodRepository podRepository;
+    private static final int POD_SIZE = 4;
 
-  @Autowired private SeatRepository seatRepository;
+    private final List<List<List<Integer>>> schedule = new ArrayList<>();
+    private final Set<String> seenPairs = new HashSet<>();
+    private Map<Integer, Player> indexToPlayer = new HashMap<>();
+    private Map<UUID, Integer> playerIdToIndex = new HashMap<>();
 
-  @Autowired private TournamentRepository tournamentRepository;
-
-  private static final int DEFAULT_POD_SIZE = 4;
-
-    @Transactional
     public RoundDto generateNextRound(UUID tournamentId) {
         Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
         List<Player> players = tournamentPlayerRepository.findPlayersByTournamentId(tournamentId);
-        Map<UUID, Set<UUID>> opponents = buildOpponentMap(players, tournamentId);
-        Map<UUID, Map<UUID, Integer>> pairingMatrix = buildPairingMatrix(tournamentId);
+        int numPlayers = players.size();
+        int groupsPerRound = numPlayers / POD_SIZE;
 
-        List<List<Player>> pods = attemptValidRound(players, opponents, pairingMatrix, DEFAULT_POD_SIZE);
+        // Map UUIDs to integers
+        for (int i = 0; i < players.size(); i++) {
+            indexToPlayer.put(i, players.get(i));
+            playerIdToIndex.put(players.get(i).getId(), i);
+        }
+
+        // Populate seenPairs from existing pods
+        populateSeenPairs(tournamentId);
+
+        List<List<Integer>> groups = new ArrayList<>();
+        boolean[] used = new boolean[numPlayers];
+
+        boolean solved = backtrack(groups, used, 0, groupsPerRound, POD_SIZE, numPlayers);
+        if (!solved) {
+            throw new RuntimeException("Could not generate valid round.");
+        }
+
+        // Save result to DB
         int nextRound = podRepository.findMaxRoundForTournament(tournamentId).orElse(0) + 1;
-
-        List<RoundDto.PodDto> podDtos = savePodsAndSeats(pods, nextRound, tournament);
+        List<RoundDto.PodDto> podDtos = savePodsAndSeats(groups, nextRound, tournament);
 
         return RoundDto.builder()
                 .round(nextRound)
@@ -44,182 +61,139 @@ public class TournamentService {
                 .build();
     }
 
-    private List<RoundDto.PodDto> savePodsAndSeats(List<List<Player>> pods, int round, Tournament tournament) {
-        List<RoundDto.PodDto> podDtos = new ArrayList<>();
+    private boolean backtrack(List<List<Integer>> groups, boolean[] used, int groupIdx, int groupsPerRound, int groupSize, int numPlayers) {
+        if (groupIdx == groupsPerRound) {
+            schedule.add(new ArrayList<>(groups));
+            return true;
+        }
 
-        for (int i = 0; i < pods.size(); i++) {
-            podDtos.add(savePodWithSeats(pods.get(i), round, i + 1, tournament));
+        List<Integer> candidates = new ArrayList<>();
+        for (int i = 0; i < numPlayers; i++) {
+            if (!used[i]) candidates.add(i);
+        }
+
+        List<List<Integer>> combinations = generateCombinations(candidates, groupSize);
+        for (List<Integer> combo : combinations) {
+            if (isValidGroup(combo)) {
+                for (int p : combo) used[p] = true;
+                addPairs(combo);
+                groups.add(combo);
+
+                if (backtrack(groups, used, groupIdx + 1, groupsPerRound, groupSize, numPlayers)) return true;
+
+                groups.remove(groups.size() - 1);
+                removePairs(combo);
+                for (int p : combo) used[p] = false;
+            }
+        }
+
+        return false;
+    }
+
+    private void populateSeenPairs(UUID tournamentId) {
+        List<Pod> pods = podRepository.findByTournamentId(tournamentId);
+        for (Pod pod : pods) {
+            List<Seat> seats = seatRepository.findByPodId(pod.getId());
+            for (int i = 0; i < seats.size(); i++) {
+                for (int j = i + 1; j < seats.size(); j++) {
+                    UUID id1 = seats.get(i).getPlayer().getId();
+                    UUID id2 = seats.get(j).getPlayer().getId();
+                    Integer idx1 = playerIdToIndex.get(id1);
+                    Integer idx2 = playerIdToIndex.get(id2);
+                    if (idx1 != null && idx2 != null) {
+                        seenPairs.add(makeKey(idx1, idx2));
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isValidGroup(List<Integer> group) {
+        for (int i = 0; i < group.size(); i++) {
+            for (int j = i + 1; j < group.size(); j++) {
+                String key = makeKey(group.get(i), group.get(j));
+                if (seenPairs.contains(key)) return false;
+            }
+        }
+        return true;
+    }
+
+    private void addPairs(List<Integer> group) {
+        for (int i = 0; i < group.size(); i++) {
+            for (int j = i + 1; j < group.size(); j++) {
+                seenPairs.add(makeKey(group.get(i), group.get(j)));
+            }
+        }
+    }
+
+    private void removePairs(List<Integer> group) {
+        for (int i = 0; i < group.size(); i++) {
+            for (int j = i + 1; j < group.size(); j++) {
+                seenPairs.remove(makeKey(group.get(i), group.get(j)));
+            }
+        }
+    }
+
+    private String makeKey(int a, int b) {
+        return Math.min(a, b) + ":" + Math.max(a, b);
+    }
+
+    private List<List<Integer>> generateCombinations(List<Integer> players, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        generateCombinationsRecursive(players, k, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void generateCombinationsRecursive(List<Integer> players, int k, int start, List<Integer> current, List<List<Integer>> result) {
+        if (current.size() == k) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+        for (int i = start; i < players.size(); i++) {
+            current.add(players.get(i));
+            generateCombinationsRecursive(players, k, i + 1, current, result);
+            current.remove(current.size() - 1);
+        }
+    }
+
+    private List<RoundDto.PodDto> savePodsAndSeats(List<List<Integer>> groups, int round, Tournament tournament) {
+        List<RoundDto.PodDto> podDtos = new ArrayList<>();
+        int podName = 1;
+
+        for (List<Integer> group : groups) {
+            Pod pod = new Pod();
+            pod.setRound(round);
+            pod.setName(podName++);
+            pod.setTournament(tournament);
+            podRepository.save(pod);
+
+            List<RoundDto.SeatDto> seats = new ArrayList<>();
+            int seatNum = 1;
+
+            for (int idx : group) {
+                Player player = indexToPlayer.get(idx);
+                Seat seat = new Seat();
+                seat.setPod(pod);
+                seat.setPlayer(player);
+                seat.setSeat(seatNum);
+                seatRepository.save(seat);
+
+                seats.add(RoundDto.SeatDto.builder()
+                        .playerId(player.getId())
+                        .nickname(player.getNickname())
+                        .seat(seatNum++)
+                        .build());
+            }
+
+            podDtos.add(RoundDto.PodDto.builder()
+                    .podId(pod.getId())
+                    .podName(pod.getName())
+                    .seats(seats)
+                    .build());
         }
 
         return podDtos;
     }
+}
 
-    private RoundDto.PodDto savePodWithSeats(List<Player> players, int round, int podName, Tournament tournament) {
-        Pod pod = new Pod();
-        pod.setRound(round);
-        pod.setName(podName);
-        pod.setTournament(tournament);
-        podRepository.save(pod);
-
-        List<RoundDto.SeatDto> seatDtos = new ArrayList<>();
-        int seatNumber = 1;
-
-        for (Player player : players) {
-            Seat seat = new Seat();
-            seat.setPod(pod);
-            seat.setPlayer(player);
-            seat.setSeat(seatNumber);
-            seatRepository.save(seat);
-
-            seatDtos.add(RoundDto.SeatDto.builder()
-                    .playerId(player.getId())
-                    .nickname(player.getNickname())
-                    .seat(seatNumber)
-                    .build());
-
-            seatNumber++;
-        }
-
-        return RoundDto.PodDto.builder()
-                .podId(pod.getId())
-                .podName(pod.getName())
-                .seats(seatDtos)
-                .build();
-    }
-
-        private Map<UUID, Set<UUID>> buildOpponentMap(List<Player> players, UUID tournamentId) {
-            Map<UUID, Set<UUID>> opponents = new HashMap<>();
-            for (Player player : players) {
-                opponents.put(player.getId(), new HashSet<>());
-            }
-
-            // Fetch past pods to populate the opponent map
-            List<Pod> previousPods = podRepository.findByTournamentId(tournamentId);
-            for (Pod pod : previousPods) {
-                List<Seat> seats = seatRepository.findByPodId(pod.getId());
-                for (int i = 0; i < seats.size(); i++) {
-                    for (int j = i + 1; j < seats.size(); j++) {
-                        UUID p1 = seats.get(i).getPlayer().getId();
-                        UUID p2 = seats.get(j).getPlayer().getId();
-                        if (opponents.containsKey(p1) && opponents.containsKey(p2)) {
-                            opponents.get(p1).add(p2);
-                            opponents.get(p2).add(p1);
-                        }
-                    }
-                }
-            }
-
-            return opponents;
-        }
-
-        private Map<UUID, Map<UUID, Integer>> buildPairingMatrix(UUID tournamentId) {
-            Map<UUID, Map<UUID, Integer>> pairingMatrix = new HashMap<>();
-
-            // Fetch past pods to populate the pairing matrix
-            List<Pod> previousPods = podRepository.findByTournamentId(tournamentId);
-            for (Pod pod : previousPods) {
-                List<Seat> seats = seatRepository.findByPodId(pod.getId());
-                for (int i = 0; i < seats.size(); i++) {
-                    for (int j = i + 1; j < seats.size(); j++) {
-                        UUID p1 = seats.get(i).getPlayer().getId();
-                        UUID p2 = seats.get(j).getPlayer().getId();
-
-                        pairingMatrix.putIfAbsent(p1, new HashMap<>());
-                        pairingMatrix.putIfAbsent(p2, new HashMap<>());
-
-                        pairingMatrix.get(p1).put(p2, pairingMatrix.get(p1).getOrDefault(p2, 0) + 1);
-                        pairingMatrix.get(p2).put(p1, pairingMatrix.get(p2).getOrDefault(p1, 0) + 1);
-                    }
-                }
-            }
-
-            return pairingMatrix;
-        }
-
-        private List<List<Player>> attemptValidRound(List<Player> players, Map<UUID, Set<UUID>> opponents, Map<UUID, Map<UUID, Integer>> pairingMatrix, int podSize) {
-            Random rand = new Random();
-            int attempts = 0;
-            final int maxAttempts = 2_000_000_000;
-            int roundNumber = podRepository.findMaxRoundForTournament(players.get(0).getId()).orElse(0) + 1;
-
-            while (attempts++ < maxAttempts) {
-                List<Player> shuffled = new ArrayList<>(players);
-                Collections.shuffle(shuffled, rand);
-
-                List<Integer> podSizes = determinePodSizes(shuffled.size(), podSize);
-                if (podSizes == null) continue;
-
-                List<List<Player>> pods = splitIntoPods(shuffled, podSizes);
-                if (arePodsValid(pods, pairingMatrix, roundNumber)) {
-                    return pods;
-                }
-            }
-
-            throw new RuntimeException("Could not generate a valid round after many attempts.");
-        }
-
-        private List<Integer> determinePodSizes(int totalPlayers, int podSize) {
-            List<Integer> podSizes = new ArrayList<>();
-            int fullPods = totalPlayers / podSize;
-            int remaining = totalPlayers % podSize;
-            final int podSizeThreePlayers = 3;
-            for (int i = 0; i < fullPods; i++) {
-                podSizes.add(podSize);
-            }
-
-            return switch (remaining) {
-                case 0 -> podSizes;
-                case 3 -> {
-                    podSizes.add(podSizeThreePlayers);
-                    yield podSizes;
-                }
-                case 2 -> {
-                    if (podSizes.size() == 0) yield null;
-                    podSizes.remove(podSizes.size() - 1);
-                    podSizes.add(podSizeThreePlayers);
-                    podSizes.add(podSizeThreePlayers);
-                    yield podSizes;
-                }
-                case 1 -> null;
-                default -> null;
-            };
-        }
-
-        private List<List<Player>> splitIntoPods(List<Player> shuffled, List<Integer> podSizes) {
-            List<List<Player>> pods = new ArrayList<>();
-            int index = 0;
-
-            for (int size : podSizes) {
-                pods.add(new ArrayList<>(shuffled.subList(index, index + size)));
-                index += size;
-            }
-
-            return pods;
-        }
-
-        private boolean arePodsValid(List<List<Player>> pods, Map<UUID, Map<UUID, Integer>> pairingMatrix, int roundNumber) {
-        final int roundNumberForRepetition = 4;
-        int maxRepeats = 0;  // Allow no repeat the first 4 rounds
-            if (roundNumber > roundNumberForRepetition) {
-                maxRepeats = 1;  // Allow one repeats after round 4
-            }
-
-            // Check the validity of each pod
-            for (List<Player> pod : pods) {
-                for (int j = 0; j < pod.size(); j++) {
-                    for (int k = j + 1; k < pod.size(); k++) {
-                        UUID p1 = pod.get(j).getId();
-                        UUID p2 = pod.get(k).getId();
-
-                        // Check if the players have been paired too many times
-                        int currentPairings = pairingMatrix.getOrDefault(p1, Map.of()).getOrDefault(p2, 0);
-                        if (currentPairings > maxRepeats) {
-                            return false;  // Invalid pod if pairing count exceeds allowed repeats
-                        }
-                    }
-                }
-            }
-            return true;  // All pods are valid
-        }
-    }
 
