@@ -14,4 +14,7 @@ public interface PodRepository extends JpaRepository<Pod, UUID> {
 
     @Query("SELECT MAX(p.round) FROM Pod p")
     Optional<Integer> findMaxRoundForTournament(@Param("tournamentId") UUID tournamentId);
+
+    @Query("SELECT p FROM Pod p LEFT JOIN FETCH p.seats WHERE p.tournament.id = :tournamentId")
+    List<Pod> findAllWithSeats(@Param("tournamentId") UUID tournamentId);
 }

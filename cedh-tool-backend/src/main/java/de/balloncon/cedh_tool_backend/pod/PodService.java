@@ -20,4 +20,8 @@ public class PodService {
         List<Pod> pods = podRepository.findByTournamentId(tournamentId);
         return pods.isEmpty() ? Optional.empty() : Optional.of(pods);
     }
+
+    public List<Pod> getPodsAndSeatsByTournamentId(UUID tournamentId) {
+        return  podRepository.findAllWithSeats(tournamentId);
+    }
 }
