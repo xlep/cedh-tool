@@ -30,7 +30,7 @@ public class TournamentService {
 
     public RoundDto generateNextRound(UUID tournamentId) {
         Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
-        List<Player> players = tournamentPlayerRepository.findPlayersByTournamentId(tournamentId);
+        List<Player> players = tournamentPlayerRepository.findAllPlayersByTournamentId(tournamentId);
         int numPlayers = players.size();
         int groupsPerRound = numPlayers / POD_SIZE;
 
