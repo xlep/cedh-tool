@@ -1,6 +1,5 @@
 package de.balloncon.cedh_tool_backend.seat;
 
-import de.balloncon.cedh_tool_backend.pod.PodRepository;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,34 +27,37 @@ public class SeatService {
 
     @Transactional
     public ResponseEntity<String> reportResult (UUID tournamentId, UUID podId, UUID winningPlayerID, String result) {
-        switch (result) {
+        return switch (result) {
+            case KEYWORD_WIN -> setSeatResults(tournamentId, podId, winningPlayerID);
+            case KEYWORD_DRAW -> setSeatResults(tournamentId, podId, null);
+            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(RESPONSE_INTERNAL_SERVER_ERROR);
+        };
 
-            case KEYWORD_WIN:
-                // Save win in seat table
-                List<Seat> players = seatRepository.findByPodId(podId);
-                HashMap<String, Integer> playerSeatMap = new HashMap<String, Integer>();
+    }
 
-                for (Seat seat : players) {
-                    if (winningPlayerID.equals(seat.getPlayer().getId())) {
-                        seat.setResult(KEYWORD_WIN);
-                        playerSeatMap.put(seat.getPlayer().getId().toString(), seat.getSeat());
-                    } else {
-                        seat.setResult(KEYWORD_LOSS);
-                       playerSeatMap.put(seat.getPlayer().getId().toString(), seat.getSeat());
-                    }
+    private ResponseEntity<String> setSeatResults(UUID tournamentId, UUID podId, UUID winningPlayerID) {
+        List<Seat> players = seatRepository.findByPodId(podId);
+        HashMap<String, Integer> playerSeatMap = new HashMap<String, Integer>();
+        boolean isWinningPlayer = winningPlayerID != null;
+
+        for (Seat seat : players) {
+            if (isWinningPlayer) {
+                if (winningPlayerID.equals(seat.getPlayer().getId())) {
+                    seat.setResult(KEYWORD_WIN);
+                    playerSeatMap.put(seat.getPlayer().getId().toString(), seat.getSeat());
+                } else {
+                    seat.setResult(KEYWORD_LOSS);
+                    playerSeatMap.put(seat.getPlayer().getId().toString(), seat.getSeat());
                 }
-
-                tournamentPlayerService.calculateNewScoreForPlayers(tournamentId, playerSeatMap, winningPlayerID);
-
-                return ResponseEntity.status(HttpStatus.OK).body(RESPONSE_OF_WIN);
-
-            case KEYWORD_DRAW:
-                // handle draw
-                return ResponseEntity.status(HttpStatus.OK).body(RESPONSE_OF_DRAW);
-
-            default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(RESPONSE_INTERNAL_SERVER_ERROR);
+            }
+            seat.setResult(KEYWORD_DRAW);
+            playerSeatMap.put(seat.getPlayer().getId().toString(), seat.getSeat());
         }
-
+        if (isWinningPlayer) {
+        tournamentPlayerService.calculateAndAssignNewScores(tournamentId, playerSeatMap, winningPlayerID);
+        return ResponseEntity.status(HttpStatus.OK).body(RESPONSE_OF_WIN);
+        }
+        tournamentPlayerService.calculateAndAssignNewScores(tournamentId, playerSeatMap, null);
+        return ResponseEntity.status(HttpStatus.OK).body(RESPONSE_OF_DRAW);
     }
 }

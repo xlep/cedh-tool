@@ -91,7 +91,7 @@ class TournamentPlayerServiceTest {
         Player winner = players.get(winningSeat - 1);
         UUID winnerId = winner.getId();
 
-        tournamentPlayerService.calculateNewScoreForPlayers(tournament.getId(), new HashMap<>(seatMap), winnerId);
+        tournamentPlayerService.calculateAndAssignNewScores(tournament.getId(), new HashMap<>(seatMap), winnerId);
 
         List<TournamentPlayer> updatedPlayers = tournamentPlayerRepository.findByTournamentAndPlayers(
                 tournament.getId(), players.stream().map(p -> p.getId().toString()).toList()
@@ -111,4 +111,30 @@ class TournamentPlayerServiceTest {
 
         assertThat(winningPlayer.getScore()).isEqualByComparingTo(new BigDecimal("1500.000").add(totalContribution));
     }
+
+    @Test
+    void testDrawScenario() {
+        tournamentPlayerService.calculateAndAssignNewScores(tournament.getId(), new HashMap<>(seatMap), null);
+
+        List<TournamentPlayer> updatedPlayers = tournamentPlayerRepository.findByTournamentAndPlayers(
+                tournament.getId(), players.stream().map(p -> p.getId().toString()).toList()
+        );
+
+        // Expected final scores after draw
+        Map<Integer, BigDecimal> expectedScores = Map.of(
+                1, new BigDecimal("1466.400"),
+                2, new BigDecimal("1494.750"),
+                3, new BigDecimal("1509.450"),
+                4, new BigDecimal("1529.400")
+        );
+
+        for (TournamentPlayer tournamentPlayer : updatedPlayers) {
+            int seat = seatMap.get(tournamentPlayer.getPlayer().getId().toString());
+            BigDecimal expected = expectedScores.get(seat);
+            assertThat(tournamentPlayer.getScore())
+                    .withFailMessage("Seat %d expected score %s but got %s", seat, expected, tournamentPlayer.getScore())
+                    .isEqualByComparingTo(expected);
+        }
+    }
+
 }
