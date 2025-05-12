@@ -18,7 +18,7 @@ public class TournamentPlayerController {
         this.tournamentPlayerService = tournamentPlayerService;
     }
 
-    @GetMapping("/players")
+    @GetMapping("/score")
     public List<TournamentPlayerScoreView> getPlayerScoresByTournament(@RequestParam UUID tournamentId) {
         return tournamentPlayerService.getPlayerScoresByTournament(tournamentId);
     }
