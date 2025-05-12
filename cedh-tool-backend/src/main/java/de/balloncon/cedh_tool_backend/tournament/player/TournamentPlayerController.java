@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/v1/tournament/players")
+@RequestMapping("/${apiVersion}/tournament/players")
 public class TournamentPlayerController {
 
     private final TournamentPlayerService tournamentPlayerService;
