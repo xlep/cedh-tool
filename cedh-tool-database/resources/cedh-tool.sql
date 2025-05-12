@@ -44,11 +44,11 @@ CREATE TABLE pod (
 );
 
 CREATE TABLE seats (
-    pod UUID references pod(id),
-    player UUID references player(id),
-    seat INTEGER,
-    result CHARACTER(1),
-    PRIMARY KEY (pod, player)
+   pod UUID REFERENCES pod(id),
+   player UUID REFERENCES player(id),
+   seat INTEGER,
+   result TEXT CHECK (result IN ('win', 'loss', 'draw')),
+   PRIMARY KEY (pod, player)
 );
 
 
