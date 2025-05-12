@@ -23,6 +23,7 @@ class TournamentServiceTest {
     @Autowired
     PodService podService;
 
+    // Test is for 60 player tournaments
     @Test
     public void testNoRepeatedPairingsForFirveRounds() {
         // Use the provided tournament ID
@@ -46,7 +47,7 @@ class TournamentServiceTest {
                         if (!seat.equals(otherSeat)) {
                             String pairing = seat.getPlayer().getId() + "-" + otherSeat.getPlayer().getId();
                             // Ensure pairing is stored in consistent order
-                            pairings.add(pairing.compareTo(pairing) < 0 ? pairing : pairing);
+                            pairings.add(pairing);
                         }
                     }
                 }
