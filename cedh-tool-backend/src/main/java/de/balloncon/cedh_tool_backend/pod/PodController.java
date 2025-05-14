@@ -5,21 +5,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("${apiVersion}")
 public class PodController {
 
-    private final PodService podService;
+  private final PodService podService;
 
-    PodController(PodService podService) {
-        this.podService = podService;
-    }
+  PodController(PodService podService) {
+    this.podService = podService;
+  }
 
-    @GetMapping("pods")
-    Pod pods(@Parameter UUID podId) {
-        return podService.getPodById(podId);
-    }
+  @GetMapping("pods")
+  Pod pods(@Parameter UUID podId) {
+    return podService.getPodById(podId);
+  }
 }

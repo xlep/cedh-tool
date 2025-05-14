@@ -11,15 +11,15 @@ import java.util.UUID;
 @RequestMapping("/${apiVersion}/tournament/players")
 public class TournamentPlayerController {
 
-    private final TournamentPlayerService tournamentPlayerService;
+  private final TournamentPlayerService tournamentPlayerService;
 
-    TournamentPlayerController(TournamentPlayerService tournamentPlayerService)
-    {
-        this.tournamentPlayerService = tournamentPlayerService;
-    }
+  TournamentPlayerController(TournamentPlayerService tournamentPlayerService) {
+    this.tournamentPlayerService = tournamentPlayerService;
+  }
 
-    @GetMapping("/score")
-    public List<TournamentPlayerScoreView> getPlayerScoresByTournament(@RequestParam UUID tournamentId) {
-        return tournamentPlayerService.getPlayerScoresByTournament(tournamentId);
-    }
+  @GetMapping("/score")
+  public List<TournamentPlayerScoreView> getPlayerScoresByTournament(
+      @RequestParam UUID tournamentId) {
+    return tournamentPlayerService.getPlayerScoresByTournament(tournamentId);
+  }
 }

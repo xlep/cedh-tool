@@ -29,8 +29,8 @@ public class TournamentPlayerId implements Serializable {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         TournamentPlayerId entity = (TournamentPlayerId) o;
-        return Objects.equals(this.tournament, entity.tournament) &&
-                Objects.equals(this.player, entity.player);
+    return Objects.equals(this.tournament, entity.tournament)
+        && Objects.equals(this.player, entity.player);
     }
 
     @Override

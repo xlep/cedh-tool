@@ -18,22 +18,25 @@ import java.util.UUID;
 @Entity
 @Table(name = "pod")
 public class Pod {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(name = "id", nullable = false)
+  private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "tournament_id", nullable = false)
-    private Tournament tournament;
+  @ManyToOne
+  @JoinColumn(name = "tournament_id", nullable = false)
+  private Tournament tournament;
 
-    @Column(name = "name")
-    private Integer name;
+  @Column(name = "name")
+  private Integer name;
 
-    @Column(name = "round")
-    private Integer round;
+  @Column(name = "round")
+  private Integer round;
 
-    @OneToMany(mappedBy = "pod")
-    private Set<Seat> seats = new LinkedHashSet<>();
+  @OneToMany(mappedBy = "pod")
+  private Set<Seat> seats = new LinkedHashSet<>();
 
+  @Enumerated(EnumType.STRING)
+  @Column(name = "pod_type", length = 12)
+  private PodType type;
 }

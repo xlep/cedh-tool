@@ -13,25 +13,23 @@ import lombok.Setter;
 @Entity
 @Table(name = "seats")
 public class Seat {
-    @EmbeddedId
-    private SeatId id = new SeatId();
+  @EmbeddedId private SeatId id = new SeatId();
 
-    @JsonIgnore
-    @MapsId("pod")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pod", nullable = false)
-    private Pod pod;
+  @JsonIgnore
+  @MapsId("pod")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "pod", nullable = false)
+  private Pod pod;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @MapsId("player")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "player", nullable = false)
-    private Player player;
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  @MapsId("player")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "player", nullable = false)
+  private Player player;
 
-    @Column(name = "seat")
-    private Integer seat;
+  @Column(name = "seat")
+  private Integer seat;
 
-    @Column(name = "result", length = Integer.MAX_VALUE)
-    private String result;
-
+  @Column(name = "result", length = Integer.MAX_VALUE)
+  private String result;
 }

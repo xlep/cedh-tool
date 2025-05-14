@@ -22,4 +22,4 @@ public class TournamentController {
     RoundDto newRound = tournamentService.generateNextRound(tournamentId);
     return ResponseEntity.ok(newRound);
   }
- }
+}

@@ -9,14 +9,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("${apiVersion}")
 public class SeatController {
 
-    private final SeatService seatService;
+  private final SeatService seatService;
 
-    SeatController(SeatService seatService) {
-        this.seatService = seatService;
-    }
+  SeatController(SeatService seatService) {
+    this.seatService = seatService;
+  }
 
-    @PostMapping("report/result")
-    public ResponseEntity<String> reportResult(@RequestBody PodResultDto podResultDto){
-        return seatService.reportResult(podResultDto.tournamentId(), podResultDto.podId(), podResultDto.playerId(), podResultDto.result().toString());
-    }
+  @PostMapping("report/result")
+  public ResponseEntity<String> reportResult(@RequestBody PodResultDto podResultDto) {
+    return seatService.reportResult(
+        podResultDto.tournamentId(),
+        podResultDto.podId(),
+        podResultDto.playerId(),
+        podResultDto.result().toString());
+  }
 }

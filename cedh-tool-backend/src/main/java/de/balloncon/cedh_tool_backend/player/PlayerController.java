@@ -12,20 +12,20 @@ import java.util.UUID;
 @RequestMapping("${apiVersion}")
 public class PlayerController {
 
-    private final PlayerService playerService;
+  private final PlayerService playerService;
 
-    PlayerController(PlayerService playerService) {
-        this.playerService = playerService;
-    }
+  PlayerController(PlayerService playerService) {
+    this.playerService = playerService;
+  }
 
-    @GetMapping("player")
-    Player player(@Parameter UUID playerId) {
-        return playerService.findPlayerById(playerId);
-    }
+  @GetMapping("player")
+  Player player(@Parameter UUID playerId) {
+    return playerService.findPlayerById(playerId);
+  }
 
-    @PostMapping("player")
-    public ResponseEntity<String> createPlayer(@RequestBody PlayerDto playerDto) {
-        playerService.savePlayer(playerDto);
-        return ResponseEntity.ok("Player created successfully");
-    }
+  @PostMapping("player")
+  public ResponseEntity<String> createPlayer(@RequestBody PlayerDto playerDto) {
+    playerService.savePlayer(playerDto);
+    return ResponseEntity.ok("Player created successfully");
+  }
 }

@@ -16,28 +16,28 @@ import java.util.UUID;
 @Entity
 @Table(name = "player")
 public class Player {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(name = "id", nullable = false)
+  private UUID id;
 
-    @Column(name = "nickname", length = Integer.MAX_VALUE)
-    private String nickname;
+  @Column(name = "nickname", length = Integer.MAX_VALUE)
+  private String nickname;
 
-    @Column(name = "firstname", length = Integer.MAX_VALUE)
-    private String firstname;
+  @Column(name = "firstname", length = Integer.MAX_VALUE)
+  private String firstname;
 
-    @Column(name = "lastname", length = Integer.MAX_VALUE)
-    private String lastname;
+  @Column(name = "lastname", length = Integer.MAX_VALUE)
+  private String lastname;
 
-    @Column(name = "email", length = Integer.MAX_VALUE)
-    private String email;
+  @Column(name = "email", length = Integer.MAX_VALUE)
+  private String email;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
-    private Set<Seat> seats = new LinkedHashSet<>();
+  @JsonIgnore
+  @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
+  private Set<Seat> seats = new LinkedHashSet<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
-    private Set<TournamentPlayer> tournamentplayers = new LinkedHashSet<>();
+  @JsonIgnore
+  @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
+  private Set<TournamentPlayer> tournamentplayers = new LinkedHashSet<>();
 }

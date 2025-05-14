@@ -35,12 +35,14 @@ CREATE TABLE tournamentplayers (
 );
 
 
-CREATE TABLE pod (
-   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-   tournament_id UUID NOT NULL,
-   name INTEGER,
-   round INTEGER,
-   CONSTRAINT fk_tournament FOREIGN KEY (tournament_id) REFERENCES tournament(id)
+CREATE TABLE pod
+(
+    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tournament_id UUID NOT NULL,
+    name          INTEGER,
+    round         INTEGER,
+    type          VARCHAR (12),
+    CONSTRAINT fk_tournament FOREIGN KEY (tournament_id) REFERENCES tournament (id)
 );
 
 CREATE TABLE seats (

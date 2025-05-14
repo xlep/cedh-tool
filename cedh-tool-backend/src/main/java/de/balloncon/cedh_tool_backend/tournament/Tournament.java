@@ -12,15 +12,14 @@ import java.util.UUID;
 @Entity
 @Table(name = "tournament")
 public class Tournament {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+  private UUID id;
 
-    @Column(name = "name", length = Integer.MAX_VALUE)
-    private String name;
+  @Column(name = "name", length = Integer.MAX_VALUE)
+  private String name;
 
-    @Column(name = "mode", length = Integer.MAX_VALUE)
-    private String mode;
-
+  @Column(name = "mode", length = Integer.MAX_VALUE)
+  private String mode;
 }

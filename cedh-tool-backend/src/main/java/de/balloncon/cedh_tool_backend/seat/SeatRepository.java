@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SeatRepository extends JpaRepository<Seat, SeatId> {
-    @Query("SELECT s FROM Seat s JOIN FETCH s.player WHERE s.pod.id = :podId")
-    List<Seat> findByPodId(UUID podId);
+  @Query("SELECT s FROM Seat s JOIN FETCH s.player WHERE s.pod.id = :podId")
+  List<Seat> findByPodId(UUID podId);
 }

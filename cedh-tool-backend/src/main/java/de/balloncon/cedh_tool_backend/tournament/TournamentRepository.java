@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface TournamentRepository extends JpaRepository<Tournament, UUID> {
 
-    @Query("SELECT t FROM Tournament t WHERE t.id = :id")
-    Tournament findTournamentById(@Param("id") UUID id);
+  @Query("SELECT t FROM Tournament t WHERE t.id = :id")
+  Tournament findTournamentById(@Param("id") UUID id);
 }
