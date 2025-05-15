@@ -240,20 +240,26 @@ public class TournamentService {
         players = placeFinalPlayersInPod(players, lastRound, firstPod);
         generateSemifinals(players, lastRound, firstPod);
       } else {
-        // error handling
+        //todo: error handling
       }
     }
     return ResponseEntity.status(200).build();
   }
 
   private void generateSemifinals(List<TournamentPlayer> players, int lastRound, int firstPodName) {
-    Collections.shuffle(players);
+
     int middle = players.size() / 2;
-    List<TournamentPlayer> listOfFirstSemifinalPlayers = new ArrayList<>();
-    List<TournamentPlayer> listOfSecondSemifinalPlayers = new ArrayList<>();
     int semifinalRoundNumber = lastRound + 1;
 
+    Collections.shuffle(players);
+
+    List<TournamentPlayer> listOfFirstSemifinalPlayers;
     listOfFirstSemifinalPlayers = players.subList(0, middle);
+
+    List<TournamentPlayer> listOfSecondSemifinalPlayers;
+    listOfSecondSemifinalPlayers = players.subList(middle, players.size());
+
+
     Pod podOne =
         generateAndPersistPod(
             semifinalRoundNumber,
@@ -262,7 +268,6 @@ public class TournamentService {
             PodType.SEMIFINAL);
     findPlayerForSeating(listOfFirstSemifinalPlayers, podOne);
 
-    listOfSecondSemifinalPlayers = players.subList(middle, players.size());
     Pod podTwo =
         generateAndPersistPod(
             semifinalRoundNumber,

@@ -1,6 +1,5 @@
 package de.balloncon.cedh_tool_backend.pod;
 
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
