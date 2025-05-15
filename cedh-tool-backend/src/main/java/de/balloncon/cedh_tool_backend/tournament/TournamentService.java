@@ -40,6 +40,9 @@ public class TournamentService {
   @Autowired private PodService podService;
   @Autowired private PlayerService playerService;
 
+  public void save(Tournament tournament) {
+    tournamentRepository.save(tournament);
+  }
   public RoundDto generateNextRound(UUID tournamentId) {
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
     List<Player> players = tournamentPlayerRepository.findAllPlayersByTournamentId(tournamentId);
@@ -224,6 +227,7 @@ public class TournamentService {
     }
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
   }
+
   private ResponseEntity<String> generateTopTenCut(UUID tournamentId, int cutSize) {
     Optional<List<TournamentPlayer>> optionalListOfTopTen =
         tournamentPlayerService.getTopTenByTournamentOrderByScoreDesc(tournamentId, cutSize);
@@ -240,7 +244,7 @@ public class TournamentService {
         players = placeFinalPlayersInPod(players, lastRound, firstPod);
         generateSemifinals(players, lastRound, firstPod);
       } else {
-        //todo: error handling
+        // todo: error handling
       }
     }
     return ResponseEntity.status(200).build();
@@ -259,7 +263,6 @@ public class TournamentService {
     List<TournamentPlayer> listOfSecondSemifinalPlayers;
     listOfSecondSemifinalPlayers = players.subList(middle, players.size());
 
-
     Pod podOne =
         generateAndPersistPod(
             semifinalRoundNumber,
@@ -275,7 +278,6 @@ public class TournamentService {
             listOfSecondSemifinalPlayers.getFirst().getTournament(),
             PodType.SEMIFINAL);
     findPlayerForSeating(listOfSecondSemifinalPlayers, podTwo);
-
   }
 
   private List<TournamentPlayer> placeFinalPlayersInPod(
