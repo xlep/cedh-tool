@@ -1,5 +1,6 @@
 package de.balloncon.cedh_tool_backend.pod;
 
+import de.balloncon.cedh_tool_backend.player.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +11,8 @@ import java.util.UUID;
 
 public interface PodRepository extends JpaRepository<Pod, UUID> {
 
-  @Query("SELECT DISTINCT p FROM Pod p JOIN p.seats s WHERE p.tournament.id = :tournamentId AND p.round IS NOT NULL AND s.player IS NOT NULL")
+  @Query(
+      "SELECT DISTINCT p FROM Pod p JOIN p.seats s WHERE p.tournament.id = :tournamentId AND p.round IS NOT NULL AND s.player IS NOT NULL")
   List<Pod> findByTournamentId(@Param("tournamentId") UUID tournamentId);
 
   @Query("SELECT MAX(p.round) FROM Pod p WHERE p.tournament.id = :tournamentId")
@@ -21,5 +23,16 @@ public interface PodRepository extends JpaRepository<Pod, UUID> {
 
   @Query("SELECT MAX(p.round) FROM Pod p WHERE p.tournament.id = :tournamentId")
   Optional<Integer> findHighestColumnValueForRound(@Param("tournamentId") UUID tournamentId);
-}
 
+  @Query("""
+    SELECT DISTINCT p FROM Pod p
+    LEFT JOIN FETCH p.seats s
+    LEFT JOIN FETCH s.player
+              WHERE p.tournament.id = :tournamentId AND p.round = :round
+""")
+  List<Pod> findPodsWithSeatsAndPlayersByTournamentIdAndRound(@Param("tournamentId") UUID tournamentId, @Param("round") int round);
+
+
+  @Query("SELECT p FROM Pod p WHERE p.id = :id")
+  Optional<List<Player>> findPlayersByPodId(@Param("id") UUID podId);
+}
