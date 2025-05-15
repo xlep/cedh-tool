@@ -26,6 +26,10 @@ public class TournamentPlayerService {
     this.tournamentPlayerRepository = tournamentPlayerRepository;
   }
 
+  public void save(TournamentPlayer tournamentPlayer) {
+    tournamentPlayerRepository.save(tournamentPlayer);
+  }
+
   public List<TournamentPlayerScoreView> getPlayerScoresByTournament(UUID tournamentId) {
     return tournamentPlayerRepository.findPlayerScoresByTournament(tournamentId);
   }
