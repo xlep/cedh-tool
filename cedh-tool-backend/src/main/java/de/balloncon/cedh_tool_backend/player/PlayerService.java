@@ -4,6 +4,7 @@ import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +24,10 @@ public class PlayerService {
   public void savePlayer(PlayerDto player) {
     Player playerEntity = convertToDAO(player);
     playerRepository.save(playerEntity);
+  }
+
+  public void savePlayers(List<Player> players) {
+    playerRepository.saveAll(players);
   }
 
   private Player convertToDAO(PlayerDto playerDTO) {
