@@ -22,4 +22,11 @@ public class TournamentController {
     RoundDto newRound = tournamentService.generateNextRound(tournamentId);
     return ResponseEntity.ok(newRound);
   }
+
+  @PostMapping("/{tournamentId}/{cutTo}")
+  public ResponseEntity createTopCut(
+      @PathVariable("tournamentId") UUID tournamentId, @PathVariable("cutTo") int cutTo) {
+    tournamentService.determineCut(tournamentId, cutTo);
+    return ResponseEntity.ok().build();
+  }
 }
