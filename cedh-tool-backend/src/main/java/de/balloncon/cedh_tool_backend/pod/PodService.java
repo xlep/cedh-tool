@@ -23,4 +23,8 @@ public class PodService {
   public List<Pod> getPodsAndSeatsByTournamentId(UUID tournamentId) {
     return podRepository.findAllWithSeats(tournamentId);
   }
+
+  public Optional<Integer> getLastPlayedRoundNumberByTournamentId(UUID tournamentId) {
+    return podRepository.findHighestColumnValueForRound(tournamentId);
+  }
 }

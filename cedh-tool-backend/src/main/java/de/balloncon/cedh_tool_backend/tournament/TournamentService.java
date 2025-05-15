@@ -2,8 +2,10 @@ package de.balloncon.cedh_tool_backend.tournament;
 
 import de.balloncon.cedh_tool_backend.dto.RoundDto;
 import de.balloncon.cedh_tool_backend.player.Player;
+import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import de.balloncon.cedh_tool_backend.pod.PodRepository;
+import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatRepository;
@@ -35,6 +37,8 @@ public class TournamentService {
   private Map<Integer, Player> indexToPlayer = new HashMap<>();
   private Map<UUID, Integer> playerIdToIndex = new HashMap<>();
   @Autowired private TournamentPlayerService tournamentPlayerService;
+  @Autowired private PodService podService;
+  @Autowired private PlayerService playerService;
 
   public RoundDto generateNextRound(UUID tournamentId) {
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
@@ -170,41 +174,47 @@ public class TournamentService {
   }
 
   private List<RoundDto.PodDto> savePodsAndSeats(
-          List<List<Integer>> groups, int round, Tournament tournament) {
+      List<List<Integer>> groups, int round, Tournament tournament) {
     List<RoundDto.PodDto> podDtos = new ArrayList<>();
     int podName = 1;
 
     for (List<Integer> group : groups) {
       // Generate pod using the generatePod method
-      Pod pod = generatePod(round, podName++, tournament, PodType.SWISS);
+      Pod pod = generateAndPersistPod(round, podName++, tournament, PodType.SWISS);
 
       List<RoundDto.SeatDto> seats = new ArrayList<>();
       int seatNum = 1;
 
       for (int idx : group) {
         Player player = indexToPlayer.get(idx);
-        Seat seat = new Seat();
-        seat.setPod(pod);
-        seat.setPlayer(player);
-        seat.setSeat(seatNum);
-        seatRepository.save(seat);
+
+        generateAndPersistSeat(pod, player, seatNum);
 
         seats.add(
-                RoundDto.SeatDto.builder()
-                        .playerId(player.getId())
-                        .nickname(player.getNickname())
-                        .seat(seatNum++)
-                        .build());
+            RoundDto.SeatDto.builder()
+                .playerId(player.getId())
+                .nickname(player.getNickname())
+                .seat(seatNum++)
+                .build());
       }
 
       podDtos.add(
-              RoundDto.PodDto.builder().podId(pod.getId()).podName(pod.getName()).seats(seats).build());
+          RoundDto.PodDto.builder().podId(pod.getId()).podName(pod.getName()).seats(seats).build());
     }
 
     return podDtos;
   }
 
-  private ResponseEntity<String> determineCut(UUID tournamentId, int cutTo) {
+  private void generateAndPersistSeat(Pod pod, Player player, int seatNum) {
+    Seat seat = new Seat();
+    seat.setPod(pod);
+    seat.setPlayer(player);
+    seat.setSeat(seatNum);
+    seatRepository.save(seat);
+  }
+
+  @Transactional
+  public ResponseEntity<String> determineCut(UUID tournamentId, int cutTo) {
 
     if (cutTo == 10) {
       generateTopTenCut(tournamentId, cutTo);
@@ -214,37 +224,91 @@ public class TournamentService {
     }
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
   }
-
   private ResponseEntity<String> generateTopTenCut(UUID tournamentId, int cutSize) {
     Optional<List<TournamentPlayer>> optionalListOfTopTen =
         tournamentPlayerService.getTopTenByTournamentOrderByScoreDesc(tournamentId, cutSize);
     if (optionalListOfTopTen.isPresent()) {
       List<TournamentPlayer> players = optionalListOfTopTen.get();
-      players = placeFinalPlayersInPod(players);
 
-      Collections.shuffle(players);
-      int middle = players.size() / 2;
-      List<TournamentPlayer> firstPod = new ArrayList<>();
-      List<TournamentPlayer> secondPod = new ArrayList<>();
-      firstPod = players.subList(0, middle);
-      secondPod = players.subList(middle, players.size());
+      Optional<Integer> optionalOflastRound =
+          podService.getLastPlayedRoundNumberByTournamentId(
+              players.getFirst().getTournament().getId());
+
+      if (optionalOflastRound.isPresent()) {
+        int lastRound = optionalOflastRound.get();
+        int firstPod = 1;
+        players = placeFinalPlayersInPod(players, lastRound, firstPod);
+        generateSemifinals(players, lastRound, firstPod);
+      } else {
+        // error handling
+      }
     }
     return ResponseEntity.status(200).build();
   }
 
-  private List<TournamentPlayer> placeFinalPlayersInPod(List<TournamentPlayer> players) {
+  private void generateSemifinals(List<TournamentPlayer> players, int lastRound, int firstPodName) {
+    Collections.shuffle(players);
+    int middle = players.size() / 2;
+    List<TournamentPlayer> listOfFirstSemifinalPlayers = new ArrayList<>();
+    List<TournamentPlayer> listOfSecondSemifinalPlayers = new ArrayList<>();
+    int semifinalRoundNumber = lastRound + 1;
+
+    listOfFirstSemifinalPlayers = players.subList(0, middle);
+    Pod podOne =
+        generateAndPersistPod(
+            semifinalRoundNumber,
+            firstPodName,
+            listOfFirstSemifinalPlayers.getFirst().getTournament(),
+            PodType.SEMIFINAL);
+    findPlayerForSeating(listOfFirstSemifinalPlayers, podOne);
+
+    listOfSecondSemifinalPlayers = players.subList(middle, players.size());
+    Pod podTwo =
+        generateAndPersistPod(
+            semifinalRoundNumber,
+            firstPodName + 1,
+            listOfSecondSemifinalPlayers.getFirst().getTournament(),
+            PodType.SEMIFINAL);
+    findPlayerForSeating(listOfSecondSemifinalPlayers, podTwo);
+
+  }
+
+  private List<TournamentPlayer> placeFinalPlayersInPod(
+      List<TournamentPlayer> players, int lastRound, int podNumber) {
     // first and second player for final
+    List<TournamentPlayer> finalists = new ArrayList<>();
+
     TournamentPlayer finalistOne = players.get(0);
     TournamentPlayer finalistTwo = players.get(1);
+
+    finalists.add(finalistOne);
+    finalists.add(finalistTwo);
+
     // remove these player from top 10
     players.remove(finalistOne);
     players.remove(finalistTwo);
-    
-    //generatePod();
+
+    int finals = 2;
+    int finalRoundNumber = lastRound + finals;
+
+    Pod pod =
+        generateAndPersistPod(
+            finalRoundNumber, podNumber, finalistOne.getTournament(), PodType.FINAL);
+
+    findPlayerForSeating(finalists, pod);
+
     return players;
   }
 
-  private Pod generatePod(int round, int podName, Tournament tournament, PodType podType) {
+  private void findPlayerForSeating(List<TournamentPlayer> finalists, Pod pod) {
+    for (int i = 0; i < finalists.size(); i++) {
+      Player player = playerService.findPlayerById(finalists.get(i).getPlayer().getId());
+      generateAndPersistSeat(pod, player, i + 1);
+    }
+  }
+
+  private Pod generateAndPersistPod(
+      int round, int podName, Tournament tournament, PodType podType) {
     Pod pod = new Pod();
     pod.setRound(round);
     pod.setName(podName);
