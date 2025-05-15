@@ -23,7 +23,7 @@ public class TournamentController {
     return ResponseEntity.ok(newRound);
   }
 
-  @PostMapping("/{tournamentId}/{cutTo}")
+  @PostMapping("/topcut/{tournamentId}/{cutTo}")
   public ResponseEntity createTopCut(
       @PathVariable("tournamentId") UUID tournamentId, @PathVariable("cutTo") int cutTo) {
     tournamentService.determineCut(tournamentId, cutTo);
