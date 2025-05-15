@@ -1,5 +1,7 @@
 package de.balloncon.cedh_tool_backend.pod;
 
+import de.balloncon.cedh_tool_backend.player.Player;
+import de.balloncon.cedh_tool_backend.seat.Seat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,5 +27,17 @@ public class PodService {
 
   public Optional<Integer> getLastPlayedRoundNumberByTournamentId(UUID tournamentId) {
     return podRepository.findHighestColumnValueForRound(tournamentId);
+  }
+
+  public List<Pod> getPodsByRoundNumber(UUID tournamentId, int roundNumber) {
+    return podRepository.findPodsWithSeatsAndPlayersByTournamentIdAndRound(tournamentId, roundNumber);
+  }
+
+  public Optional<List<Player>> getPlayersByPodId(UUID podId) {
+    return podRepository.findPlayersByPodId(podId);
+  }
+
+  public void save(Pod pod) {
+    podRepository.save(pod);
   }
 }
