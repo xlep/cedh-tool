@@ -1,17 +1,14 @@
 package de.balloncon.cedh_tool_backend.pod;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+
 
 @Getter
 @Setter
@@ -33,10 +30,30 @@ public class Pod {
   @Column(name = "round")
   private Integer round;
 
-  @OneToMany(mappedBy = "pod")
-  private Set<Seat> seats = new LinkedHashSet<>();
+  @OneToMany(mappedBy = "pod", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Set<Seat> seats = new HashSet<>();
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "pod_type", length = 12)
+  @Column(name = "type", length = 12)
   private PodType type;
+
+  public List<Player> getPlayers() {
+    Set<Seat> seatsList = this.getSeats();
+    List<Player> players = new ArrayList<>();
+
+    for (Seat seat : seatsList) {
+      players.add(seat.getPlayer());
+    }
+    return players;
+  }
+
+  public boolean hasPlayerWithId(UUID id) {
+    boolean found = false;
+    for (Player player : this.getPlayers()) {
+      if (id.equals(player.getId())) {
+        found = true;
+      }
+    }
+    return found;
+  }
 }
