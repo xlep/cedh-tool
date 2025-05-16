@@ -15,12 +15,4 @@ public class SeatController {
     this.seatService = seatService;
   }
 
-  @PostMapping("report/result")
-  public ResponseEntity<String> reportResult(@RequestBody PodResultDto podResultDto) {
-    return seatService.reportResult(
-        podResultDto.tournamentId(),
-        podResultDto.podId(),
-        podResultDto.playerId(),
-        podResultDto.result().toString());
-  }
 }
