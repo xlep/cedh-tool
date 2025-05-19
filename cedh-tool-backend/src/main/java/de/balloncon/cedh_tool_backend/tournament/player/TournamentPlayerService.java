@@ -23,7 +23,7 @@ public class TournamentPlayerService {
   // TODO: find a better way to declare these... db-table / cols related to tournament? properties?
   private static final BigDecimal STARTING_SCORE = new BigDecimal("1500.00");
   private static final BigDecimal WAGER_AMOUNT = new BigDecimal("0.07");
-  private static final int NUMBER_OF_DIGITS_BEHIND_DECIMAL_POINT = 3;
+  private static final int NUMBER_OF_DIGITS_BEHIND_DECIMAL_POINT = 5;
   private static final BigDecimal SEAT_ONE_MULTIPLICATOR = new BigDecimal("1.32");
   private static final BigDecimal SEAT_TWO_MULTIPLICATOR = new BigDecimal("1.05");
   private static final BigDecimal SEAT_THREE_MULTIPLICATOR = new BigDecimal("0.91");
@@ -51,12 +51,12 @@ public class TournamentPlayerService {
         tournamentId, PageRequest.of(0, cutSize));
   }
 
-
-  public List<TournamentPlayer> calculatePlayerScores(UUID tournamentId) {
+  public List<TournamentPlayer> calculatePlayerScoresAfterSwissRounds(UUID tournamentId, int rounds) {
     List<TournamentPlayer> tournamentPlayers =
             tournamentPlayerRepository.findByTournament(tournamentId);
-    HashMap<UUID, TournamentPlayer> tournamentPlayerMap = new HashMap<>();
 
+    // prepare a map of players that can be referenced by their id
+    HashMap<UUID, TournamentPlayer> tournamentPlayerMap = new HashMap<>();
     for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
       // assign starting score to each player, to make sure the data from the DB does not affect the calculation
       tournamentPlayer.setScore(STARTING_SCORE);
@@ -64,15 +64,77 @@ public class TournamentPlayerService {
       tournamentPlayerMap.put(tournamentPlayer.getPlayer().getId(), tournamentPlayer);
     }
 
-    // shuffle rounds
-      // calculate all rounds
-        // calculate for round
+    // data store for the results of all permutations
+    List<HashMap<UUID, TournamentPlayer>> playerScoresByPermutation = new ArrayList<>();
 
-          // calculate for pod
-           // assign change to player
+    // for reach permutation, calculate the point scores for all players
+    List<List<Integer>> roundPermutations = generatePermutations(generateRoundList(rounds));
+    for (List<Integer> roundPermutation : roundPermutations) {
+      // create a clone of our map, because we change the score values
+      HashMap<UUID, TournamentPlayer> tournamentPlayerMapForPermutation =
+              cloneTournamentPlayerMap(tournamentPlayerMap);
+      playerScoresByPermutation.add(tournamentPlayerMapForPermutation);
+
+      // calculate score after each round
+      for (Integer roundNumber : roundPermutation) {
+        calculatePlayerScoreChangesForRound(tournamentId,
+                tournamentPlayerMapForPermutation,
+                roundNumber);
+      }
+    }
 
 
-    List<Pod> podsByRoundNumber = podService.getPodsByRoundNumber(tournamentId, 1);
+    // calculate average score per player
+    Map<UUID, List<BigDecimal>> playerScores = new HashMap<>();
+    for(HashMap<UUID, TournamentPlayer> tournamentPlayer : playerScoresByPermutation) {
+      for(Map.Entry<UUID, TournamentPlayer> entry : tournamentPlayer.entrySet()) {
+        UUID playerId = entry.getKey();
+        BigDecimal score = entry.getValue().getScore();
+
+        // adds an entry for the player, if not present yet
+        playerScores.computeIfAbsent(playerId, k -> new ArrayList<>()).add(score);
+      }
+    }
+
+    for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+      UUID playerId = tournamentPlayer.getPlayer().getId();
+      List<BigDecimal> scores = playerScores.get(playerId);
+
+      if (!scores.isEmpty()) {
+        BigDecimal sum = BigDecimal.ZERO;
+        for (BigDecimal score : scores) {
+          sum = sum.add(score);
+        }
+        BigDecimal average = sum.divide(BigDecimal.valueOf(scores.size()), NUMBER_OF_DIGITS_BEHIND_DECIMAL_POINT,
+                RoundingMode.UP);
+        tournamentPlayer.setScore(average);
+      } else {
+        log.warn("No score found for player " + playerId);
+        tournamentPlayer.setScore(BigDecimal.ZERO);
+      }
+    }
+
+    return tournamentPlayers;
+  }
+
+  private static HashMap<UUID, TournamentPlayer> cloneTournamentPlayerMap(HashMap<UUID, TournamentPlayer> tournamentPlayerMap) {
+    HashMap<UUID, TournamentPlayer> clonedMap = new HashMap<>();
+
+    for (Map.Entry<UUID, TournamentPlayer> entry : tournamentPlayerMap.entrySet()) {
+      clonedMap.put(entry.getKey(), entry.getValue().clone());
+    }
+
+    return clonedMap;
+  }
+
+  private void calculatePlayerScoreChangesForRound(UUID tournamentId,
+                                                   HashMap<UUID, TournamentPlayer> tournamentPlayerMap,
+                                                   int roundNumber) {
+    List<Pod> podsByRoundNumber = podService.getPodsByRoundNumber(tournamentId, roundNumber);
+    if (podsByRoundNumber.isEmpty()) {
+      throw new RuntimeException("No pods found for round number " + roundNumber);
+    }
+
     for (Pod pod : podsByRoundNumber) {
       // calculate points wagered
       BigDecimal potAmount = BigDecimal.ZERO;
@@ -89,8 +151,6 @@ public class TournamentPlayerService {
         assignNewScoresToPod(tournamentPlayerMap, pod, potAmount);
       }
     }
-
-    return tournamentPlayers;
   }
 
   private void assignNewScoresToPod(HashMap<UUID, TournamentPlayer> tournamentPlayersMap, Pod pod, BigDecimal potAmount) {
@@ -103,8 +163,8 @@ public class TournamentPlayerService {
     }
   }
 
-  // Winner gets all wagered points. All other players do not get any points
   private void addPointsToPodWinner(HashMap<UUID, TournamentPlayer> tournamentPlayersMap, Pod pod, BigDecimal potAmount) {
+    // Winner gets all wagered points. All other players do not get any points
     for (Seat seat : pod.getSeats()) {
       if (Result.win.toString().equals(seat.getResult())) {
         BigDecimal winnerScore = tournamentPlayersMap.get(seat.getPlayer().getId()).getScore();
@@ -114,8 +174,8 @@ public class TournamentPlayerService {
     }
   }
 
-  // All players get 1/4 of the wagered points. Needs to be calculated because of the seat weighting
   private void addPointsForDraw(HashMap<UUID, TournamentPlayer> tournamentPlayersMap, Pod pod, BigDecimal potAmount) {
+    // All players get 1/4 of the wagered points. Needs to be calculated because of the seat weighting
     BigDecimal pointsForEachPlayer = potAmount.divide(new BigDecimal("4.00"),
             NUMBER_OF_DIGITS_BEHIND_DECIMAL_POINT, RoundingMode.UP);
 
@@ -126,6 +186,7 @@ public class TournamentPlayerService {
     }
   }
 
+  // TODO: probably not needed anymore
   public void calculateAndAssignNewScores(
       UUID tournamentId, HashMap<String, Integer> playerSeatMap, UUID winningPlayerId) {
 
@@ -172,9 +233,9 @@ public class TournamentPlayerService {
 
   private BigDecimal deductPointsFromPlayers(
       HashMap<String, Integer> playerSeatMap, List<TournamentPlayer> tournamentPlayers) {
-    // Step 1: Deduct 7% from each player
     BigDecimal totalContribution = new BigDecimal("0.000");
 
+    // Take 7% of the points of each player and add them to the "pot"
     for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
       Integer seat = playerSeatMap.get(tournamentPlayer.getPlayer().getId().toString());
       totalContribution = totalContribution.add(performHareruyaCalculationBySeat(tournamentPlayer, seat));
@@ -203,5 +264,34 @@ public class TournamentPlayerService {
             .multiply(seatMultiplicator);
     player.setScore(player.getScore().subtract(contribution));
     return contribution;
+  }
+
+  public List<List<Integer>> generatePermutations(List<Integer> numbers) {
+    List<List<Integer>> permutations = new ArrayList<>();
+    // Create a mutable copy of the input list
+    List<Integer> mutableNumbers = new ArrayList<>(numbers);
+    permute(mutableNumbers, 0, permutations);
+    return permutations;
+  }
+
+  private void permute(List<Integer> numbers, int currentIndex, List<List<Integer>> permutations) {
+    if (currentIndex == numbers.size() - 1) {
+      permutations.add(new ArrayList<>(numbers));
+      return;
+    }
+
+    for (int i = currentIndex; i < numbers.size(); i++) {
+      Collections.swap(numbers, currentIndex, i);
+      permute(numbers, currentIndex + 1, permutations);
+      Collections.swap(numbers, currentIndex, i); // Backtrack
+    }
+  }
+
+  private List<Integer> generateRoundList(int rounds) {
+    List<Integer> roundList = new ArrayList<>();
+    for (int i = 1; i <= rounds; i++) {
+      roundList.add(i);
+    }
+    return roundList;
   }
 }

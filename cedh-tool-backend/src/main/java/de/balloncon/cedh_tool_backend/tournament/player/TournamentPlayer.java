@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "tournamentplayers")
-public class TournamentPlayer {
+public class TournamentPlayer implements  Cloneable {
   @EmbeddedId private TournamentPlayerId id;
 
   @JsonBackReference
@@ -31,4 +31,22 @@ public class TournamentPlayer {
 
   @Column(name = "score", precision = 7, scale = 3)
   private BigDecimal score;
+
+  @Override
+  public TournamentPlayer clone() {
+    try {
+      TournamentPlayer clone = (TournamentPlayer) super.clone();
+
+      // Deep copy the EmbeddedId
+      if (this.id != null) {
+        clone.id = new TournamentPlayerId(this.id.getTournament(), this.id.getPlayer());
+      } else {
+        clone.id = null;
+      }
+
+      return clone;
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

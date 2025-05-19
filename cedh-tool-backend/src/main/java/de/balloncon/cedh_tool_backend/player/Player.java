@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "player")
-public class Player {
+public class Player implements Cloneable{
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "id", nullable = false)

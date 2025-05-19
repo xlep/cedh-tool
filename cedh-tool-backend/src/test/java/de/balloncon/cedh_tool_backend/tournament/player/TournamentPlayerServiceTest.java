@@ -9,7 +9,6 @@ import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatRepository;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import de.balloncon.cedh_tool_backend.tournament.TournamentRepository;
-import de.balloncon.cedh_tool_backend.tournament.TournamentService;
 import de.balloncon.cedh_tool_backend.util.TestDataGenerator;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
@@ -30,22 +29,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(locations = "classpath:application-test.properties")
 class TournamentPlayerServiceTest {
 
+  @Autowired private PlayerRepository playerRepository;
+  @Autowired private PodRepository podRepository;
+  @Autowired private SeatRepository seatRepository;
+  @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
   @Autowired private TournamentRepository tournamentRepository;
 
-  @Autowired private PlayerRepository playerRepository;
-
-  @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
+  @Autowired private TournamentPlayerService tournamentPlayerService;
 
   private static Tournament tournament;
   private static Pod pod;
 
-  @Autowired private TournamentPlayerService tournamentPlayerService;
-    @Autowired
-    private PodRepository podRepository;
-    @Autowired
-    private SeatRepository seatRepository;
-    @Autowired
-    private TournamentService tournamentService;
 
   void setupTournamentWithOnePod() {
     tournament = TestDataGenerator.generateTournament();
@@ -75,7 +69,8 @@ class TournamentPlayerServiceTest {
     // -- end test setup
 
     // calculate scores
-    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService.calculatePlayerScores(tournament.getId());
+    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService
+            .calculatePlayerScoresAfterSwissRounds(tournament.getId(), 1);
 
     // check points
     assertThat(tournamentPlayers)
@@ -98,7 +93,8 @@ class TournamentPlayerServiceTest {
     // -- end test setup
 
     // calculate scores
-    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService.calculatePlayerScores(tournament.getId());
+    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService
+            .calculatePlayerScoresAfterSwissRounds(tournament.getId(), 1);
 
     // check points
     assertThat(tournamentPlayers)
@@ -121,7 +117,8 @@ class TournamentPlayerServiceTest {
     // -- end test setup
 
     // calculate scores
-    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService.calculatePlayerScores(tournament.getId());
+    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService
+            .calculatePlayerScoresAfterSwissRounds(tournament.getId(),1);
 
     // check points
     assertThat(tournamentPlayers)
@@ -144,7 +141,8 @@ class TournamentPlayerServiceTest {
     // -- end test setup
 
     // calculate scores
-    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService.calculatePlayerScores(tournament.getId());
+    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService
+            .calculatePlayerScoresAfterSwissRounds(tournament.getId(), 1);
 
     // check points
     assertThat(tournamentPlayers)
@@ -167,7 +165,8 @@ class TournamentPlayerServiceTest {
     // -- end test setup
 
     // calculate scores
-    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService.calculatePlayerScores(tournament.getId());
+    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService
+            .calculatePlayerScoresAfterSwissRounds(tournament.getId(), 1);
 
     // check points
     assertThat(tournamentPlayers)
@@ -213,50 +212,16 @@ class TournamentPlayerServiceTest {
     }
     podRepository.save(pod);
   }
-//
-//  @Test
-//  void testSeat2Wins() {
-//    runAndAssertScoreForWinnerSeat(2);
-//  }
-//
-//  @Test
-//  void testSeat3Wins() {
-//    runAndAssertScoreForWinnerSeat(3);
-//  }
-//
-//  @Test
-//  void testSeat4Wins() {
-//    runAndAssertScoreForWinnerSeat(4);
-//  }
 
-//  private void runAndAssertScoreForWinnerSeat(int winningSeat) {
-//    Player winner = players.get(winningSeat - 1);
-//    UUID winnerId = winner.getId();
-//
-//    tournamentPlayerService.calculateAndAssignNewScores(
-//        tournament.getId(), new HashMap<>(seatMap), winnerId);
-//
-//    List<TournamentPlayer> updatedPlayers =
-//        tournamentPlayerRepository.findByTournamentAndPlayers(
-//            tournament.getId(), players.stream().map(p -> p.getId().toString()).toList());
-//
-//    BigDecimal totalContribution = BigDecimal.ZERO;
-//    for (TournamentPlayer tp : updatedPlayers) {
-//      if (!tp.getPlayer().getId().equals(winnerId)) {
-//        assertThat(tp.getScore()).isLessThan(new BigDecimal("1500.000"));
-//        totalContribution =
-//            totalContribution.add(new BigDecimal("1500.000").subtract(tp.getScore()));
-//      }
-//    }
-//
-//    TournamentPlayer winningPlayer =
-//        updatedPlayers.stream()
-//            .filter(tp -> tp.getPlayer().getId().equals(winnerId))
-//            .findFirst()
-//            .orElseThrow();
-//
-//    assertThat(winningPlayer.getScore())
-//        .isEqualByComparingTo(new BigDecimal("1500.000").add(totalContribution));
-//  }
+  @Test
+  void TestRoundPermutations() {
+
+    List<Integer> rounds = List.of(1, 2, 3, 4, 5);
+    List<List<Integer>> permutations = tournamentPlayerService.generatePermutations(rounds);
+
+    assertThat(permutations)
+            .hasSize(120)
+            .contains(List.of(1, 2, 3, 5, 4), List.of(5, 1, 2, 3, 4));
+  }
 
 }
