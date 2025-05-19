@@ -9,6 +9,7 @@ import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatRepository;
+import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
@@ -39,6 +40,7 @@ public class TournamentService {
   @Autowired private TournamentPlayerService tournamentPlayerService;
   @Autowired private PodService podService;
   @Autowired private PlayerService playerService;
+  @Autowired private SeatService seatService;
 
   public void save(Tournament tournament) {
     tournamentRepository.save(tournament);
@@ -191,7 +193,7 @@ public class TournamentService {
       for (int idx : group) {
         Player player = indexToPlayer.get(idx);
 
-        generateAndPersistSeat(pod, player, seatNum);
+        seatService.generateAndPersistSeat(pod, player, seatNum);
 
         seats.add(
             RoundDto.SeatDto.builder()
@@ -208,19 +210,11 @@ public class TournamentService {
     return podDtos;
   }
 
-  private void generateAndPersistSeat(Pod pod, Player player, int seatNum) {
-    Seat seat = new Seat();
-    seat.setPod(pod);
-    seat.setPlayer(player);
-    seat.setSeat(seatNum);
-    seatRepository.save(seat);
-  }
-
   @Transactional
   public ResponseEntity<String> determineCut(UUID tournamentId, int cutTo) {
 
     if (cutTo == 10) {
-      generateTopTenCut(tournamentId, cutTo);
+      return generateTopTenCut(tournamentId, cutTo);
     } else {
       ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(ResponseMessages.RESPONSE_BAD_REQUEST_TOP_CUT);
@@ -310,7 +304,7 @@ public class TournamentService {
   private void findPlayerForSeating(List<TournamentPlayer> finalists, Pod pod) {
     for (int i = 0; i < finalists.size(); i++) {
       Player player = playerService.findPlayerById(finalists.get(i).getPlayer().getId());
-      generateAndPersistSeat(pod, player, i + 1);
+      seatService.generateAndPersistSeat(pod, player, i + 1);
     }
   }
 
