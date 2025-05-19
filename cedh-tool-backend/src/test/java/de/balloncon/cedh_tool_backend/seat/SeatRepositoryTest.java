@@ -37,15 +37,15 @@ class SeatRepositoryTest {
     void findByPodAndPlayer() {
         Seat seat = new Seat();
 
-        Player player = TestDataGenerator.generateDummyPlayer();
+        Player player = TestDataGenerator.generatePlayer();
         playerRepository.save(player);
         assertThat(player.getId()).isNotNull();
 
-        Tournament tournament = TestDataGenerator.generateDummyTournament();
+        Tournament tournament = TestDataGenerator.generateTournament();
         tournamentRepository.save(tournament);
         assertThat(tournament.getId()).isNotNull();
 
-        Pod pod = TestDataGenerator.generateDummyPod(tournament);
+        Pod pod = TestDataGenerator.generatePod(tournament);
         podRepository.save(pod);
         assertThat(pod.getId()).isNotNull();
 

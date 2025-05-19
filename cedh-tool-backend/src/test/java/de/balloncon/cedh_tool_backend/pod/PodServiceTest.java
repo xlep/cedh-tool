@@ -43,18 +43,18 @@ class PodServiceTest {
     
     @Test
     void reportWin() {
-        Player player1 = TestDataGenerator.generateDummyPlayer();
+        Player player1 = TestDataGenerator.generatePlayer();
         playerRepository.save(player1);
-        Player player2 = TestDataGenerator.generateDummyPlayer();
+        Player player2 = TestDataGenerator.generatePlayer();
         playerRepository.save(player2);
-        Player player3 = TestDataGenerator.generateDummyPlayer();
+        Player player3 = TestDataGenerator.generatePlayer();
         playerRepository.save(player3);
-        Player player4 = TestDataGenerator.generateDummyPlayer();
+        Player player4 = TestDataGenerator.generatePlayer();
         playerRepository.save(player4);
 
-        Tournament tournament = TestDataGenerator.generateDummyTournament();
+        Tournament tournament = TestDataGenerator.generateTournament();
         tournamentRepository.save(tournament);
-        Pod pod = TestDataGenerator.generateDummyPod(tournament);
+        Pod pod = TestDataGenerator.generatePod(tournament);
         podRepository.save(pod);
 
         Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
@@ -92,18 +92,18 @@ class PodServiceTest {
 
     @Test
     void reportDraw() {
-        Player player1 = TestDataGenerator.generateDummyPlayer();
+        Player player1 = TestDataGenerator.generatePlayer();
         playerRepository.save(player1);
-        Player player2 = TestDataGenerator.generateDummyPlayer();
+        Player player2 = TestDataGenerator.generatePlayer();
         playerRepository.save(player2);
-        Player player3 = TestDataGenerator.generateDummyPlayer();
+        Player player3 = TestDataGenerator.generatePlayer();
         playerRepository.save(player3);
-        Player player4 = TestDataGenerator.generateDummyPlayer();
+        Player player4 = TestDataGenerator.generatePlayer();
         playerRepository.save(player4);
 
-        Tournament tournament = TestDataGenerator.generateDummyTournament();
+        Tournament tournament = TestDataGenerator.generateTournament();
         tournamentRepository.save(tournament);
-        Pod pod = TestDataGenerator.generateDummyPod(tournament);
+        Pod pod = TestDataGenerator.generatePod(tournament);
         podRepository.save(pod);
 
         Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);

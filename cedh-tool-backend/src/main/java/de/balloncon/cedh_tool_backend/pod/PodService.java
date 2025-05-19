@@ -3,6 +3,7 @@ package de.balloncon.cedh_tool_backend.pod;
 import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
+import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -88,5 +89,25 @@ public class PodService {
 
   public void save(Pod pod) {
     podRepository.save(pod);
+  }
+
+  public Result getResult(Pod pod) {
+    // default to a winning pod
+    Result podResult = Result.win;
+
+    if (pod != null) {
+      for (Seat seat : pod.getSeats()) {
+        if (seat.getResult() == null) {
+          break;
+        }
+        Result result = Result.valueOf(seat.getResult());
+        switch (result) {
+          case Result.draw -> podResult = Result.draw;
+          case Result.bye -> podResult = Result.bye;
+        };
+      }
+    }
+
+    return podResult;
   }
 }
