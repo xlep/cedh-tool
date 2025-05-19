@@ -1,5 +1,8 @@
 package de.balloncon.cedh_tool_backend.tournament.player;
 
+import de.balloncon.cedh_tool_backend.dto.PlayerDto;
+import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
+import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -8,11 +11,13 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class TournamentPlayerService {
 
   @Autowired private final TournamentPlayerRepository tournamentPlayerRepository;
+  @Autowired private final PlayerMapper playerMapper;
 
   private static final BigDecimal WAGER_AMOUNT = new BigDecimal("0.07");
   private static final int NUMBER_OF_DIGITS_BEHIND_DECIMAL_POINT = 3;
@@ -22,15 +27,16 @@ public class TournamentPlayerService {
   private static final BigDecimal SEAT_FOUR_MULTIPLICATOR = new BigDecimal("0.72");
   private static final String DIVIDER_FOR_DRAW = "4.000";
 
-  public TournamentPlayerService(TournamentPlayerRepository tournamentPlayerRepository) {
+  public TournamentPlayerService(TournamentPlayerRepository tournamentPlayerRepository, PlayerMapper playerMapper) {
     this.tournamentPlayerRepository = tournamentPlayerRepository;
+    this.playerMapper = playerMapper;
   }
 
   public void save(TournamentPlayer tournamentPlayer) {
     tournamentPlayerRepository.save(tournamentPlayer);
   }
 
-  public List<TournamentPlayerScoreView> getPlayerScoresByTournament(UUID tournamentId) {
+  public List<TournamentPlayerScoreView> getPlayerScoresByTournamentId(UUID tournamentId) {
     return tournamentPlayerRepository.findPlayerScoresByTournament(tournamentId);
   }
 
@@ -38,6 +44,13 @@ public class TournamentPlayerService {
       UUID tournamentId, int cutSize) {
     return tournamentPlayerRepository.findTopTenByTournamentOrderByScoreDesc(
         tournamentId, PageRequest.of(0, cutSize));
+  }
+
+  public List<PlayerDto> getPlayersById(UUID tournamentId) {
+    List<Player> tournamentPlayers = tournamentPlayerRepository.findByTournamentId(tournamentId);
+    return tournamentPlayers.stream()
+            .map(playerMapper::toDto)
+            .collect(Collectors.toList());
   }
 
   public void calculateAndAssignNewScores(
