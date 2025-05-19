@@ -24,20 +24,18 @@ public interface PodRepository extends JpaRepository<Pod, UUID> {
   @Query("SELECT MAX(p.round) FROM Pod p WHERE p.tournament.id = :tournamentId")
   Optional<Integer> findHighestColumnValueForRound(@Param("tournamentId") UUID tournamentId);
 
-  @Query(
-"""
+  @Query("""
     SELECT DISTINCT p FROM Pod p
     LEFT JOIN FETCH p.seats s
     LEFT JOIN FETCH s.player
               WHERE p.tournament.id = :tournamentId AND p.round = :round
 """)
-  List<Pod> findPodsWithSeatsAndPlayersByTournamentIdAndRound(
-      @Param("tournamentId") UUID tournamentId, @Param("round") int round);
+  List<Pod> findPodsWithSeatsAndPlayersByTournamentIdAndRound(@Param("tournamentId") UUID tournamentId, @Param("round") int round);
+
 
   @Query("SELECT p FROM Pod p WHERE p.id = :id")
   Optional<List<Player>> findPlayersByPodId(@Param("id") UUID podId);
 
   @Query("SELECT P FROM Pod P WHERE P.tournament.id = :tournamentId AND P.type = :type")
-  Pod findPodByTournamentIdAndType(
-      @Param("tournamentId") UUID tournamentId, @Param("type") PodType type);
+  Pod findPodByTournamentIdAndType(@Param("tournamentId") UUID tournamentId, @Param("type") PodType type);
 }

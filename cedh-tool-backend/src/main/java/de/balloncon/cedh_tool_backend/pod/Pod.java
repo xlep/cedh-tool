@@ -34,7 +34,7 @@ public class Pod {
   private Set<Seat> seats = new HashSet<>();
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "type", length = 12)
+  @Column(name = "pod_type", length = 12)
   private PodType type;
 
   public List<Player> getPlayers() {
