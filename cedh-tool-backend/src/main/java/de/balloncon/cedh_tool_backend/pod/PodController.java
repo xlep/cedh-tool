@@ -25,8 +25,10 @@ public class PodController {
   @PostMapping("report/result")
   public ResponseEntity<Void> reportResult(@RequestBody PodResultDto podResultDto) {
     return podService.reportResult(
-            podResultDto.podId(),
-            podResultDto.playerId(),
-            podResultDto.result());
+        podResultDto.podId(),
+        podResultDto.playerId(),
+        podResultDto.result(),
+        podResultDto.tournamentId(),
+        podResultDto.podType());
   }
 }
