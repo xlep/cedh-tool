@@ -41,7 +41,7 @@ CREATE TABLE pod
     tournament_id UUID NOT NULL,
     name          INTEGER,
     round         INTEGER,
-    pod_type      VARCHAR (12),
+    type      VARCHAR (12),
     CONSTRAINT fk_tournament FOREIGN KEY (tournament_id) REFERENCES tournament (id)
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE seats (
    pod UUID REFERENCES pod(id),
    player UUID REFERENCES player(id),
    seat INTEGER,
-   result TEXT CHECK (result IN ('win', 'loss', 'draw')),
+   result TEXT CHECK (result IN ('win', 'loss', 'draw', 'bye')),
    PRIMARY KEY (pod, player)
 );
 

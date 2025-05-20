@@ -33,6 +33,7 @@ public class Pod {
   @OneToMany(mappedBy = "pod", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Seat> seats = new HashSet<>();
 
+  // TODO:
   @Enumerated(EnumType.STRING)
   @Column(name = "type", length = 12)
   private PodType type;

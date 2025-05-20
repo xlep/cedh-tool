@@ -1,141 +1,673 @@
--- test data
-INSERT INTO player (id, nickname, firstname, lastname)
-VALUES
-    ('01969317-ed10-719f-8e38-79246ef3da3f', 'Morgan', 'Morgan', 'le Fay'),
-    ('01969318-8ded-7d09-b9a3-5fd88be2e0f8', 'Dr Strange', 'Stephen', 'Strange'),
-    ('cc73f87c-8beb-4e34-ab38-a07a73493c05', 'Harry', 'Harry', 'Dresden'),
-    ('8722f858-4906-4730-9c2f-8c96dd3c6458', 'HP', 'Harry Potter', 'Potter');
+-- tournament
+INSERT INTO tournament (id, name, mode) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'BallonCon cEDH Tets', null);
 
--- test data players
--- Insert 60 players into H2 test database
-INSERT INTO player (id, nickname, firstname, lastname) VALUES
-    ('22321b1c-cade-4e9e-866c-34610510922b', 'nick_1', 'James', 'Smith'),
-    ('8dd9b669-929e-4fe2-8f95-3d64fa2d11d2', 'nick_2', 'John', 'Johnson'),
-    ('ea070c1f-83cc-49ae-af54-95b661d07b3f', 'nick_3', 'Robert', 'Williams'),
-    ('54256855-f77e-449b-ade3-c986168a56ca', 'nick_4', 'Michael', 'Brown'),
-    ('328857fe-61b4-4295-9ed4-dbc395d7a747', 'nick_5', 'William', 'Jones'),
-    ('12779ebe-7d53-46df-999c-e81ec6243a34', 'nick_7', 'Richard', 'Miller'),
-    ('ce23deb8-83f0-4124-b37a-c3691defb150', 'nick_8', 'Joseph', 'Davis'),
-    ('74ba2c67-0a35-43b6-98ee-628739759ece', 'nick_6', 'David', 'Garcia'),
-    ('f38e7124-620e-4961-91ed-227535dabb4c', 'nick_9', 'Thomas', 'Rodriguez'),
-    ('acbca5d1-18ad-49ec-b91b-34923037681d', 'nick_10', 'Charles', 'Martinez'),
-    ('83a2ea79-2f8b-44f0-9017-a583f9e7797f', 'nick_11', 'Mary', 'Hernandez'),
-    ('d9d0a2be-084e-4ac7-bb41-7812948a6df4', 'nick_12', 'Patricia', 'Lopez'),
-    ('58a517cd-b73c-4bbe-a2d1-584face37da9', 'nick_13', 'Jennifer', 'Gonzalez'),
-    ('c41489a7-0d36-457e-9973-d2ebbfb631d2', 'nick_14', 'Linda', 'Wilson'),
-    ('a574c5d3-25b2-4a58-a877-7362ff0a52dc', 'nick_15', 'Elizabeth', 'Anderson'),
-    ('73b8d869-175f-46e9-916b-96f754731997', 'nick_16', 'Barbara', 'Thomas'),
-    ('0a19432f-509f-413a-9e4c-b25089b9b60c', 'nick_17', 'Susan', 'Taylor'),
-    ('49063bb2-0a34-4d8d-9524-f6bfa6fa70f5', 'nick_18', 'Jessica', 'Moore'),
-    ('2cc85517-c291-4e9a-b48f-11ed8e4bf12e', 'nick_19', 'Sarah', 'Jackson'),
-    ('61b9e0e2-5d01-4b41-ad78-3fed33296b81', 'nick_20', 'Karen', 'Martin'),
-    ('8fbc64f9-ae36-4151-994d-b2f5e6d3a381', 'nick_21', 'James', 'Smith'),
-    ('dae368a0-3c8a-4786-b4e7-9135534469ba', 'nick_22', 'John', 'Johnson'),
-    ('76caf60c-5f37-439f-b57e-264b91b3579a', 'nick_23', 'Robert', 'Williams'),
-    ('46b49bcd-fa90-42a6-82f7-2df13a5ec749', 'nick_24', 'Michael', 'Brown'),
-    ('99cfb36a-be39-4a1a-a361-f0480730fbe7', 'nick_25', 'William', 'Jones'),
-    ('6ff783ed-7c1e-4975-9bc8-7dc9d5a9e202', 'nick_26', 'David', 'Garcia'),
-    ('28324d70-bc41-43c2-96b6-a2eae0492b4d', 'nick_27', 'Richard', 'Miller'),
-    ('f74315a0-2973-4730-b9dd-75db4a989d6b', 'nick_28', 'Joseph', 'Davis'),
-    ('8407ca62-bd16-4976-9c00-12a8068383ec', 'nick_29', 'Thomas', 'Rodriguez'),
-    ('6a6e77ed-ccf0-4a88-bb10-a17a0cc0ec9c', 'nick_30', 'Charles', 'Martinez'),
-    ('4ab14f83-f137-4aff-8964-8c500981abdc', 'nick_31', 'Mary', 'Hernandez'),
-    ('ef492cd7-030d-486a-8586-590049c5f50f', 'nick_32', 'Patricia', 'Lopez'),
-    ('12bd3140-7c47-48a9-9ffe-f28898ffd3d8', 'nick_33', 'Jennifer', 'Gonzalez'),
-    ('4c38acba-eebe-4461-9c7d-2676d0dbd722', 'nick_34', 'Linda', 'Wilson'),
-    ('7824f5a5-88da-404d-9f18-fc31d7fbc16c', 'nick_35', 'Elizabeth', 'Anderson'),
-    ('0f93294b-0aa3-47a9-8d90-b0c3faa67e50', 'nick_36', 'Barbara', 'Thomas'),
-    ('b2ba3304-5da8-42a7-9282-b139c2bde3ea', 'nick_37', 'Susan', 'Taylor'),
-    ('aa545aeb-bf8f-4e82-a6d0-7963ff73601b', 'nick_38', 'Jessica', 'Moore'),
-    ('925b3c3d-2335-467f-8b62-308f7d263bfb', 'nick_39', 'Sarah', 'Jackson'),
-    ('6ecea270-ef06-4eec-91f8-59ae7c993541', 'nick_40', 'Karen', 'Martin'),
-    ('738d976a-0542-43ac-9cb7-cc01cbc9f259', 'nick_41', 'James', 'Smith'),
-    ('ba7c3921-7b75-4036-992c-6236942012ea', 'nick_42', 'John', 'Johnson'),
-    ('33a574b7-78c2-4558-ad1c-f235311ac3f8', 'nick_43', 'Robert', 'Williams'),
-    ('d39a2de3-64c0-40fc-b756-209fe1ed009b', 'nick_44', 'Michael', 'Brown'),
-    ('93314daa-f827-43de-abd5-2bb08e159967', 'nick_45', 'William', 'Jones'),
-    ('2c4ce0a1-7ab3-48d8-bd08-d0cedacf095e', 'nick_46', 'David', 'Garcia'),
-    ('3f5c0a54-c98f-4605-9ffe-f74acdd05558', 'nick_47', 'Richard', 'Miller'),
-    ('89f510a4-7c70-4228-b709-7d6de3a74c0e', 'nick_48', 'Joseph', 'Davis'),
-    ('44f4d1dd-d76f-4f53-8504-0a08db24cf79', 'nick_49', 'Thomas', 'Rodriguez'),
-    ('ff046fdb-1bed-42ba-a624-e8a81f1a3682', 'nick_50', 'Charles', 'Martinez'),
-    ('3ac97981-d361-46cb-ada6-1ca7ade9f38f', 'nick_51', 'Mary', 'Hernandez'),
-    ('b0bd443e-f534-4c2d-8a23-38afbc70ec93', 'nick_52', 'Patricia', 'Lopez'),
-    ('cd4aeaef-bd38-4ccd-84a1-7c9f5fbd6dc8', 'nick_53', 'Jennifer', 'Gonzalez'),
-    ('1bca64de-1bea-4fdb-b0c2-b2c8a6eae2cc', 'nick_54', 'Linda', 'Wilson'),
-    ('cde00fa1-2fc9-48f6-8c02-315e0a369a8a', 'nick_55', 'Elizabeth', 'Anderson'),
-    ('db86c071-051b-4617-9a9c-bc7f593bd912', 'nick_56', 'Barbara', 'Thomas'),
-    ('e2d93ab3-f18d-4154-ac8a-e05fb020911d', 'nick_57', 'Susan', 'Taylor'),
-    ('9289505f-c16d-4ce0-9518-27da74f8ac3f', 'nick_58', 'Jessica', 'Moore'),
-    ('fcc33a93-7270-46bb-994e-aecf7ccaf37f', 'nick_59', 'Sarah', 'Jackson'),
-    ('ac27b7e0-626b-405d-aaad-80e6d9ac3274', 'nick_60', 'Karen', 'Martin');
--- end of player section
+--player
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c3f1fdda-ae40-4469-b9a8-b73445494455', 'PlayerOne', 'John', 'Smith', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('6bd2e618-fa23-4c19-a98e-90228a705db0', 'GamerTwo', 'Jane', 'Johnson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('5e4e82dd-85de-4e2c-972d-e2f2f50d5473', 'Phoenix', 'Alex', 'Williams', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('f380fc01-efa8-4d13-88da-c5457cb4c6f7', 'Shadow', 'Sarah', 'Brown', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('728a96e0-b09b-4b5e-97e0-64243b9e3c80', 'DragonSlayer', 'Michael', 'Jones', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('3a7e92c6-6aff-4fca-b682-fca92750b4dd', 'NightHawk', 'Emily', 'Miller', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('1eec196f-eaff-42d1-8ef0-94372b6e9858', 'StarDust', 'David', 'Davis', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('38fba32b-c6c4-40e8-8bf7-b84eea7b74e4', 'WildCard', 'Olivia', 'Garcia', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('d5b0c609-7d69-4ca8-99f7-6a8b4366c61c', 'IronMan', 'Daniel', 'Rodriguez', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('b6190ed6-28a8-415e-bd9d-0a944444cfe0', 'StormBreaker', 'Sophia', 'Wilson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('ea75fc9b-276b-4826-b4a1-645ad3f1cf29', 'Blaze', 'James', 'Martinez', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('e870d2b8-21bf-46d8-b7c9-d2cd27b693d5', 'DarkKnight', 'Ava', 'Anderson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c9153faa-f437-4b84-bbdf-464d26daac3e', 'Speedster', 'Robert', 'Taylor', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('0d88cae6-a3f8-4683-8ba8-8776b99bb74c', 'EagleEye', 'Mia', 'Thomas', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('63aebcf4-a90f-4e53-838f-a9f2bff0276d', 'Spectre', 'William', 'Hernandez', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('1002e89b-92ab-4808-8369-4482e2d61301', 'Rogue', 'Isabella', 'Moore', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('5ff28ef1-aa76-46f5-bd07-1e1bc62af078', 'Viper', 'Joseph', 'Martin', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('8ec67b91-0c7b-4555-887a-bd26b285fc51', 'Maverick', 'Charlotte', 'Jackson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c5ad4108-96a6-40c4-8706-8e14ccc39586', 'Titan', 'Charles', 'Thompson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('3b037042-af74-4e80-b72e-f9d12a026f8c', 'Guardian', 'Amelia', 'White', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('a44fcd68-21a6-4b29-a68e-287191a07cc2', 'Sentinel', 'Thomas', 'Lopez', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('e64bd383-f074-4a86-b6ed-2e00ca12fb53', 'Nomad', 'Harper', 'Lee', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('34747c04-b5b3-4fb5-a54a-5fafe4697d64', 'Wanderer', 'Christopher', 'Gonzalez', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('78c5c822-6bc7-4f0e-9f55-f765e0230cb7', 'Oracle', 'Evelyn', 'Harris', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('eb08414f-1ca9-4cd0-8673-32dc7bc45722', 'Scout', 'Matthew', 'Clark', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('99dc6562-144c-4439-a0bf-a0dd70673637', 'Pathfinder', 'Abigail', 'Lewis', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c19da3cb-dcf2-4f1c-9596-a2a58f9e6fc5', 'Navigator', 'Andrew', 'Robinson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('4e266f55-6a10-470c-8b97-f91e39468905', 'Trailblazer', 'Ella', 'Walker', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('006f76da-e6da-4e78-894b-ccf094d333f6', 'Explorer', 'Anthony', 'Perez', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('45506cf3-5ef9-402c-808f-d490ce4cd97b', 'Voyager', 'Scarlett', 'Hall', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('21a30c65-0783-468d-8727-398ecf4dd52e', 'Pioneer', 'Paul', 'Young', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('2c8f0ee2-e25d-4774-9479-7bcc035526d3', 'Seeker', 'Grace', 'Allen', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('42a367f9-d235-431c-8de0-25bbea4bca94', 'Dreamer', 'Mark', 'Sanchez', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('0cecfa45-7720-4341-acea-4b070a09f681', 'Innovator', 'Chloe', 'Wright', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('74de865d-6ef9-496b-bbd1-bf59b4a77293', 'Visionary', 'Donald', 'King', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('500c9705-e66f-403a-b43f-e12b18427e08', 'Architect', 'Victoria', 'Scott', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('7af67bc2-d6b1-470b-8d25-1eb013a5d119', 'Builder', 'Steven', 'Green', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('1595c0a0-78ba-4ae7-9a14-b925c31f31ab', 'Creator', 'Madison', 'Baker', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('f0372977-ead0-48cd-a251-f3e8627d5d21', 'Designer', 'Edward', 'Adams', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('5965face-6243-4ed1-9657-f40da460c771', 'Engineer', 'Penelope', 'Nelson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('50277c6a-6976-40c2-ba0c-103d83e49c52', 'Technician', 'Kevin', 'Carter', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c240f849-9bea-4a3f-87d0-fd7efdc44004', 'Analyst', 'Layla', 'Mitchell', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('55b6ec61-f6f7-4320-9b24-cd5ebd168e60', 'Strategist', 'Brian', 'Roberts', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('a2858011-156a-4c6a-95b0-219dfae3a378', 'Planner', 'Nora', 'Phillips', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('9ca21c8a-5f8f-492d-b530-87051fac3c82', 'Coordinator', 'George', 'Campbell', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('a2ebbc3a-8f4b-42fc-8a6a-cba439805e0e', 'Manager', 'Hazel', 'Parker', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('7c7ad7f1-d83c-4904-8b38-e47ec8881fad', 'Leader', 'Ronald', 'Evans', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('f33c5f43-bcae-4dd0-beba-d264b413172b', 'Commander', 'Zoe', 'Turner', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c4f9f93e-fb1f-4d69-a1dd-9032fc7014ae', 'Captain', 'Timothy', 'Stewart', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('bf56abda-1812-47ea-86b5-0cc4eb869596', 'Chief', 'Violet', 'Morris', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('de44ff27-a589-4730-94a7-757d6aa7b116', 'Director', 'Jason', 'Rogers', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('0c143c41-eda0-4584-b01a-57d3948f4bee', 'Overseer', 'Stella', 'Reed', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('1431a2d8-24e9-40fc-b4d0-eb8637b4a9ab', 'Supervisor', 'Jeffrey', 'Cook', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('d7cf8c00-ebbf-4aab-83f5-af4e522b350a', 'Foreman', 'Ruby', 'Morgan', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('62635dd9-cabb-45ca-b4e3-55d98dc0c884', 'Head', 'Ryan', 'Bell', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('3cef6826-d934-4b3f-a4c7-8e1a1c47eb0b', 'Principal', 'Alice', 'Murphy', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('49c75108-2252-4c99-9bcf-c4e4d153ee6f', 'Master', 'Gary', 'Bailey', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('e1124234-3c6d-418e-ab97-f23a5ddd73dc', 'Grandmaster', 'Ivy', 'Rivera', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('d2e0eb87-c9b7-4c49-9571-983cc0681153', 'Prodigy', 'Nicholas', 'Cooper', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('d2efce71-199b-4f60-856f-7446babcdf45', 'Expert', 'Daisy', 'Richardson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('8e849922-36d4-42b9-982d-cde5cb97e3df', 'Virtuoso', 'Eric', 'Cox', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('ecd5833e-6814-4727-ad9b-d7b49321a3da', 'Ace', 'Jasmine', 'Howard', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('15b3e4d7-291b-4838-9fe9-20ee036bf272', 'Champion', 'Justin', 'Ward', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c97ab6f7-cd67-4bc2-9a7b-492e05c6b746', 'Winner', 'Rosie', 'Torres', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('7656bd49-6cc9-41d3-8dc1-05152446b2bf', 'Victor', 'Scott', 'Peterson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('9b4f2efb-675e-4ace-91cb-b9a2f9a4eadd', 'Conqueror', 'Willow', 'Gray', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('acbb8189-d9ab-411b-b549-4df8032942a2', 'Hero', 'Frank', 'Ramirez', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('12814d53-fab4-4803-b031-7e6f1a6a545a', 'Legend', 'Poppy', 'James', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('369310a4-c89f-498f-a083-5dfb5aa7dabe', 'Myth', 'Brenda', 'Watson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('5b4f12e1-7556-4049-bdad-a47225882137', 'Oracle', 'Leo', 'Brooks', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('192439d0-334b-4476-a707-82eb7a3140cd', 'Wizard', 'Millie', 'Kelly', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('95856529-983f-48bf-99a5-0bcbe9e39439', 'Sorcerer', 'Peter', 'Sanders', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('d4cb537d-bfad-4740-9c75-2003275addd4', 'Enchanter', 'Sophie', 'Price', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('0b322a15-4881-4ec0-ad05-7d1e99ace392', 'Mage', 'Roger', 'Bennett', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('706f3960-9ba2-468e-bfbd-91d4a7ef5250', 'Alchemist', 'Luna', 'Wood', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('16ff8065-871d-40ab-9c8b-7997ff8e07d8', 'Mystic', 'Gerald', 'Barnes', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('3f65384c-f9c3-414f-90f3-a1f55d3a34c8', 'Seer', 'Piper', 'Ross', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('66aac8d2-fe46-465a-a5c0-00433b47a6f0', 'Prophet', 'Dennis', 'Henderson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('954902cb-d99f-4b06-92dc-c40427bb380f', 'Sage', 'Ruby', 'Coleman', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('51353bae-b739-4fe2-94a8-d66dd2759a45', 'Guru', 'Walter', 'Jenkins', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('eba4c852-3fe8-424a-b284-b94a837a191f', 'Mentor', 'Hannah', 'Perry', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('d2828084-86fc-49b8-bdc7-ad822e599ae9', 'Guide', 'Louis', 'Powell', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('0b0b69d5-8762-4973-b08e-7926e37e173e', 'Teacher', 'Grace', 'Long', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('6de4807e-73df-4ddd-9500-f66cd694f807', 'Professor', 'Arthur', 'Patterson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('0d2dc979-2a3c-4604-ab17-d498960ca2a8', 'Doctor', 'Eleanor', 'Hughes', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('1ebab4f3-61f4-47c4-919b-e5d50812c64d', 'Scholar', 'Henry', 'Flores', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('435b02d2-1322-48b3-9003-9ad71f4b989e', 'Student', 'Clara', 'Washington', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('650c91ae-e5fc-4270-b444-287fb9411ae2', 'Apprentice', 'Harry', 'Butler', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('195a26cd-d70c-4cac-a924-b3baab6c886d', 'Novice', 'Audrey', 'Simmons', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('28cd021e-5e43-489f-935f-f916dfd1c7d7', 'Beginner', 'Jack', 'Foster', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('d01b07dd-99dc-4b9f-8874-6c801b2ab28f', 'Rookie', 'Lucy', 'Gonzales', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('79e292e5-26f9-4cbd-b791-aee322fcf5e4', 'Freshman', 'Samuel', 'Bryant', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('3f89032f-c45e-44d8-947c-20d822a12ea4', 'Sophomore', 'Penelope', 'Russell', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('48861d2d-ba57-4aff-8e94-e7b4814d0bbd', 'Junior', 'Patrick', 'Griffin', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('ee571349-bdc7-4688-b4fa-7aff2493a979', 'Senior', 'Hannah', 'Diaz', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c8cf4eb9-1267-489c-88ae-88d95d061954', 'Veteran', 'Oliver', 'Hayes', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('d01532a1-b05d-4cda-a092-2c51809aa7ee', 'Elder', 'Sophie', 'Myers', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('f4e3a4e1-58a7-4e48-8a69-0969160eade6', 'Ancestor', 'Leo', 'Ford', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('7c45cd3c-7707-4e98-b1ef-99712c54944a', 'Founder', 'Mia', 'Hamilton', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('5875eea0-e342-48dd-99f0-759114c4a2f9', 'Pioneer', 'Noah', 'Graham', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('f2243a7d-44d6-48a6-a9f3-9aeb1d245bbe', 'Discoverer', 'Amelia', 'Sullivan', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('2cb5667d-d717-4503-a628-46e97e5fa77b', 'Inventor', 'Liam', 'Wallace', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('f6b6e952-c020-4baa-b1ea-2c7280d7fbb0', 'Innovator', 'Charlotte', 'Woods', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('ccf04c01-be55-4ab7-9765-f85ec0549895', 'Creator', 'Ethan', 'Cole', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('e8e30811-1dd7-4708-a87c-916f7e755188', 'Architect', 'Olivia', 'West', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('a1be0e4d-309f-404e-82e2-c147b237216c', 'Engineer', 'Lucas', 'Jordan', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('882f45d6-b387-4461-a50a-4b01876c13e1', 'Builder', 'Ava', 'Owens', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c3253fa7-c17c-4574-b9ac-122dcb685e25', 'Developer', 'Mason', 'Reynolds', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('c333179b-4b96-4b90-95be-fb78072b695b', 'Coder', 'Sophia', 'Fisher', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('18c13825-b378-4f46-bcee-1eaae8d3d276', 'Programmer', 'Logan', 'Ellis', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('4d4cdcf9-3aed-4a97-8fc5-37d921e15a8b', 'Hacker', 'Isabella', 'Harrison', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('4b5b625a-b5d6-4f73-bcb8-df0581dfdd8f', 'Cyber', 'Elijah', 'Gibson', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('7a074b5d-f3b8-42fe-875a-ab123e025daf', 'Digital', 'Mia', 'Mcdonald', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('e14dddec-0f85-46fb-8de2-7faf30ed2654', 'Virtual', 'James', 'Cruz', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('1af0dd37-5b10-4523-ac61-c9d4ca7ff194', 'Online', 'Harper', 'Ortiz', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('fa198306-4d98-4d10-b3ca-633e69f14b9e', 'Netizen', 'Benjamin', 'Ruiz', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('9260843f-6a9b-4c0b-99ad-7bd6e13c222e', 'Webmaster', 'Evelyn', 'Palmer', null);
+INSERT INTO player (id, nickname, firstname, lastname, email) VALUES ('7506e609-84b0-4016-966b-14e4ec647033', 'Admin', 'William', 'Kim', null);
 
--- test data tournament
-insert into tournament (id, name, mode)
-values ('e29fbe3f-1755-43cc-a27a-393ec6d80a09' ,'Summer cEDH II', 'cEDH');
+-- tournamentplayers
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c3f1fdda-ae40-4469-b9a8-b73445494455', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '6bd2e618-fa23-4c19-a98e-90228a705db0', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5e4e82dd-85de-4e2c-972d-e2f2f50d5473', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f380fc01-efa8-4d13-88da-c5457cb4c6f7', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '728a96e0-b09b-4b5e-97e0-64243b9e3c80', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3a7e92c6-6aff-4fca-b682-fca92750b4dd', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1eec196f-eaff-42d1-8ef0-94372b6e9858', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '38fba32b-c6c4-40e8-8bf7-b84eea7b74e4', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd5b0c609-7d69-4ca8-99f7-6a8b4366c61c', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'b6190ed6-28a8-415e-bd9d-0a944444cfe0', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ea75fc9b-276b-4826-b4a1-645ad3f1cf29', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e870d2b8-21bf-46d8-b7c9-d2cd27b693d5', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c9153faa-f437-4b84-bbdf-464d26daac3e', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0d88cae6-a3f8-4683-8ba8-8776b99bb74c', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '63aebcf4-a90f-4e53-838f-a9f2bff0276d', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1002e89b-92ab-4808-8369-4482e2d61301', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5ff28ef1-aa76-46f5-bd07-1e1bc62af078', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '8ec67b91-0c7b-4555-887a-bd26b285fc51', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c5ad4108-96a6-40c4-8706-8e14ccc39586', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3b037042-af74-4e80-b72e-f9d12a026f8c', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a44fcd68-21a6-4b29-a68e-287191a07cc2', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e64bd383-f074-4a86-b6ed-2e00ca12fb53', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '34747c04-b5b3-4fb5-a54a-5fafe4697d64', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '78c5c822-6bc7-4f0e-9f55-f765e0230cb7', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'eb08414f-1ca9-4cd0-8673-32dc7bc45722', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '99dc6562-144c-4439-a0bf-a0dd70673637', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c19da3cb-dcf2-4f1c-9596-a2a58f9e6fc5', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4e266f55-6a10-470c-8b97-f91e39468905', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '006f76da-e6da-4e78-894b-ccf094d333f6', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '45506cf3-5ef9-402c-808f-d490ce4cd97b', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '21a30c65-0783-468d-8727-398ecf4dd52e', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '2c8f0ee2-e25d-4774-9479-7bcc035526d3', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '42a367f9-d235-431c-8de0-25bbea4bca94', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0cecfa45-7720-4341-acea-4b070a09f681', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '74de865d-6ef9-496b-bbd1-bf59b4a77293', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '500c9705-e66f-403a-b43f-e12b18427e08', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7af67bc2-d6b1-470b-8d25-1eb013a5d119', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1595c0a0-78ba-4ae7-9a14-b925c31f31ab', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f0372977-ead0-48cd-a251-f3e8627d5d21', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5965face-6243-4ed1-9657-f40da460c771', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '50277c6a-6976-40c2-ba0c-103d83e49c52', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c240f849-9bea-4a3f-87d0-fd7efdc44004', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '55b6ec61-f6f7-4320-9b24-cd5ebd168e60', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a2858011-156a-4c6a-95b0-219dfae3a378', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9ca21c8a-5f8f-492d-b530-87051fac3c82', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a2ebbc3a-8f4b-42fc-8a6a-cba439805e0e', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7c7ad7f1-d83c-4904-8b38-e47ec8881fad', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f33c5f43-bcae-4dd0-beba-d264b413172b', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c4f9f93e-fb1f-4d69-a1dd-9032fc7014ae', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'bf56abda-1812-47ea-86b5-0cc4eb869596', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'de44ff27-a589-4730-94a7-757d6aa7b116', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0c143c41-eda0-4584-b01a-57d3948f4bee', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1431a2d8-24e9-40fc-b4d0-eb8637b4a9ab', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd7cf8c00-ebbf-4aab-83f5-af4e522b350a', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '62635dd9-cabb-45ca-b4e3-55d98dc0c884', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3cef6826-d934-4b3f-a4c7-8e1a1c47eb0b', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '49c75108-2252-4c99-9bcf-c4e4d153ee6f', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e1124234-3c6d-418e-ab97-f23a5ddd73dc', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2e0eb87-c9b7-4c49-9571-983cc0681153', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2efce71-199b-4f60-856f-7446babcdf45', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '8e849922-36d4-42b9-982d-cde5cb97e3df', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ecd5833e-6814-4727-ad9b-d7b49321a3da', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '15b3e4d7-291b-4838-9fe9-20ee036bf272', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c97ab6f7-cd67-4bc2-9a7b-492e05c6b746', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7656bd49-6cc9-41d3-8dc1-05152446b2bf', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9b4f2efb-675e-4ace-91cb-b9a2f9a4eadd', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'acbb8189-d9ab-411b-b549-4df8032942a2', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '12814d53-fab4-4803-b031-7e6f1a6a545a', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '369310a4-c89f-498f-a083-5dfb5aa7dabe', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5b4f12e1-7556-4049-bdad-a47225882137', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '192439d0-334b-4476-a707-82eb7a3140cd', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '95856529-983f-48bf-99a5-0bcbe9e39439', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd4cb537d-bfad-4740-9c75-2003275addd4', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0b322a15-4881-4ec0-ad05-7d1e99ace392', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '706f3960-9ba2-468e-bfbd-91d4a7ef5250', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '16ff8065-871d-40ab-9c8b-7997ff8e07d8', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3f65384c-f9c3-414f-90f3-a1f55d3a34c8', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '66aac8d2-fe46-465a-a5c0-00433b47a6f0', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '954902cb-d99f-4b06-92dc-c40427bb380f', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '51353bae-b739-4fe2-94a8-d66dd2759a45', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'eba4c852-3fe8-424a-b284-b94a837a191f', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2828084-86fc-49b8-bdc7-ad822e599ae9', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0b0b69d5-8762-4973-b08e-7926e37e173e', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '6de4807e-73df-4ddd-9500-f66cd694f807', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0d2dc979-2a3c-4604-ab17-d498960ca2a8', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1ebab4f3-61f4-47c4-919b-e5d50812c64d', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '435b02d2-1322-48b3-9003-9ad71f4b989e', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '650c91ae-e5fc-4270-b444-287fb9411ae2', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '195a26cd-d70c-4cac-a924-b3baab6c886d', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '28cd021e-5e43-489f-935f-f916dfd1c7d7', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd01b07dd-99dc-4b9f-8874-6c801b2ab28f', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '79e292e5-26f9-4cbd-b791-aee322fcf5e4', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3f89032f-c45e-44d8-947c-20d822a12ea4', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '48861d2d-ba57-4aff-8e94-e7b4814d0bbd', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ee571349-bdc7-4688-b4fa-7aff2493a979', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c8cf4eb9-1267-489c-88ae-88d95d061954', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd01532a1-b05d-4cda-a092-2c51809aa7ee', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f4e3a4e1-58a7-4e48-8a69-0969160eade6', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7c45cd3c-7707-4e98-b1ef-99712c54944a', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5875eea0-e342-48dd-99f0-759114c4a2f9', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f2243a7d-44d6-48a6-a9f3-9aeb1d245bbe', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '2cb5667d-d717-4503-a628-46e97e5fa77b', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f6b6e952-c020-4baa-b1ea-2c7280d7fbb0', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ccf04c01-be55-4ab7-9765-f85ec0549895', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e8e30811-1dd7-4708-a87c-916f7e755188', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a1be0e4d-309f-404e-82e2-c147b237216c', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '882f45d6-b387-4461-a50a-4b01876c13e1', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c3253fa7-c17c-4574-b9ac-122dcb685e25', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c333179b-4b96-4b90-95be-fb78072b695b', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '18c13825-b378-4f46-bcee-1eaae8d3d276', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4d4cdcf9-3aed-4a97-8fc5-37d921e15a8b', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4b5b625a-b5d6-4f73-bcb8-df0581dfdd8f', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7a074b5d-f3b8-42fe-875a-ab123e025daf', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e14dddec-0f85-46fb-8de2-7faf30ed2654', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1af0dd37-5b10-4523-ac61-c9d4ca7ff194', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'fa198306-4d98-4d10-b3ca-633e69f14b9e', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9260843f-6a9b-4c0b-99ad-7bd6e13c222e', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score) VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7506e609-84b0-4016-966b-14e4ec647033', null);
 
---Populate Summer cEDH II with players
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '22321b1c-cade-4e9e-866c-34610510922b', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8dd9b669-929e-4fe2-8f95-3d64fa2d11d2', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ea070c1f-83cc-49ae-af54-95b661d07b3f', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '54256855-f77e-449b-ade3-c986168a56ca', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '328857fe-61b4-4295-9ed4-dbc395d7a747', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '74ba2c67-0a35-43b6-98ee-628739759ece', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '12779ebe-7d53-46df-999c-e81ec6243a34', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ce23deb8-83f0-4124-b37a-c3691defb150', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'f38e7124-620e-4961-91ed-227535dabb4c', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'acbca5d1-18ad-49ec-b91b-34923037681d', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '83a2ea79-2f8b-44f0-9017-a583f9e7797f', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'd9d0a2be-084e-4ac7-bb41-7812948a6df4', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '58a517cd-b73c-4bbe-a2d1-584face37da9', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'c41489a7-0d36-457e-9973-d2ebbfb631d2', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'a574c5d3-25b2-4a58-a877-7362ff0a52dc', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '73b8d869-175f-46e9-916b-96f754731997', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '0a19432f-509f-413a-9e4c-b25089b9b60c', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '49063bb2-0a34-4d8d-9524-f6bfa6fa70f5', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '2cc85517-c291-4e9a-b48f-11ed8e4bf12e', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '61b9e0e2-5d01-4b41-ad78-3fed33296b81', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8fbc64f9-ae36-4151-994d-b2f5e6d3a381', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'dae368a0-3c8a-4786-b4e7-9135534469ba', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '76caf60c-5f37-439f-b57e-264b91b3579a', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '46b49bcd-fa90-42a6-82f7-2df13a5ec749', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '99cfb36a-be39-4a1a-a361-f0480730fbe7', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6ff783ed-7c1e-4975-9bc8-7dc9d5a9e202', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '28324d70-bc41-43c2-96b6-a2eae0492b4d', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'f74315a0-2973-4730-b9dd-75db4a989d6b', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8407ca62-bd16-4976-9c00-12a8068383ec', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6a6e77ed-ccf0-4a88-bb10-a17a0cc0ec9c', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '4ab14f83-f137-4aff-8964-8c500981abdc', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ef492cd7-030d-486a-8586-590049c5f50f', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '12bd3140-7c47-48a9-9ffe-f28898ffd3d8', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '4c38acba-eebe-4461-9c7d-2676d0dbd722', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '7824f5a5-88da-404d-9f18-fc31d7fbc16c', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '0f93294b-0aa3-47a9-8d90-b0c3faa67e50', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'b2ba3304-5da8-42a7-9282-b139c2bde3ea', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'aa545aeb-bf8f-4e82-a6d0-7963ff73601b', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '925b3c3d-2335-467f-8b62-308f7d263bfb', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6ecea270-ef06-4eec-91f8-59ae7c993541', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '738d976a-0542-43ac-9cb7-cc01cbc9f259', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ba7c3921-7b75-4036-992c-6236942012ea', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '33a574b7-78c2-4558-ad1c-f235311ac3f8', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'd39a2de3-64c0-40fc-b756-209fe1ed009b', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '93314daa-f827-43de-abd5-2bb08e159967', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '2c4ce0a1-7ab3-48d8-bd08-d0cedacf095e', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '3f5c0a54-c98f-4605-9ffe-f74acdd05558', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '89f510a4-7c70-4228-b709-7d6de3a74c0e', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '44f4d1dd-d76f-4f53-8504-0a08db24cf79', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ff046fdb-1bed-42ba-a624-e8a81f1a3682', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '3ac97981-d361-46cb-ada6-1ca7ade9f38f', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'b0bd443e-f534-4c2d-8a23-38afbc70ec93', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'cd4aeaef-bd38-4ccd-84a1-7c9f5fbd6dc8', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '1bca64de-1bea-4fdb-b0c2-b2c8a6eae2cc', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'cde00fa1-2fc9-48f6-8c02-315e0a369a8a', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'db86c071-051b-4617-9a9c-bc7f593bd912', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'e2d93ab3-f18d-4154-ac8a-e05fb020911d', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '9289505f-c16d-4ce0-9518-27da74f8ac3f', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'fcc33a93-7270-46bb-994e-aecf7ccaf37f', 1500.000),
-    ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ac27b7e0-626b-405d-aaad-80e6d9ac3274', 1500.000);
--- end of tournamentplayer section
+-- pod
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('e6a2ae04-8b8c-4fc9-9571-384cb881d7b0', '7addec25-9af0-452f-9e01-6481892e545d', 1, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('436a3b29-a55b-4e76-8804-d07f46b1a47f', '7addec25-9af0-452f-9e01-6481892e545d', 2, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('aedcb66f-f619-47a1-b85f-dd9d39377f4b', '7addec25-9af0-452f-9e01-6481892e545d', 3, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('fd5bfa31-b40b-43d7-bc75-e6234a47393a', '7addec25-9af0-452f-9e01-6481892e545d', 4, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('c1b7dc12-bb02-4e7e-9ad9-3b2056810788', '7addec25-9af0-452f-9e01-6481892e545d', 5, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('0560cc16-d104-4c2e-967e-b3d1d8263ef0', '7addec25-9af0-452f-9e01-6481892e545d', 6, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('b3f47a48-b072-4ab1-86b2-5f9cbf4da548', '7addec25-9af0-452f-9e01-6481892e545d', 7, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('de07ddae-e802-4c50-a420-0a6f0c84f26a', '7addec25-9af0-452f-9e01-6481892e545d', 8, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('3b66fc5c-7fce-4e03-86e1-654d088bec8d', '7addec25-9af0-452f-9e01-6481892e545d', 9, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('b5892329-9452-46c4-9e45-756b32d9186c', '7addec25-9af0-452f-9e01-6481892e545d', 10, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('3a913491-b2b4-42fc-99ec-d9d7f2cdbfc1', '7addec25-9af0-452f-9e01-6481892e545d', 11, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('794be10f-80fb-48ee-a06d-954554dbfb7b', '7addec25-9af0-452f-9e01-6481892e545d', 12, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('5568c055-c06d-4335-8c9d-db4d8b5693fb', '7addec25-9af0-452f-9e01-6481892e545d', 13, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('1167b32d-072e-4b3f-8161-931c70ba341a', '7addec25-9af0-452f-9e01-6481892e545d', 14, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('925df2a5-ac34-4c4c-86cb-703b53f6eba4', '7addec25-9af0-452f-9e01-6481892e545d', 15, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('eb2392da-adf1-48d0-b374-97eae2652590', '7addec25-9af0-452f-9e01-6481892e545d', 16, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('8079412c-a352-4e08-b9cb-4ea7d49c15fb', '7addec25-9af0-452f-9e01-6481892e545d', 17, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('100f3ead-de00-4753-aa76-26b703710588', '7addec25-9af0-452f-9e01-6481892e545d', 18, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('3d146dfe-fe5e-49ec-98df-e2345f44bfbd', '7addec25-9af0-452f-9e01-6481892e545d', 19, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('46e025e7-ebb9-41f2-a621-438866542894', '7addec25-9af0-452f-9e01-6481892e545d', 20, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('ebdd04c7-9766-4d4c-ae08-5d6b84b76a8f', '7addec25-9af0-452f-9e01-6481892e545d', 21, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('f622549a-ea75-4c1a-8e2b-75353bab2519', '7addec25-9af0-452f-9e01-6481892e545d', 22, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('9f16f8f4-5be3-4392-8930-0be29d94d997', '7addec25-9af0-452f-9e01-6481892e545d', 23, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('e114dda8-be3c-4a58-9f6c-c10e88e7a8b9', '7addec25-9af0-452f-9e01-6481892e545d', 24, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('ee2a46e9-8082-44d2-8cdc-098c21f88766', '7addec25-9af0-452f-9e01-6481892e545d', 25, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('c081a3ee-ae10-4118-9709-7d82f6228d10', '7addec25-9af0-452f-9e01-6481892e545d', 26, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('5d3deb58-08a3-4347-86e3-6f12f02a7ec4', '7addec25-9af0-452f-9e01-6481892e545d', 27, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('7f4ed540-f3bd-4d9c-9a20-54f79cf9404f', '7addec25-9af0-452f-9e01-6481892e545d', 28, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('fbf6ee68-ee3a-422d-848e-3f56701f8f6b', '7addec25-9af0-452f-9e01-6481892e545d', 29, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('5df65321-5ef2-4962-978f-810bbd5d7b84', '7addec25-9af0-452f-9e01-6481892e545d', 30, 3, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('b2566dd8-f7b7-4e8c-838e-af4def32425d', '7addec25-9af0-452f-9e01-6481892e545d', 1, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('d9dcf957-cc77-4d75-b213-f68c6889bdba', '7addec25-9af0-452f-9e01-6481892e545d', 2, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('a33c7001-e530-4671-b51c-f2346554ec66', '7addec25-9af0-452f-9e01-6481892e545d', 3, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('dedc0e2e-f406-4dd3-a331-6abc4b6964ec', '7addec25-9af0-452f-9e01-6481892e545d', 4, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('04ee7baf-08d9-4ac2-8e50-0dd31a52f667', '7addec25-9af0-452f-9e01-6481892e545d', 5, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('20d9aede-f2a6-4028-9a8d-d69ed960f700', '7addec25-9af0-452f-9e01-6481892e545d', 6, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('981d1ea8-98d0-46c8-ac9d-b168e9264237', '7addec25-9af0-452f-9e01-6481892e545d', 7, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('0b1f73bd-62da-4f49-ab59-f3c02329dbc8', '7addec25-9af0-452f-9e01-6481892e545d', 8, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('98e8b338-6d24-4199-8c5e-2e58d0599781', '7addec25-9af0-452f-9e01-6481892e545d', 9, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('0e978848-0e19-439e-b3a5-38f781330060', '7addec25-9af0-452f-9e01-6481892e545d', 10, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('fa77af43-24a8-4c09-8577-26a8b7f53d91', '7addec25-9af0-452f-9e01-6481892e545d', 11, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('49a1c73a-bedc-47cc-9be8-33df7878642f', '7addec25-9af0-452f-9e01-6481892e545d', 12, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('87e11a55-679e-4927-92c5-f32c6473aaa0', '7addec25-9af0-452f-9e01-6481892e545d', 13, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('aff9b551-63cd-4001-85f1-a2767952c541', '7addec25-9af0-452f-9e01-6481892e545d', 14, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('a5e08c47-5f4b-402a-82fb-25fd801b3a86', '7addec25-9af0-452f-9e01-6481892e545d', 15, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('8dd25a1f-1cd9-43e4-a9de-76d88cb7d93e', '7addec25-9af0-452f-9e01-6481892e545d', 16, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('f3ffbb4c-f888-486d-8280-52a8895cb728', '7addec25-9af0-452f-9e01-6481892e545d', 17, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('52f2dd1c-01e0-48ff-8046-b13618cc73e4', '7addec25-9af0-452f-9e01-6481892e545d', 18, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('6df78207-8a58-4408-a514-9f87d290000a', '7addec25-9af0-452f-9e01-6481892e545d', 19, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('dfa41188-d6aa-4033-9d66-0c7883a78f03', '7addec25-9af0-452f-9e01-6481892e545d', 20, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('bc665e6f-4c44-477b-9715-57a86309b705', '7addec25-9af0-452f-9e01-6481892e545d', 21, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('124d96da-58c1-422a-a5fd-45319bb74fc5', '7addec25-9af0-452f-9e01-6481892e545d', 22, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('f827d496-9754-4936-9c88-6f9ee4665b76', '7addec25-9af0-452f-9e01-6481892e545d', 23, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('8ca3ea58-c4ab-4cd1-8761-3443888fba59', '7addec25-9af0-452f-9e01-6481892e545d', 24, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('f159a154-1b72-47a7-b037-93c9661d3656', '7addec25-9af0-452f-9e01-6481892e545d', 25, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('c4a9a353-2216-4430-a614-d1f33805c61b', '7addec25-9af0-452f-9e01-6481892e545d', 26, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('ad42e591-4510-49ad-ad51-caaed947353c', '7addec25-9af0-452f-9e01-6481892e545d', 27, 5, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('97dd70df-8df8-490f-bee0-3297888b4f8b', '7addec25-9af0-452f-9e01-6481892e545d', 1, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('b5898933-d043-42a9-950c-40e5ba83413b', '7addec25-9af0-452f-9e01-6481892e545d', 2, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('6a206797-b2b1-49f9-b300-94d1e242608f', '7addec25-9af0-452f-9e01-6481892e545d', 3, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('f09f6de9-f59e-4dbb-b1cf-c62641256d69', '7addec25-9af0-452f-9e01-6481892e545d', 4, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('173bb54e-6bf1-49a1-8005-1e9dad91dff9', '7addec25-9af0-452f-9e01-6481892e545d', 5, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('ca43b8a2-009f-4a9a-b649-19d3259911fe', '7addec25-9af0-452f-9e01-6481892e545d', 6, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('1aeb2ec1-8fc0-415b-b521-499272ff399e', '7addec25-9af0-452f-9e01-6481892e545d', 7, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('a30539d3-7469-4443-84d7-a4732b33af37', '7addec25-9af0-452f-9e01-6481892e545d', 8, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('b56d1cab-403c-4992-b5a5-bc404ba0790e', '7addec25-9af0-452f-9e01-6481892e545d', 9, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('00b34e1f-5485-4ba7-962e-98941997548b', '7addec25-9af0-452f-9e01-6481892e545d', 10, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('7521971d-080e-4a59-bbbc-be92c56c8dc9', '7addec25-9af0-452f-9e01-6481892e545d', 11, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('1ae01070-5b85-40e5-b7a5-48a7bcb47b25', '7addec25-9af0-452f-9e01-6481892e545d', 12, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('a71f1345-d370-4c62-9acd-b631ee7aca53', '7addec25-9af0-452f-9e01-6481892e545d', 13, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('c7c0170b-ea16-49bd-8388-291746b5e954', '7addec25-9af0-452f-9e01-6481892e545d', 14, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('50d7d713-4bee-40f9-b88a-91379b1373c3', '7addec25-9af0-452f-9e01-6481892e545d', 15, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('f9409b05-6ba5-4697-9e35-73ceeabb5256', '7addec25-9af0-452f-9e01-6481892e545d', 16, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('11f372ea-d823-41e9-9c1d-bcbb1fe96b4f', '7addec25-9af0-452f-9e01-6481892e545d', 17, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('63c9e150-b2da-465a-8228-340110d6ff45', '7addec25-9af0-452f-9e01-6481892e545d', 18, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('6910e5cc-2985-448a-893e-e212c3f78e14', '7addec25-9af0-452f-9e01-6481892e545d', 19, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('097894ef-e088-4abd-bcd4-2898995782c4', '7addec25-9af0-452f-9e01-6481892e545d', 20, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('41327bb0-a42e-4991-90d2-a7c5d58a0225', '7addec25-9af0-452f-9e01-6481892e545d', 21, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('e31de9bd-9594-408c-9f87-6f7903522d68', '7addec25-9af0-452f-9e01-6481892e545d', 22, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('6ec72580-13a4-4c3f-847a-5519c1a20352', '7addec25-9af0-452f-9e01-6481892e545d', 23, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('ad2f9e96-3b96-454b-9ef4-c7e8e891dce1', '7addec25-9af0-452f-9e01-6481892e545d', 24, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('aa1ba49f-48d4-441d-b89f-95b32faae16f', '7addec25-9af0-452f-9e01-6481892e545d', 25, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('e53aecf8-3eda-4d0f-97e1-40b35f2118bb', '7addec25-9af0-452f-9e01-6481892e545d', 26, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('22d67a16-d7e7-44bc-969a-14ee1a0c9784', '7addec25-9af0-452f-9e01-6481892e545d', 27, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('6a48ba19-7d2e-427d-9ac9-9f7e66b91c1e', '7addec25-9af0-452f-9e01-6481892e545d', 28, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('b22fc349-04df-4ea7-a76d-637f43eea067', '7addec25-9af0-452f-9e01-6481892e545d', 29, 4, 'swiss');
+INSERT INTO pod (id, tournament_id, name, round, type) VALUES ('77f25cd6-b41d-4dfc-92dc-c32d9d68dd05', '7addec25-9af0-452f-9e01-6481892e545d', 30, 4, 'swiss');
+
+-- seat
+INSERT INTO seats (pod, player, seat, result) VALUES ('100f3ead-de00-4753-aa76-26b703710588', 'fa198306-4d98-4d10-b3ca-633e69f14b9e', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('100f3ead-de00-4753-aa76-26b703710588', 'bf56abda-1812-47ea-86b5-0cc4eb869596', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3d146dfe-fe5e-49ec-98df-e2345f44bfbd', '706f3960-9ba2-468e-bfbd-91d4a7ef5250', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3d146dfe-fe5e-49ec-98df-e2345f44bfbd', '28cd021e-5e43-489f-935f-f916dfd1c7d7', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3d146dfe-fe5e-49ec-98df-e2345f44bfbd', '3f65384c-f9c3-414f-90f3-a1f55d3a34c8', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3d146dfe-fe5e-49ec-98df-e2345f44bfbd', 'f4e3a4e1-58a7-4e48-8a69-0969160eade6', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('46e025e7-ebb9-41f2-a621-438866542894', '63aebcf4-a90f-4e53-838f-a9f2bff0276d', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('46e025e7-ebb9-41f2-a621-438866542894', 'd2e0eb87-c9b7-4c49-9571-983cc0681153', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('46e025e7-ebb9-41f2-a621-438866542894', 'b6190ed6-28a8-415e-bd9d-0a944444cfe0', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('46e025e7-ebb9-41f2-a621-438866542894', '192439d0-334b-4476-a707-82eb7a3140cd', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ebdd04c7-9766-4d4c-ae08-5d6b84b76a8f', '48861d2d-ba57-4aff-8e94-e7b4814d0bbd', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ebdd04c7-9766-4d4c-ae08-5d6b84b76a8f', '16ff8065-871d-40ab-9c8b-7997ff8e07d8', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ebdd04c7-9766-4d4c-ae08-5d6b84b76a8f', '3a7e92c6-6aff-4fca-b682-fca92750b4dd', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ebdd04c7-9766-4d4c-ae08-5d6b84b76a8f', '79e292e5-26f9-4cbd-b791-aee322fcf5e4', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f622549a-ea75-4c1a-8e2b-75353bab2519', 'd01532a1-b05d-4cda-a092-2c51809aa7ee', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f622549a-ea75-4c1a-8e2b-75353bab2519', '1ebab4f3-61f4-47c4-919b-e5d50812c64d', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f622549a-ea75-4c1a-8e2b-75353bab2519', 'f33c5f43-bcae-4dd0-beba-d264b413172b', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f622549a-ea75-4c1a-8e2b-75353bab2519', 'c9153faa-f437-4b84-bbdf-464d26daac3e', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('9f16f8f4-5be3-4392-8930-0be29d94d997', '2c8f0ee2-e25d-4774-9479-7bcc035526d3', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('9f16f8f4-5be3-4392-8930-0be29d94d997', 'e870d2b8-21bf-46d8-b7c9-d2cd27b693d5', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('9f16f8f4-5be3-4392-8930-0be29d94d997', '1af0dd37-5b10-4523-ac61-c9d4ca7ff194', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('9f16f8f4-5be3-4392-8930-0be29d94d997', 'd5b0c609-7d69-4ca8-99f7-6a8b4366c61c', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e114dda8-be3c-4a58-9f6c-c10e88e7a8b9', '435b02d2-1322-48b3-9003-9ad71f4b989e', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e114dda8-be3c-4a58-9f6c-c10e88e7a8b9', '954902cb-d99f-4b06-92dc-c40427bb380f', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e114dda8-be3c-4a58-9f6c-c10e88e7a8b9', '0d88cae6-a3f8-4683-8ba8-8776b99bb74c', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e114dda8-be3c-4a58-9f6c-c10e88e7a8b9', 'c4f9f93e-fb1f-4d69-a1dd-9032fc7014ae', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ee2a46e9-8082-44d2-8cdc-098c21f88766', '0b322a15-4881-4ec0-ad05-7d1e99ace392', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ee2a46e9-8082-44d2-8cdc-098c21f88766', '2cb5667d-d717-4503-a628-46e97e5fa77b', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ee2a46e9-8082-44d2-8cdc-098c21f88766', 'eba4c852-3fe8-424a-b284-b94a837a191f', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ee2a46e9-8082-44d2-8cdc-098c21f88766', 'd2efce71-199b-4f60-856f-7446babcdf45', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c081a3ee-ae10-4118-9709-7d82f6228d10', '8ec67b91-0c7b-4555-887a-bd26b285fc51', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c081a3ee-ae10-4118-9709-7d82f6228d10', '1002e89b-92ab-4808-8369-4482e2d61301', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c081a3ee-ae10-4118-9709-7d82f6228d10', '7a074b5d-f3b8-42fe-875a-ab123e025daf', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c081a3ee-ae10-4118-9709-7d82f6228d10', '12814d53-fab4-4803-b031-7e6f1a6a545a', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5d3deb58-08a3-4347-86e3-6f12f02a7ec4', 'ea75fc9b-276b-4826-b4a1-645ad3f1cf29', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5d3deb58-08a3-4347-86e3-6f12f02a7ec4', 'ee571349-bdc7-4688-b4fa-7aff2493a979', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5d3deb58-08a3-4347-86e3-6f12f02a7ec4', 'a2ebbc3a-8f4b-42fc-8a6a-cba439805e0e', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5d3deb58-08a3-4347-86e3-6f12f02a7ec4', '5e4e82dd-85de-4e2c-972d-e2f2f50d5473', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('7f4ed540-f3bd-4d9c-9a20-54f79cf9404f', '650c91ae-e5fc-4270-b444-287fb9411ae2', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('7f4ed540-f3bd-4d9c-9a20-54f79cf9404f', '4e266f55-6a10-470c-8b97-f91e39468905', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('7f4ed540-f3bd-4d9c-9a20-54f79cf9404f', 'd2828084-86fc-49b8-bdc7-ad822e599ae9', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('7f4ed540-f3bd-4d9c-9a20-54f79cf9404f', 'a44fcd68-21a6-4b29-a68e-287191a07cc2', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fbf6ee68-ee3a-422d-848e-3f56701f8f6b', '0cecfa45-7720-4341-acea-4b070a09f681', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fbf6ee68-ee3a-422d-848e-3f56701f8f6b', '1eec196f-eaff-42d1-8ef0-94372b6e9858', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fbf6ee68-ee3a-422d-848e-3f56701f8f6b', '49c75108-2252-4c99-9bcf-c4e4d153ee6f', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fbf6ee68-ee3a-422d-848e-3f56701f8f6b', '78c5c822-6bc7-4f0e-9f55-f765e0230cb7', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5df65321-5ef2-4962-978f-810bbd5d7b84', '7af67bc2-d6b1-470b-8d25-1eb013a5d119', 0, 'bye');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5df65321-5ef2-4962-978f-810bbd5d7b84', '34747c04-b5b3-4fb5-a54a-5fafe4697d64', 0, 'bye');
+INSERT INTO seats (pod, player, seat, result) VALUES ('97dd70df-8df8-490f-bee0-3297888b4f8b', '21a30c65-0783-468d-8727-398ecf4dd52e', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('97dd70df-8df8-490f-bee0-3297888b4f8b', '5ff28ef1-aa76-46f5-bd07-1e1bc62af078', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('97dd70df-8df8-490f-bee0-3297888b4f8b', '195a26cd-d70c-4cac-a924-b3baab6c886d', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('97dd70df-8df8-490f-bee0-3297888b4f8b', '62635dd9-cabb-45ca-b4e3-55d98dc0c884', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b5898933-d043-42a9-950c-40e5ba83413b', '38fba32b-c6c4-40e8-8bf7-b84eea7b74e4', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b5898933-d043-42a9-950c-40e5ba83413b', 'f33c5f43-bcae-4dd0-beba-d264b413172b', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b5898933-d043-42a9-950c-40e5ba83413b', '51353bae-b739-4fe2-94a8-d66dd2759a45', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b5898933-d043-42a9-950c-40e5ba83413b', '728a96e0-b09b-4b5e-97e0-64243b9e3c80', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6a206797-b2b1-49f9-b300-94d1e242608f', '0b0b69d5-8762-4973-b08e-7926e37e173e', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e6a2ae04-8b8c-4fc9-9571-384cb881d7b0', '99dc6562-144c-4439-a0bf-a0dd70673637', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e6a2ae04-8b8c-4fc9-9571-384cb881d7b0', '5875eea0-e342-48dd-99f0-759114c4a2f9', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e6a2ae04-8b8c-4fc9-9571-384cb881d7b0', 'c3253fa7-c17c-4574-b9ac-122dcb685e25', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e6a2ae04-8b8c-4fc9-9571-384cb881d7b0', '9ca21c8a-5f8f-492d-b530-87051fac3c82', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('436a3b29-a55b-4e76-8804-d07f46b1a47f', '55b6ec61-f6f7-4320-9b24-cd5ebd168e60', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('436a3b29-a55b-4e76-8804-d07f46b1a47f', '7c7ad7f1-d83c-4904-8b38-e47ec8881fad', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('436a3b29-a55b-4e76-8804-d07f46b1a47f', '6bd2e618-fa23-4c19-a98e-90228a705db0', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('436a3b29-a55b-4e76-8804-d07f46b1a47f', '5b4f12e1-7556-4049-bdad-a47225882137', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aedcb66f-f619-47a1-b85f-dd9d39377f4b', 'f2243a7d-44d6-48a6-a9f3-9aeb1d245bbe', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aedcb66f-f619-47a1-b85f-dd9d39377f4b', 'd4cb537d-bfad-4740-9c75-2003275addd4', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aedcb66f-f619-47a1-b85f-dd9d39377f4b', '3b037042-af74-4e80-b72e-f9d12a026f8c', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aedcb66f-f619-47a1-b85f-dd9d39377f4b', 'f6b6e952-c020-4baa-b1ea-2c7280d7fbb0', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fd5bfa31-b40b-43d7-bc75-e6234a47393a', '1431a2d8-24e9-40fc-b4d0-eb8637b4a9ab', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fd5bfa31-b40b-43d7-bc75-e6234a47393a', '195a26cd-d70c-4cac-a924-b3baab6c886d', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fd5bfa31-b40b-43d7-bc75-e6234a47393a', 'e1124234-3c6d-418e-ab97-f23a5ddd73dc', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fd5bfa31-b40b-43d7-bc75-e6234a47393a', '38fba32b-c6c4-40e8-8bf7-b84eea7b74e4', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c1b7dc12-bb02-4e7e-9ad9-3b2056810788', 'ecd5833e-6814-4727-ad9b-d7b49321a3da', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c1b7dc12-bb02-4e7e-9ad9-3b2056810788', '006f76da-e6da-4e78-894b-ccf094d333f6', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c1b7dc12-bb02-4e7e-9ad9-3b2056810788', '3cef6826-d934-4b3f-a4c7-8e1a1c47eb0b', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c1b7dc12-bb02-4e7e-9ad9-3b2056810788', '1595c0a0-78ba-4ae7-9a14-b925c31f31ab', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0560cc16-d104-4c2e-967e-b3d1d8263ef0', 'a1be0e4d-309f-404e-82e2-c147b237216c', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0560cc16-d104-4c2e-967e-b3d1d8263ef0', '4d4cdcf9-3aed-4a97-8fc5-37d921e15a8b', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0560cc16-d104-4c2e-967e-b3d1d8263ef0', '6de4807e-73df-4ddd-9500-f66cd694f807', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0560cc16-d104-4c2e-967e-b3d1d8263ef0', '7506e609-84b0-4016-966b-14e4ec647033', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b3f47a48-b072-4ab1-86b2-5f9cbf4da548', '66aac8d2-fe46-465a-a5c0-00433b47a6f0', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b3f47a48-b072-4ab1-86b2-5f9cbf4da548', '95856529-983f-48bf-99a5-0bcbe9e39439', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b3f47a48-b072-4ab1-86b2-5f9cbf4da548', '0b0b69d5-8762-4973-b08e-7926e37e173e', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b3f47a48-b072-4ab1-86b2-5f9cbf4da548', 'c97ab6f7-cd67-4bc2-9a7b-492e05c6b746', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('de07ddae-e802-4c50-a420-0a6f0c84f26a', 'e14dddec-0f85-46fb-8de2-7faf30ed2654', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('de07ddae-e802-4c50-a420-0a6f0c84f26a', 'e8e30811-1dd7-4708-a87c-916f7e755188', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('de07ddae-e802-4c50-a420-0a6f0c84f26a', 'f0372977-ead0-48cd-a251-f3e8627d5d21', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('de07ddae-e802-4c50-a420-0a6f0c84f26a', '5965face-6243-4ed1-9657-f40da460c771', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3b66fc5c-7fce-4e03-86e1-654d088bec8d', 'ccf04c01-be55-4ab7-9765-f85ec0549895', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3b66fc5c-7fce-4e03-86e1-654d088bec8d', 'e64bd383-f074-4a86-b6ed-2e00ca12fb53', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3b66fc5c-7fce-4e03-86e1-654d088bec8d', '9260843f-6a9b-4c0b-99ad-7bd6e13c222e', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3b66fc5c-7fce-4e03-86e1-654d088bec8d', 'c333179b-4b96-4b90-95be-fb78072b695b', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b5892329-9452-46c4-9e45-756b32d9186c', 'c240f849-9bea-4a3f-87d0-fd7efdc44004', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b5892329-9452-46c4-9e45-756b32d9186c', '9b4f2efb-675e-4ace-91cb-b9a2f9a4eadd', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b5892329-9452-46c4-9e45-756b32d9186c', '21a30c65-0783-468d-8727-398ecf4dd52e', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b5892329-9452-46c4-9e45-756b32d9186c', '42a367f9-d235-431c-8de0-25bbea4bca94', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3a913491-b2b4-42fc-99ec-d9d7f2cdbfc1', '0d2dc979-2a3c-4604-ab17-d498960ca2a8', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3a913491-b2b4-42fc-99ec-d9d7f2cdbfc1', '4b5b625a-b5d6-4f73-bcb8-df0581dfdd8f', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3a913491-b2b4-42fc-99ec-d9d7f2cdbfc1', '5ff28ef1-aa76-46f5-bd07-1e1bc62af078', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('3a913491-b2b4-42fc-99ec-d9d7f2cdbfc1', 'de44ff27-a589-4730-94a7-757d6aa7b116', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('794be10f-80fb-48ee-a06d-954554dbfb7b', 'd01b07dd-99dc-4b9f-8874-6c801b2ab28f', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('794be10f-80fb-48ee-a06d-954554dbfb7b', 'acbb8189-d9ab-411b-b549-4df8032942a2', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('794be10f-80fb-48ee-a06d-954554dbfb7b', 'c19da3cb-dcf2-4f1c-9596-a2a58f9e6fc5', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('794be10f-80fb-48ee-a06d-954554dbfb7b', '18c13825-b378-4f46-bcee-1eaae8d3d276', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5568c055-c06d-4335-8c9d-db4d8b5693fb', '728a96e0-b09b-4b5e-97e0-64243b9e3c80', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5568c055-c06d-4335-8c9d-db4d8b5693fb', '15b3e4d7-291b-4838-9fe9-20ee036bf272', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5568c055-c06d-4335-8c9d-db4d8b5693fb', '882f45d6-b387-4461-a50a-4b01876c13e1', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('5568c055-c06d-4335-8c9d-db4d8b5693fb', '50277c6a-6976-40c2-ba0c-103d83e49c52', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1167b32d-072e-4b3f-8161-931c70ba341a', '45506cf3-5ef9-402c-808f-d490ce4cd97b', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1167b32d-072e-4b3f-8161-931c70ba341a', 'f380fc01-efa8-4d13-88da-c5457cb4c6f7', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1167b32d-072e-4b3f-8161-931c70ba341a', '369310a4-c89f-498f-a083-5dfb5aa7dabe', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1167b32d-072e-4b3f-8161-931c70ba341a', 'eb08414f-1ca9-4cd0-8673-32dc7bc45722', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('925df2a5-ac34-4c4c-86cb-703b53f6eba4', '0c143c41-eda0-4584-b01a-57d3948f4bee', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('925df2a5-ac34-4c4c-86cb-703b53f6eba4', 'c8cf4eb9-1267-489c-88ae-88d95d061954', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('925df2a5-ac34-4c4c-86cb-703b53f6eba4', '3f89032f-c45e-44d8-947c-20d822a12ea4', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('925df2a5-ac34-4c4c-86cb-703b53f6eba4', '74de865d-6ef9-496b-bbd1-bf59b4a77293', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('eb2392da-adf1-48d0-b374-97eae2652590', '62635dd9-cabb-45ca-b4e3-55d98dc0c884', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('eb2392da-adf1-48d0-b374-97eae2652590', 'd7cf8c00-ebbf-4aab-83f5-af4e522b350a', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('eb2392da-adf1-48d0-b374-97eae2652590', 'c3f1fdda-ae40-4469-b9a8-b73445494455', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('eb2392da-adf1-48d0-b374-97eae2652590', '7c45cd3c-7707-4e98-b1ef-99712c54944a', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8079412c-a352-4e08-b9cb-4ea7d49c15fb', '500c9705-e66f-403a-b43f-e12b18427e08', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8079412c-a352-4e08-b9cb-4ea7d49c15fb', 'a2858011-156a-4c6a-95b0-219dfae3a378', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8079412c-a352-4e08-b9cb-4ea7d49c15fb', '51353bae-b739-4fe2-94a8-d66dd2759a45', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8079412c-a352-4e08-b9cb-4ea7d49c15fb', '8e849922-36d4-42b9-982d-cde5cb97e3df', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('100f3ead-de00-4753-aa76-26b703710588', '7656bd49-6cc9-41d3-8dc1-05152446b2bf', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('100f3ead-de00-4753-aa76-26b703710588', 'c5ad4108-96a6-40c4-8706-8e14ccc39586', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6a206797-b2b1-49f9-b300-94d1e242608f', '63aebcf4-a90f-4e53-838f-a9f2bff0276d', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6a206797-b2b1-49f9-b300-94d1e242608f', 'e64bd383-f074-4a86-b6ed-2e00ca12fb53', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6a206797-b2b1-49f9-b300-94d1e242608f', '8ec67b91-0c7b-4555-887a-bd26b285fc51', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f09f6de9-f59e-4dbb-b1cf-c62641256d69', '3cef6826-d934-4b3f-a4c7-8e1a1c47eb0b', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f09f6de9-f59e-4dbb-b1cf-c62641256d69', 'a2ebbc3a-8f4b-42fc-8a6a-cba439805e0e', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f09f6de9-f59e-4dbb-b1cf-c62641256d69', '2cb5667d-d717-4503-a628-46e97e5fa77b', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f09f6de9-f59e-4dbb-b1cf-c62641256d69', 'c5ad4108-96a6-40c4-8706-8e14ccc39586', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('173bb54e-6bf1-49a1-8005-1e9dad91dff9', '0d88cae6-a3f8-4683-8ba8-8776b99bb74c', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('173bb54e-6bf1-49a1-8005-1e9dad91dff9', 'fa198306-4d98-4d10-b3ca-633e69f14b9e', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('173bb54e-6bf1-49a1-8005-1e9dad91dff9', '1ebab4f3-61f4-47c4-919b-e5d50812c64d', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('173bb54e-6bf1-49a1-8005-1e9dad91dff9', 'ea75fc9b-276b-4826-b4a1-645ad3f1cf29', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ca43b8a2-009f-4a9a-b649-19d3259911fe', 'c4f9f93e-fb1f-4d69-a1dd-9032fc7014ae', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ca43b8a2-009f-4a9a-b649-19d3259911fe', '50277c6a-6976-40c2-ba0c-103d83e49c52', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ca43b8a2-009f-4a9a-b649-19d3259911fe', '7c7ad7f1-d83c-4904-8b38-e47ec8881fad', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ca43b8a2-009f-4a9a-b649-19d3259911fe', '16ff8065-871d-40ab-9c8b-7997ff8e07d8', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1aeb2ec1-8fc0-415b-b521-499272ff399e', 'd2828084-86fc-49b8-bdc7-ad822e599ae9', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1aeb2ec1-8fc0-415b-b521-499272ff399e', '5b4f12e1-7556-4049-bdad-a47225882137', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1aeb2ec1-8fc0-415b-b521-499272ff399e', '95856529-983f-48bf-99a5-0bcbe9e39439', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1aeb2ec1-8fc0-415b-b521-499272ff399e', 'd01b07dd-99dc-4b9f-8874-6c801b2ab28f', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a30539d3-7469-4443-84d7-a4732b33af37', 'd5b0c609-7d69-4ca8-99f7-6a8b4366c61c', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a30539d3-7469-4443-84d7-a4732b33af37', '6de4807e-73df-4ddd-9500-f66cd694f807', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a30539d3-7469-4443-84d7-a4732b33af37', '1eec196f-eaff-42d1-8ef0-94372b6e9858', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a30539d3-7469-4443-84d7-a4732b33af37', '48861d2d-ba57-4aff-8e94-e7b4814d0bbd', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b56d1cab-403c-4992-b5a5-bc404ba0790e', 'c97ab6f7-cd67-4bc2-9a7b-492e05c6b746', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b56d1cab-403c-4992-b5a5-bc404ba0790e', '3a7e92c6-6aff-4fca-b682-fca92750b4dd', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b56d1cab-403c-4992-b5a5-bc404ba0790e', '435b02d2-1322-48b3-9003-9ad71f4b989e', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b56d1cab-403c-4992-b5a5-bc404ba0790e', 'e14dddec-0f85-46fb-8de2-7faf30ed2654', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('00b34e1f-5485-4ba7-962e-98941997548b', 'f0372977-ead0-48cd-a251-f3e8627d5d21', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('00b34e1f-5485-4ba7-962e-98941997548b', '3f89032f-c45e-44d8-947c-20d822a12ea4', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('00b34e1f-5485-4ba7-962e-98941997548b', 'd7cf8c00-ebbf-4aab-83f5-af4e522b350a', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('00b34e1f-5485-4ba7-962e-98941997548b', 'f2243a7d-44d6-48a6-a9f3-9aeb1d245bbe', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('7521971d-080e-4a59-bbbc-be92c56c8dc9', '1af0dd37-5b10-4523-ac61-c9d4ca7ff194', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('7521971d-080e-4a59-bbbc-be92c56c8dc9', 'c3f1fdda-ae40-4469-b9a8-b73445494455', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('7521971d-080e-4a59-bbbc-be92c56c8dc9', '66aac8d2-fe46-465a-a5c0-00433b47a6f0', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('7521971d-080e-4a59-bbbc-be92c56c8dc9', '1002e89b-92ab-4808-8369-4482e2d61301', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1ae01070-5b85-40e5-b7a5-48a7bcb47b25', 'eba4c852-3fe8-424a-b284-b94a837a191f', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1ae01070-5b85-40e5-b7a5-48a7bcb47b25', '3b037042-af74-4e80-b72e-f9d12a026f8c', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1ae01070-5b85-40e5-b7a5-48a7bcb47b25', '45506cf3-5ef9-402c-808f-d490ce4cd97b', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('1ae01070-5b85-40e5-b7a5-48a7bcb47b25', '9b4f2efb-675e-4ace-91cb-b9a2f9a4eadd', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a71f1345-d370-4c62-9acd-b631ee7aca53', 'c3253fa7-c17c-4574-b9ac-122dcb685e25', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a71f1345-d370-4c62-9acd-b631ee7aca53', 'd2efce71-199b-4f60-856f-7446babcdf45', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a71f1345-d370-4c62-9acd-b631ee7aca53', '2c8f0ee2-e25d-4774-9479-7bcc035526d3', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a71f1345-d370-4c62-9acd-b631ee7aca53', '0d2dc979-2a3c-4604-ab17-d498960ca2a8', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c7c0170b-ea16-49bd-8388-291746b5e954', '74de865d-6ef9-496b-bbd1-bf59b4a77293', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c7c0170b-ea16-49bd-8388-291746b5e954', '6bd2e618-fa23-4c19-a98e-90228a705db0', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c7c0170b-ea16-49bd-8388-291746b5e954', '4e266f55-6a10-470c-8b97-f91e39468905', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c7c0170b-ea16-49bd-8388-291746b5e954', 'f380fc01-efa8-4d13-88da-c5457cb4c6f7', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('50d7d713-4bee-40f9-b88a-91379b1373c3', '369310a4-c89f-498f-a083-5dfb5aa7dabe', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('50d7d713-4bee-40f9-b88a-91379b1373c3', 'e1124234-3c6d-418e-ab97-f23a5ddd73dc', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('50d7d713-4bee-40f9-b88a-91379b1373c3', 'ee571349-bdc7-4688-b4fa-7aff2493a979', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('50d7d713-4bee-40f9-b88a-91379b1373c3', '5875eea0-e342-48dd-99f0-759114c4a2f9', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f9409b05-6ba5-4697-9e35-73ceeabb5256', '9ca21c8a-5f8f-492d-b530-87051fac3c82', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f9409b05-6ba5-4697-9e35-73ceeabb5256', '5965face-6243-4ed1-9657-f40da460c771', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f9409b05-6ba5-4697-9e35-73ceeabb5256', '15b3e4d7-291b-4838-9fe9-20ee036bf272', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f9409b05-6ba5-4697-9e35-73ceeabb5256', '650c91ae-e5fc-4270-b444-287fb9411ae2', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('11f372ea-d823-41e9-9c1d-bcbb1fe96b4f', '78c5c822-6bc7-4f0e-9f55-f765e0230cb7', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('11f372ea-d823-41e9-9c1d-bcbb1fe96b4f', '18c13825-b378-4f46-bcee-1eaae8d3d276', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('11f372ea-d823-41e9-9c1d-bcbb1fe96b4f', '3f65384c-f9c3-414f-90f3-a1f55d3a34c8', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('11f372ea-d823-41e9-9c1d-bcbb1fe96b4f', 'a2858011-156a-4c6a-95b0-219dfae3a378', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('63c9e150-b2da-465a-8228-340110d6ff45', 'f6b6e952-c020-4baa-b1ea-2c7280d7fbb0', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('63c9e150-b2da-465a-8228-340110d6ff45', 'd01532a1-b05d-4cda-a092-2c51809aa7ee', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('63c9e150-b2da-465a-8228-340110d6ff45', '1431a2d8-24e9-40fc-b4d0-eb8637b4a9ab', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('63c9e150-b2da-465a-8228-340110d6ff45', 'c8cf4eb9-1267-489c-88ae-88d95d061954', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6910e5cc-2985-448a-893e-e212c3f78e14', '5e4e82dd-85de-4e2c-972d-e2f2f50d5473', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6910e5cc-2985-448a-893e-e212c3f78e14', '9260843f-6a9b-4c0b-99ad-7bd6e13c222e', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6910e5cc-2985-448a-893e-e212c3f78e14', 'acbb8189-d9ab-411b-b549-4df8032942a2', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6910e5cc-2985-448a-893e-e212c3f78e14', '954902cb-d99f-4b06-92dc-c40427bb380f', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('097894ef-e088-4abd-bcd4-2898995782c4', '882f45d6-b387-4461-a50a-4b01876c13e1', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('097894ef-e088-4abd-bcd4-2898995782c4', 'c240f849-9bea-4a3f-87d0-fd7efdc44004', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('097894ef-e088-4abd-bcd4-2898995782c4', '500c9705-e66f-403a-b43f-e12b18427e08', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('097894ef-e088-4abd-bcd4-2898995782c4', 'd2e0eb87-c9b7-4c49-9571-983cc0681153', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('41327bb0-a42e-4991-90d2-a7c5d58a0225', '8e849922-36d4-42b9-982d-cde5cb97e3df', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('41327bb0-a42e-4991-90d2-a7c5d58a0225', 'c19da3cb-dcf2-4f1c-9596-a2a58f9e6fc5', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('41327bb0-a42e-4991-90d2-a7c5d58a0225', 'd4cb537d-bfad-4740-9c75-2003275addd4', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('41327bb0-a42e-4991-90d2-a7c5d58a0225', '28cd021e-5e43-489f-935f-f916dfd1c7d7', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e31de9bd-9594-408c-9f87-6f7903522d68', '79e292e5-26f9-4cbd-b791-aee322fcf5e4', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e31de9bd-9594-408c-9f87-6f7903522d68', 'a44fcd68-21a6-4b29-a68e-287191a07cc2', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e31de9bd-9594-408c-9f87-6f7903522d68', '0cecfa45-7720-4341-acea-4b070a09f681', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e31de9bd-9594-408c-9f87-6f7903522d68', 'ecd5833e-6814-4727-ad9b-d7b49321a3da', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6ec72580-13a4-4c3f-847a-5519c1a20352', '12814d53-fab4-4803-b031-7e6f1a6a545a', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6ec72580-13a4-4c3f-847a-5519c1a20352', 'b6190ed6-28a8-415e-bd9d-0a944444cfe0', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6ec72580-13a4-4c3f-847a-5519c1a20352', '49c75108-2252-4c99-9bcf-c4e4d153ee6f', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6ec72580-13a4-4c3f-847a-5519c1a20352', '006f76da-e6da-4e78-894b-ccf094d333f6', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ad2f9e96-3b96-454b-9ef4-c7e8e891dce1', '7c45cd3c-7707-4e98-b1ef-99712c54944a', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ad2f9e96-3b96-454b-9ef4-c7e8e891dce1', 'c333179b-4b96-4b90-95be-fb78072b695b', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ad2f9e96-3b96-454b-9ef4-c7e8e891dce1', 'bf56abda-1812-47ea-86b5-0cc4eb869596', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ad2f9e96-3b96-454b-9ef4-c7e8e891dce1', '99dc6562-144c-4439-a0bf-a0dd70673637', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aa1ba49f-48d4-441d-b89f-95b32faae16f', 'eb08414f-1ca9-4cd0-8673-32dc7bc45722', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aa1ba49f-48d4-441d-b89f-95b32faae16f', 'a1be0e4d-309f-404e-82e2-c147b237216c', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aa1ba49f-48d4-441d-b89f-95b32faae16f', '55b6ec61-f6f7-4320-9b24-cd5ebd168e60', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aa1ba49f-48d4-441d-b89f-95b32faae16f', '7af67bc2-d6b1-470b-8d25-1eb013a5d119', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e53aecf8-3eda-4d0f-97e1-40b35f2118bb', '192439d0-334b-4476-a707-82eb7a3140cd', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e53aecf8-3eda-4d0f-97e1-40b35f2118bb', '1595c0a0-78ba-4ae7-9a14-b925c31f31ab', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e53aecf8-3eda-4d0f-97e1-40b35f2118bb', '4d4cdcf9-3aed-4a97-8fc5-37d921e15a8b', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('e53aecf8-3eda-4d0f-97e1-40b35f2118bb', 'ccf04c01-be55-4ab7-9765-f85ec0549895', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('22d67a16-d7e7-44bc-969a-14ee1a0c9784', 'de44ff27-a589-4730-94a7-757d6aa7b116', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('22d67a16-d7e7-44bc-969a-14ee1a0c9784', 'c9153faa-f437-4b84-bbdf-464d26daac3e', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('22d67a16-d7e7-44bc-969a-14ee1a0c9784', '706f3960-9ba2-468e-bfbd-91d4a7ef5250', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('22d67a16-d7e7-44bc-969a-14ee1a0c9784', 'e8e30811-1dd7-4708-a87c-916f7e755188', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6a48ba19-7d2e-427d-9ac9-9f7e66b91c1e', 'f4e3a4e1-58a7-4e48-8a69-0969160eade6', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6a48ba19-7d2e-427d-9ac9-9f7e66b91c1e', '7656bd49-6cc9-41d3-8dc1-05152446b2bf', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6a48ba19-7d2e-427d-9ac9-9f7e66b91c1e', '0c143c41-eda0-4584-b01a-57d3948f4bee', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6a48ba19-7d2e-427d-9ac9-9f7e66b91c1e', '34747c04-b5b3-4fb5-a54a-5fafe4697d64', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b22fc349-04df-4ea7-a76d-637f43eea067', '4b5b625a-b5d6-4f73-bcb8-df0581dfdd8f', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b22fc349-04df-4ea7-a76d-637f43eea067', '7a074b5d-f3b8-42fe-875a-ab123e025daf', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b22fc349-04df-4ea7-a76d-637f43eea067', 'e870d2b8-21bf-46d8-b7c9-d2cd27b693d5', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b22fc349-04df-4ea7-a76d-637f43eea067', '0b322a15-4881-4ec0-ad05-7d1e99ace392', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b2566dd8-f7b7-4e8c-838e-af4def32425d', '99dc6562-144c-4439-a0bf-a0dd70673637', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b2566dd8-f7b7-4e8c-838e-af4def32425d', '3f65384c-f9c3-414f-90f3-a1f55d3a34c8', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b2566dd8-f7b7-4e8c-838e-af4def32425d', '1eec196f-eaff-42d1-8ef0-94372b6e9858', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('b2566dd8-f7b7-4e8c-838e-af4def32425d', 'ee571349-bdc7-4688-b4fa-7aff2493a979', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('d9dcf957-cc77-4d75-b213-f68c6889bdba', '28cd021e-5e43-489f-935f-f916dfd1c7d7', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('d9dcf957-cc77-4d75-b213-f68c6889bdba', '006f76da-e6da-4e78-894b-ccf094d333f6', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('d9dcf957-cc77-4d75-b213-f68c6889bdba', '9260843f-6a9b-4c0b-99ad-7bd6e13c222e', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('d9dcf957-cc77-4d75-b213-f68c6889bdba', '4b5b625a-b5d6-4f73-bcb8-df0581dfdd8f', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a33c7001-e530-4671-b51c-f2346554ec66', 'e64bd383-f074-4a86-b6ed-2e00ca12fb53', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a33c7001-e530-4671-b51c-f2346554ec66', 'eb08414f-1ca9-4cd0-8673-32dc7bc45722', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a33c7001-e530-4671-b51c-f2346554ec66', '7c7ad7f1-d83c-4904-8b38-e47ec8881fad', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a33c7001-e530-4671-b51c-f2346554ec66', 'c3253fa7-c17c-4574-b9ac-122dcb685e25', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('dedc0e2e-f406-4dd3-a331-6abc4b6964ec', '34747c04-b5b3-4fb5-a54a-5fafe4697d64', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('dedc0e2e-f406-4dd3-a331-6abc4b6964ec', '5965face-6243-4ed1-9657-f40da460c771', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('dedc0e2e-f406-4dd3-a331-6abc4b6964ec', 'f2243a7d-44d6-48a6-a9f3-9aeb1d245bbe', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('dedc0e2e-f406-4dd3-a331-6abc4b6964ec', '0d88cae6-a3f8-4683-8ba8-8776b99bb74c', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('04ee7baf-08d9-4ac2-8e50-0dd31a52f667', '954902cb-d99f-4b06-92dc-c40427bb380f', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('04ee7baf-08d9-4ac2-8e50-0dd31a52f667', '8ec67b91-0c7b-4555-887a-bd26b285fc51', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('04ee7baf-08d9-4ac2-8e50-0dd31a52f667', '15b3e4d7-291b-4838-9fe9-20ee036bf272', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('04ee7baf-08d9-4ac2-8e50-0dd31a52f667', 'd7cf8c00-ebbf-4aab-83f5-af4e522b350a', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('20d9aede-f2a6-4028-9a8d-d69ed960f700', '5875eea0-e342-48dd-99f0-759114c4a2f9', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('20d9aede-f2a6-4028-9a8d-d69ed960f700', '3f89032f-c45e-44d8-947c-20d822a12ea4', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('20d9aede-f2a6-4028-9a8d-d69ed960f700', '650c91ae-e5fc-4270-b444-287fb9411ae2', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('20d9aede-f2a6-4028-9a8d-d69ed960f700', '78c5c822-6bc7-4f0e-9f55-f765e0230cb7', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('981d1ea8-98d0-46c8-ac9d-b168e9264237', '16ff8065-871d-40ab-9c8b-7997ff8e07d8', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('981d1ea8-98d0-46c8-ac9d-b168e9264237', 'a44fcd68-21a6-4b29-a68e-287191a07cc2', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('981d1ea8-98d0-46c8-ac9d-b168e9264237', '38fba32b-c6c4-40e8-8bf7-b84eea7b74e4', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('981d1ea8-98d0-46c8-ac9d-b168e9264237', 'de44ff27-a589-4730-94a7-757d6aa7b116', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0b1f73bd-62da-4f49-ab59-f3c02329dbc8', '51353bae-b739-4fe2-94a8-d66dd2759a45', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0b1f73bd-62da-4f49-ab59-f3c02329dbc8', '2c8f0ee2-e25d-4774-9479-7bcc035526d3', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0b1f73bd-62da-4f49-ab59-f3c02329dbc8', 'c333179b-4b96-4b90-95be-fb78072b695b', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0b1f73bd-62da-4f49-ab59-f3c02329dbc8', 'f6b6e952-c020-4baa-b1ea-2c7280d7fbb0', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('98e8b338-6d24-4199-8c5e-2e58d0599781', '0b322a15-4881-4ec0-ad05-7d1e99ace392', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('98e8b338-6d24-4199-8c5e-2e58d0599781', '45506cf3-5ef9-402c-808f-d490ce4cd97b', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('98e8b338-6d24-4199-8c5e-2e58d0599781', '6bd2e618-fa23-4c19-a98e-90228a705db0', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('98e8b338-6d24-4199-8c5e-2e58d0599781', '3cef6826-d934-4b3f-a4c7-8e1a1c47eb0b', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0e978848-0e19-439e-b3a5-38f781330060', '1595c0a0-78ba-4ae7-9a14-b925c31f31ab', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0e978848-0e19-439e-b3a5-38f781330060', '7a074b5d-f3b8-42fe-875a-ab123e025daf', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0e978848-0e19-439e-b3a5-38f781330060', '3a7e92c6-6aff-4fca-b682-fca92750b4dd', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('0e978848-0e19-439e-b3a5-38f781330060', 'd2efce71-199b-4f60-856f-7446babcdf45', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fa77af43-24a8-4c09-8577-26a8b7f53d91', 'a2858011-156a-4c6a-95b0-219dfae3a378', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fa77af43-24a8-4c09-8577-26a8b7f53d91', 'c4f9f93e-fb1f-4d69-a1dd-9032fc7014ae', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fa77af43-24a8-4c09-8577-26a8b7f53d91', '74de865d-6ef9-496b-bbd1-bf59b4a77293', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('fa77af43-24a8-4c09-8577-26a8b7f53d91', '12814d53-fab4-4803-b031-7e6f1a6a545a', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('49a1c73a-bedc-47cc-9be8-33df7878642f', '1002e89b-92ab-4808-8369-4482e2d61301', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('49a1c73a-bedc-47cc-9be8-33df7878642f', 'd4cb537d-bfad-4740-9c75-2003275addd4', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('49a1c73a-bedc-47cc-9be8-33df7878642f', 'd01532a1-b05d-4cda-a092-2c51809aa7ee', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('49a1c73a-bedc-47cc-9be8-33df7878642f', 'a1be0e4d-309f-404e-82e2-c147b237216c', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('87e11a55-679e-4927-92c5-f32c6473aaa0', 'c8cf4eb9-1267-489c-88ae-88d95d061954', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('87e11a55-679e-4927-92c5-f32c6473aaa0', '4d4cdcf9-3aed-4a97-8fc5-37d921e15a8b', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('87e11a55-679e-4927-92c5-f32c6473aaa0', '55b6ec61-f6f7-4320-9b24-cd5ebd168e60', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('87e11a55-679e-4927-92c5-f32c6473aaa0', 'c9153faa-f437-4b84-bbdf-464d26daac3e', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aff9b551-63cd-4001-85f1-a2767952c541', 'f380fc01-efa8-4d13-88da-c5457cb4c6f7', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aff9b551-63cd-4001-85f1-a2767952c541', '7c45cd3c-7707-4e98-b1ef-99712c54944a', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aff9b551-63cd-4001-85f1-a2767952c541', 'ea75fc9b-276b-4826-b4a1-645ad3f1cf29', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('aff9b551-63cd-4001-85f1-a2767952c541', '706f3960-9ba2-468e-bfbd-91d4a7ef5250', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a5e08c47-5f4b-402a-82fb-25fd801b3a86', '6de4807e-73df-4ddd-9500-f66cd694f807', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a5e08c47-5f4b-402a-82fb-25fd801b3a86', '195a26cd-d70c-4cac-a924-b3baab6c886d', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a5e08c47-5f4b-402a-82fb-25fd801b3a86', 'd2828084-86fc-49b8-bdc7-ad822e599ae9', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('a5e08c47-5f4b-402a-82fb-25fd801b3a86', '1af0dd37-5b10-4523-ac61-c9d4ca7ff194', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8dd25a1f-1cd9-43e4-a9de-76d88cb7d93e', '7af67bc2-d6b1-470b-8d25-1eb013a5d119', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8dd25a1f-1cd9-43e4-a9de-76d88cb7d93e', 'c3f1fdda-ae40-4469-b9a8-b73445494455', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8dd25a1f-1cd9-43e4-a9de-76d88cb7d93e', 'e14dddec-0f85-46fb-8de2-7faf30ed2654', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8dd25a1f-1cd9-43e4-a9de-76d88cb7d93e', '1431a2d8-24e9-40fc-b4d0-eb8637b4a9ab', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f3ffbb4c-f888-486d-8280-52a8895cb728', '66aac8d2-fe46-465a-a5c0-00433b47a6f0', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f3ffbb4c-f888-486d-8280-52a8895cb728', '435b02d2-1322-48b3-9003-9ad71f4b989e', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f3ffbb4c-f888-486d-8280-52a8895cb728', 'c19da3cb-dcf2-4f1c-9596-a2a58f9e6fc5', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f3ffbb4c-f888-486d-8280-52a8895cb728', '7656bd49-6cc9-41d3-8dc1-05152446b2bf', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('52f2dd1c-01e0-48ff-8046-b13618cc73e4', 'd01b07dd-99dc-4b9f-8874-6c801b2ab28f', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('52f2dd1c-01e0-48ff-8046-b13618cc73e4', 'e870d2b8-21bf-46d8-b7c9-d2cd27b693d5', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('52f2dd1c-01e0-48ff-8046-b13618cc73e4', 'e1124234-3c6d-418e-ab97-f23a5ddd73dc', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('52f2dd1c-01e0-48ff-8046-b13618cc73e4', '0b0b69d5-8762-4973-b08e-7926e37e173e', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6df78207-8a58-4408-a514-9f87d290000a', '18c13825-b378-4f46-bcee-1eaae8d3d276', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6df78207-8a58-4408-a514-9f87d290000a', 'c97ab6f7-cd67-4bc2-9a7b-492e05c6b746', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6df78207-8a58-4408-a514-9f87d290000a', '0c143c41-eda0-4584-b01a-57d3948f4bee', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('6df78207-8a58-4408-a514-9f87d290000a', '369310a4-c89f-498f-a083-5dfb5aa7dabe', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('dfa41188-d6aa-4033-9d66-0c7883a78f03', 'e8e30811-1dd7-4708-a87c-916f7e755188', 1, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('dfa41188-d6aa-4033-9d66-0c7883a78f03', 'a2ebbc3a-8f4b-42fc-8a6a-cba439805e0e', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('dfa41188-d6aa-4033-9d66-0c7883a78f03', '500c9705-e66f-403a-b43f-e12b18427e08', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('dfa41188-d6aa-4033-9d66-0c7883a78f03', 'ccf04c01-be55-4ab7-9765-f85ec0549895', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('bc665e6f-4c44-477b-9715-57a86309b705', 'd2e0eb87-c9b7-4c49-9571-983cc0681153', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('bc665e6f-4c44-477b-9715-57a86309b705', '3b037042-af74-4e80-b72e-f9d12a026f8c', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('bc665e6f-4c44-477b-9715-57a86309b705', '2cb5667d-d717-4503-a628-46e97e5fa77b', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('bc665e6f-4c44-477b-9715-57a86309b705', '79e292e5-26f9-4cbd-b791-aee322fcf5e4', 4, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('124d96da-58c1-422a-a5fd-45319bb74fc5', '62635dd9-cabb-45ca-b4e3-55d98dc0c884', 1, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('124d96da-58c1-422a-a5fd-45319bb74fc5', '48861d2d-ba57-4aff-8e94-e7b4814d0bbd', 2, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('124d96da-58c1-422a-a5fd-45319bb74fc5', 'acbb8189-d9ab-411b-b549-4df8032942a2', 3, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('124d96da-58c1-422a-a5fd-45319bb74fc5', 'eba4c852-3fe8-424a-b284-b94a837a191f', 4, 'draw');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f827d496-9754-4936-9c88-6f9ee4665b76', 'bf56abda-1812-47ea-86b5-0cc4eb869596', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f827d496-9754-4936-9c88-6f9ee4665b76', '0cecfa45-7720-4341-acea-4b070a09f681', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f827d496-9754-4936-9c88-6f9ee4665b76', '192439d0-334b-4476-a707-82eb7a3140cd', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f827d496-9754-4936-9c88-6f9ee4665b76', 'd5b0c609-7d69-4ca8-99f7-6a8b4366c61c', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8ca3ea58-c4ab-4cd1-8761-3443888fba59', 'c5ad4108-96a6-40c4-8706-8e14ccc39586', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8ca3ea58-c4ab-4cd1-8761-3443888fba59', '5b4f12e1-7556-4049-bdad-a47225882137', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8ca3ea58-c4ab-4cd1-8761-3443888fba59', '50277c6a-6976-40c2-ba0c-103d83e49c52', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('8ca3ea58-c4ab-4cd1-8761-3443888fba59', 'c240f849-9bea-4a3f-87d0-fd7efdc44004', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f159a154-1b72-47a7-b037-93c9661d3656', '95856529-983f-48bf-99a5-0bcbe9e39439', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f159a154-1b72-47a7-b037-93c9661d3656', '8e849922-36d4-42b9-982d-cde5cb97e3df', 2, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f159a154-1b72-47a7-b037-93c9661d3656', '5e4e82dd-85de-4e2c-972d-e2f2f50d5473', 3, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('f159a154-1b72-47a7-b037-93c9661d3656', '21a30c65-0783-468d-8727-398ecf4dd52e', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c4a9a353-2216-4430-a614-d1f33805c61b', '4e266f55-6a10-470c-8b97-f91e39468905', 1, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c4a9a353-2216-4430-a614-d1f33805c61b', '728a96e0-b09b-4b5e-97e0-64243b9e3c80', 2, 'win');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c4a9a353-2216-4430-a614-d1f33805c61b', 'fa198306-4d98-4d10-b3ca-633e69f14b9e', 3, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('c4a9a353-2216-4430-a614-d1f33805c61b', 'f0372977-ead0-48cd-a251-f3e8627d5d21', 4, 'loss');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ad42e591-4510-49ad-ad51-caaed947353c', '63aebcf4-a90f-4e53-838f-a9f2bff0276d', 0, 'bye');
+INSERT INTO seats (pod, player, seat, result) VALUES ('ad42e591-4510-49ad-ad51-caaed947353c', '882f45d6-b387-4461-a50a-4b01876c13e1', 0, 'bye');
