@@ -21,14 +21,14 @@ public class TournamentPlayerService {
   @Autowired private final TournamentPlayerRepository tournamentPlayerRepository;
 
   // TODO: find a better way to declare these... db-table / cols related to tournament? properties?
-  private static final BigDecimal STARTING_SCORE = new BigDecimal("1500.00");
-  private static final BigDecimal WAGER_AMOUNT = new BigDecimal("0.07");
-  private static final int NUMBER_OF_DIGITS_BEHIND_DECIMAL_POINT = 5;
-  private static final BigDecimal SEAT_ONE_MULTIPLICATOR = new BigDecimal("1.32");
-  private static final BigDecimal SEAT_TWO_MULTIPLICATOR = new BigDecimal("1.05");
-  private static final BigDecimal SEAT_THREE_MULTIPLICATOR = new BigDecimal("0.91");
-  private static final BigDecimal SEAT_FOUR_MULTIPLICATOR = new BigDecimal("0.72");
-  private static final String DIVIDER_FOR_DRAW = "4.000";
+  public static final BigDecimal STARTING_SCORE = new BigDecimal("1000.00");
+  public static final BigDecimal WAGER_AMOUNT = new BigDecimal("0.07");
+  public static final int NUMBER_OF_DIGITS_BEHIND_DECIMAL_POINT = 5;
+  public static final BigDecimal SEAT_ONE_MULTIPLICATOR = new BigDecimal("1.32");
+  public static final BigDecimal SEAT_TWO_MULTIPLICATOR = new BigDecimal("1.05");
+  public static final BigDecimal SEAT_THREE_MULTIPLICATOR = new BigDecimal("0.91");
+  public static final BigDecimal SEAT_FOUR_MULTIPLICATOR = new BigDecimal("0.72");
+  public static final String DIVIDER_FOR_DRAW = "4.000";
 
   @Autowired
   private PodService podService;

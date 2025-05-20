@@ -78,10 +78,10 @@ class TournamentPlayerServiceTest {
             .extracting(tp -> tp.getPlayer().getNickname(),
                     TournamentPlayer::getScore)
             .containsExactlyInAnyOrder(
-                    new Tuple("Player1", new BigDecimal("1781.40000")),
-                    new Tuple("Player2", new BigDecimal("1389.75000")),
-                    new Tuple("Player3", new BigDecimal("1404.45000")),
-                    new Tuple("Player4", new BigDecimal("1424.40000"))
+                    new Tuple("Player1", new BigDecimal("1187.60000")),
+                    new Tuple("Player2", new BigDecimal("926.50000")),
+                    new Tuple("Player3", new BigDecimal("936.30000")),
+                    new Tuple("Player4", new BigDecimal("949.60000"))
             );
   }
 
@@ -102,10 +102,10 @@ class TournamentPlayerServiceTest {
             .extracting(tp -> tp.getPlayer().getNickname(),
                     TournamentPlayer::getScore)
             .containsExactlyInAnyOrder(
-                    new Tuple("Player1", new BigDecimal("1361.40000")),
-                    new Tuple("Player2", new BigDecimal("1809.75000")),
-                    new Tuple("Player3", new BigDecimal("1404.45000")),
-                    new Tuple("Player4", new BigDecimal("1424.40000"))
+                    new Tuple("Player1", new BigDecimal("907.60000")),
+                    new Tuple("Player2", new BigDecimal("1206.50000")),
+                    new Tuple("Player3", new BigDecimal("936.30000")),
+                    new Tuple("Player4", new BigDecimal("949.60000"))
             );
   }
 
@@ -126,10 +126,10 @@ class TournamentPlayerServiceTest {
             .extracting(tp -> tp.getPlayer().getNickname(),
                     TournamentPlayer::getScore)
             .containsExactlyInAnyOrder(
-                    new Tuple("Player1", new BigDecimal("1361.40000")),
-                    new Tuple("Player2", new BigDecimal("1389.75000")),
-                    new Tuple("Player3", new BigDecimal("1824.45000")),
-                    new Tuple("Player4", new BigDecimal("1424.40000"))
+                    new Tuple("Player1", new BigDecimal("907.60000")),
+                    new Tuple("Player2", new BigDecimal("926.50000")),
+                    new Tuple("Player3", new BigDecimal("1216.30000")),
+                    new Tuple("Player4", new BigDecimal("949.60000"))
             );
   }
 
@@ -150,10 +150,10 @@ class TournamentPlayerServiceTest {
             .extracting(tp -> tp.getPlayer().getNickname(),
                     TournamentPlayer::getScore)
             .containsExactlyInAnyOrder(
-                    new Tuple("Player1", new BigDecimal("1361.40000")),
-                    new Tuple("Player2", new BigDecimal("1389.75000")),
-                    new Tuple("Player3", new BigDecimal("1404.45000")),
-                    new Tuple("Player4", new BigDecimal("1844.40000"))
+                    new Tuple("Player1", new BigDecimal("907.60000")),
+                    new Tuple("Player2", new BigDecimal("926.50000")),
+                    new Tuple("Player3", new BigDecimal("936.30000")),
+                    new Tuple("Player4", new BigDecimal("1229.60000"))
             );
   }
 
@@ -174,10 +174,10 @@ class TournamentPlayerServiceTest {
             .extracting(tp -> tp.getPlayer().getNickname(),
                     TournamentPlayer::getScore)
             .containsExactlyInAnyOrder(
-                    new Tuple("Player1", new BigDecimal("1466.40000")),
-                    new Tuple("Player2", new BigDecimal("1494.75000")),
-                    new Tuple("Player3", new BigDecimal("1509.45000")),
-                    new Tuple("Player4", new BigDecimal("1529.40000"))
+                    new Tuple("Player1", new BigDecimal("977.60000")),
+                    new Tuple("Player2", new BigDecimal("996.50000")),
+                    new Tuple("Player3", new BigDecimal("1006.30000")),
+                    new Tuple("Player4", new BigDecimal("1019.60000"))
             );
   }
 

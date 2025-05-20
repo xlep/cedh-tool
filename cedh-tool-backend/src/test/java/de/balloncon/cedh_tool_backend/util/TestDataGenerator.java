@@ -6,6 +6,7 @@ import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 
 import java.math.BigDecimal;
 
@@ -68,7 +69,7 @@ public class TestDataGenerator {
         tournamentPlayer.setId(id);
         tournamentPlayer.setTournament(tournament);
         tournamentPlayer.setPlayer(player);
-        tournamentPlayer.setScore(new BigDecimal("1500.000"));
+        tournamentPlayer.setScore(TournamentPlayerService.STARTING_SCORE);
 
         return tournamentPlayer;
     }
