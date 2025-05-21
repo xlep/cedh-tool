@@ -8,9 +8,9 @@ export function ResultsProvider({ children }) {
   const [tentativeWinners, setTentativeWinners] = useState({});
 
   return (
-    <ResultsContext.Provider value={{ confirmedWinners, setConfirmedWinners, tentativeWinners, setTentativeWinners }}>
-      {children}
-    </ResultsContext.Provider>
+      <ResultsContext.Provider value={{ confirmedWinners, setConfirmedWinners, tentativeWinners, setTentativeWinners }}>
+        {children}
+      </ResultsContext.Provider>
   );
 }
 
