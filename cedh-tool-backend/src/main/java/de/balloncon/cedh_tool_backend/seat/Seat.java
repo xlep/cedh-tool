@@ -31,6 +31,7 @@ public class Seat {
   @Column(name = "seat")
   private Integer seat;
 
+  @Enumerated(EnumType.STRING)
   @Column(name = "result", length = 4)
   private Result result;
 }

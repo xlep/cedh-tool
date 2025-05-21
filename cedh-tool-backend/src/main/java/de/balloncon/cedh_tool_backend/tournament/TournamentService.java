@@ -15,6 +15,7 @@ import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import de.balloncon.cedh_tool_backend.util.ResponseMessages;
+import de.balloncon.cedh_tool_backend.util.ShuffleUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,7 @@ public class TournamentService {
   @Autowired private PodService podService;
   @Autowired private PlayerService playerService;
   @Autowired private SeatService seatService;
+  @Autowired private ShuffleUtil shuffleUtil;
 
   private static final int POD_SIZE = 4;
 
@@ -254,7 +256,7 @@ public class TournamentService {
     int middle = players.size() / 2;
     int semifinalRoundNumber = lastRound + 1;
 
-    Collections.shuffle(players);
+    shuffleUtil.shuffle(players);
 
     List<TournamentPlayer> listOfFirstSemifinalPlayers;
     listOfFirstSemifinalPlayers = players.subList(0, middle);

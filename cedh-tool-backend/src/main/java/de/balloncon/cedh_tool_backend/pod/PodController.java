@@ -3,7 +3,6 @@ package de.balloncon.cedh_tool_backend.pod;
 import de.balloncon.cedh_tool_backend.dto.PodDto;
 import de.balloncon.cedh_tool_backend.dto.PodResultDto;
 import de.balloncon.cedh_tool_backend.mapper.PodMapper;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("${apiVersion}")
+@RequestMapping("${apiVersion}/pods")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PodController {
 
   private final PodService podService;
@@ -22,25 +22,34 @@ public class PodController {
     this.podMapper = podMapper;
   }
 
-  @GetMapping("pod/{podId}")
+  @GetMapping("/{podId}")
   public ResponseEntity<PodDto> getPodById(@PathVariable UUID podId) {
     Pod pod = podService.getPodById(podId);
     return ResponseEntity.ok(podMapper.toDto(pod));
   }
 
-  @GetMapping("pods/{tournamentId}")
-  ResponseEntity<List<PodDto>> pods(@PathVariable UUID tournamentId) {
-    List <Pod> pods = podService.getPodsByTournamentId(tournamentId);
+  @GetMapping("/tournament/{tournamentId}")
+  public ResponseEntity<List<PodDto>> getPodsByTournament(@PathVariable UUID tournamentId) {
+    List<Pod> pods = podService.getPodsByTournamentId(tournamentId);
     return ResponseEntity.ok(podMapper.toDto(pods));
   }
 
-  @PostMapping("report/result")
-  public ResponseEntity<Void> reportResult(@RequestBody PodResultDto podResultDto) {
+  @PostMapping("/{podId}/results")
+  public ResponseEntity<Void> reportPodResult(
+          @PathVariable UUID podId,
+          @RequestBody PodResultDto podResultDto
+  ) {
     return podService.reportResult(
-        podResultDto.podId(),
-        podResultDto.playerId(),
-        podResultDto.result(),
-        podResultDto.tournamentId(),
-        podResultDto.podType());
+            podId,
+            podResultDto.playerId(),
+            podResultDto.result(),
+            podResultDto.tournamentId(),
+            podResultDto.podType());
   }
-}
+
+  @PatchMapping("/{podId}/result")
+  public ResponseEntity<Void> resetPodResult(@PathVariable UUID podId) {
+    podService.resetResult(podId);
+    return ResponseEntity.noContent().build();
+  }}
+

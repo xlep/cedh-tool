@@ -7,6 +7,7 @@ import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -145,5 +146,17 @@ public class PodService {
 
   public List<Pod> findByTournamentIdOrderByRoundAscNameAsc(UUID tournamentId) {
     return podRepository.findByTournamentIdOrderByRoundAscNameAsc(tournamentId);
+  }
+
+  public void resetResult(UUID podId) {
+
+    Pod pod = podRepository.findById(podId)
+            .orElseThrow(() -> new EntityNotFoundException("Pod not found"));
+
+    for (Seat seat : pod.getSeats()) {
+      seat.setResult(null);
+    }
+
+    podRepository.save(pod);
   }
 }
