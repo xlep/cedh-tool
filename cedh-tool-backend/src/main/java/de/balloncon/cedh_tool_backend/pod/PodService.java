@@ -1,6 +1,8 @@
 package de.balloncon.cedh_tool_backend.pod;
 
+import de.balloncon.cedh_tool_backend.dto.PodDto;
 import de.balloncon.cedh_tool_backend.dto.Result;
+import de.balloncon.cedh_tool_backend.mapper.PodMapper;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
@@ -19,14 +21,14 @@ public class PodService {
   @Autowired private PodRepository podRepository;
   @Autowired private SeatService seatService;
   @Autowired private PlayerService playerService;
+  @Autowired private PodMapper podMapper;
 
   public Pod getPodById(UUID podId) {
     return podRepository.findById(podId).orElse(null);
   }
 
-  public Optional<List<Pod>> getPodsByTournamentId(UUID tournamentId) {
-    List<Pod> pods = podRepository.findByTournamentId(tournamentId);
-    return pods.isEmpty() ? Optional.empty() : Optional.of(pods);
+  public List<Pod> getPodsByTournamentId(UUID tournamentId) {
+        return podRepository.findByTournamentId(tournamentId);
   }
 
   public List<Pod> getPodsAndSeatsByTournamentId(UUID tournamentId) {
@@ -139,5 +141,9 @@ public class PodService {
     seat.setPlayer(player);
     seat.setSeat(seatNum);
     return seat;
+  }
+
+  public List<Pod> findByTournamentIdOrderByRoundAscNameAsc(UUID tournamentId) {
+    return podRepository.findByTournamentIdOrderByRoundAscNameAsc(tournamentId);
   }
 }

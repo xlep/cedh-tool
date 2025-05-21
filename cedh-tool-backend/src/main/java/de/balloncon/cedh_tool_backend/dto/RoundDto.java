@@ -11,5 +11,5 @@ public record RoundDto(int round, List<PodDto> pods) {
   public record PodDto(UUID podId, int podName, List<SeatDto> seats) {}
 
   @Builder
-  public record SeatDto(UUID playerId, String nickname, int seat) {}
+  public record SeatDto(UUID playerId, String firstname, String lastname, String nickname, int seat) {}
 }

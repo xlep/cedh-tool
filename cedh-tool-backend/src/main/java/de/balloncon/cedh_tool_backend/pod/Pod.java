@@ -24,7 +24,7 @@ public class Pod {
   @JoinColumn(name = "tournament_id", nullable = false)
   private Tournament tournament;
 
-  @Column(name = "name")
+  @Column(name = "\"name\"")
   private Integer name;
 
   @Column(name = "round")

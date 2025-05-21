@@ -2,7 +2,6 @@ package de.balloncon.cedh_tool_backend.tournament.player;
 
 import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreView;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,14 +18,14 @@ public class TournamentPlayerController {
     this.tournamentPlayerService = tournamentPlayerService;
   }
 
-  @GetMapping("tournament/players/score")
+  @GetMapping("tournament/players/score/{tournamentId}")
   public List<TournamentPlayerScoreView> getPlayerScoresByTournament(
-      @RequestParam UUID tournamentId) {
+      @PathVariable UUID tournamentId) {
     return tournamentPlayerService.getPlayerScoresByTournamentId(tournamentId);
   }
 
-  @GetMapping("tournament/players")
-  public List<PlayerDto> getPlayersByTournamentId(@Parameter UUID tournamentId) {
+  @GetMapping("tournament/players/{tournamentId}")
+  public List<PlayerDto> getPlayersByTournamentId(@PathVariable UUID tournamentId) {
     return tournamentPlayerService.getPlayersById(tournamentId);
   }
 }
