@@ -2,6 +2,7 @@ package de.balloncon.cedh_tool_backend.seat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import jakarta.persistence.*;
@@ -32,6 +33,7 @@ public class Seat implements Cloneable {
   @Column(name = "seat")
   private Integer seat;
 
-  @Column(name = "result", length = Integer.MAX_VALUE)
-  private String result;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "result", length = 4)
+  private Result result;
 }

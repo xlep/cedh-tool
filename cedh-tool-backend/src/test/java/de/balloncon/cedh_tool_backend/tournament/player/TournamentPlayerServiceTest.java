@@ -5,6 +5,7 @@ import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerRepository;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import de.balloncon.cedh_tool_backend.pod.PodRepository;
+import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatRepository;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
@@ -47,6 +48,7 @@ class TournamentPlayerServiceTest {
     tournamentRepository.save(tournament);
 
     pod = TestDataGenerator.generatePod(tournament);
+    pod.setType(PodType.SWISS);
     podRepository.save(pod);
 
 
@@ -329,9 +331,9 @@ class TournamentPlayerServiceTest {
     // assign win to player 1, assign losses to all other players
     for (Seat seat : pod.getSeats()) {
       if (seat.getSeat() == seatNumber) {
-        seat.setResult(Result.win.toString());
+        seat.setResult(Result.win);
       } else {
-        seat.setResult(Result.loss.toString());
+        seat.setResult(Result.loss);
       }
     }
     podRepository.save(pod);
@@ -346,7 +348,7 @@ class TournamentPlayerServiceTest {
 
     // assign win to player 1, assign losses to all other players
     for (Seat seat : pod.getSeats()) {
-      seat.setResult(Result.draw.toString());
+      seat.setResult(Result.draw);
     }
     podRepository.save(pod);
   }

@@ -1,5 +1,7 @@
 package de.balloncon.cedh_tool_backend.tournament.player;
 
+import de.balloncon.cedh_tool_backend.dto.PlayerDto;
+import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreView;
 import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreViewFactory;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,7 @@ public class TournamentPlayerController {
   @GetMapping("/score")
   public List<TournamentPlayerScoreView> getPlayerScoresByTournament(
       @RequestParam UUID tournamentId) {
-    return tournamentPlayerService.getPlayerScoresByTournament(tournamentId);
+    return tournamentPlayerService.getPlayerScoresByTournamentId(tournamentId);
   }
 
   @GetMapping("/score/{round}")
@@ -36,4 +38,9 @@ public class TournamentPlayerController {
             .calculatePlayerScoresAfterSwissRounds(tournamentId, round);
     return tournamentPlayerScoreViewFactory.createFromTournamentPlayerList(tournamentPlayers);
   }
+
+    @GetMapping("/{tournamentId}")
+    public List<PlayerDto> getPlayersByTournamentId(@PathVariable UUID tournamentId) {
+        return tournamentPlayerService.getPlayersById(tournamentId);
+    }
 }

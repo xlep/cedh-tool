@@ -4,6 +4,7 @@ import de.balloncon.cedh_tool_backend.dto.RoundDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -12,9 +13,11 @@ import java.util.UUID;
 public class TournamentController {
 
   private final TournamentService tournamentService;
+  private final TournamentRepository tournamentRepository;
 
-  TournamentController(TournamentService tournamentService) {
+  TournamentController(TournamentService tournamentService, TournamentRepository tournamentRepository) {
     this.tournamentService = tournamentService;
+    this.tournamentRepository = tournamentRepository;
   }
 
   @PostMapping("{tournamentId}/rounds")
@@ -26,7 +29,12 @@ public class TournamentController {
   @PostMapping("/topcut/{tournamentId}/{cutTo}")
   public ResponseEntity createTopCut(
       @PathVariable("tournamentId") UUID tournamentId, @PathVariable("cutTo") int cutTo) {
-    tournamentService.determineCut(tournamentId, cutTo);
-    return ResponseEntity.ok().build();
+    return tournamentService.determineCut(tournamentId, cutTo);
+  }
+
+  @GetMapping("{tournamentId}/rounds")
+  public ResponseEntity<List<RoundDto>> getRounds(@PathVariable UUID tournamentId) {
+    List<RoundDto> rounds = tournamentService.getRoundsByTournamentId(tournamentId);
+    return ResponseEntity.ok(rounds);
   }
 }

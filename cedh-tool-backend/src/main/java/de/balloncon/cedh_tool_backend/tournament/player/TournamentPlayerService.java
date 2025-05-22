@@ -1,5 +1,8 @@
 package de.balloncon.cedh_tool_backend.tournament.player;
 
+import de.balloncon.cedh_tool_backend.dto.PlayerDto;
+import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
+import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import de.balloncon.cedh_tool_backend.pod.PodService;
@@ -13,12 +16,14 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class TournamentPlayerService {
 
   @Autowired private final TournamentPlayerRepository tournamentPlayerRepository;
+  @Autowired private final PlayerMapper playerMapper;
 
   // TODO: find a better way to declare these... db-table / cols related to tournament? properties?
   public static final BigDecimal STARTING_SCORE = new BigDecimal("1000.00");
@@ -33,15 +38,16 @@ public class TournamentPlayerService {
   @Autowired
   private PodService podService;
 
-  public TournamentPlayerService(TournamentPlayerRepository tournamentPlayerRepository) {
+  public TournamentPlayerService(TournamentPlayerRepository tournamentPlayerRepository, PlayerMapper playerMapper) {
     this.tournamentPlayerRepository = tournamentPlayerRepository;
+    this.playerMapper = playerMapper;
   }
 
   public void save(TournamentPlayer tournamentPlayer) {
     tournamentPlayerRepository.save(tournamentPlayer);
   }
 
-  public List<TournamentPlayerScoreView> getPlayerScoresByTournament(UUID tournamentId) {
+  public List<TournamentPlayerScoreView> getPlayerScoresByTournamentId(UUID tournamentId) {
     return tournamentPlayerRepository.findPlayerScoresByTournament(tournamentId);
   }
 
@@ -50,6 +56,13 @@ public class TournamentPlayerService {
     return tournamentPlayerRepository.findTopTenByTournamentOrderByScoreDesc(
         tournamentId, PageRequest.of(0, cutSize));
   }
+
+    public List<PlayerDto> getPlayersById(UUID tournamentId) {
+        List<Player> tournamentPlayers = tournamentPlayerRepository.findByTournamentId(tournamentId);
+        return tournamentPlayers.stream()
+                .map(playerMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
   public List<TournamentPlayer> calculatePlayerScoresAfterSwissRounds(UUID tournamentId, int rounds) {
     List<TournamentPlayer> tournamentPlayers =
@@ -111,7 +124,7 @@ public class TournamentPlayerService {
     HashMap<UUID, Integer> amountOfByesPerPlayer = new HashMap<>();
     for (Pod pod : podService.getPodsAndSeatsByTournamentId(tournamentId)) {
       for (Seat seat : pod.getSeats()) {
-        if (Result.bye.toString().equals(seat.getResult())) {
+        if (Result.bye.equals(seat.getResult())) {
           int amountOfByes = amountOfByesPerPlayer.containsKey(seat.getPlayer().getId())
                   ? amountOfByesPerPlayer.get(seat.getPlayer().getId()) + 1
                   : 1;
@@ -215,7 +228,7 @@ public class TournamentPlayerService {
   private void addPointsToPodWinner(HashMap<UUID, TournamentPlayer> tournamentPlayersMap, Pod pod, BigDecimal potAmount) {
     // Winner gets all wagered points. All other players do not get any points
     for (Seat seat : pod.getSeats()) {
-      if (Result.win.toString().equals(seat.getResult())) {
+      if (Result.win.equals(seat.getResult())) {
         BigDecimal winnerScore = tournamentPlayersMap.get(seat.getPlayer().getId()).getScore();
         winnerScore = winnerScore.add(potAmount);
         tournamentPlayersMap.get(seat.getPlayer().getId()).setScore(winnerScore);

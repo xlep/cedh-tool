@@ -1,6 +1,7 @@
 package de.balloncon.cedh_tool_backend.tournament;
 
 import de.balloncon.cedh_tool_backend.dto.RoundDto;
+import de.balloncon.cedh_tool_backend.mapper.PodMapper;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
@@ -9,10 +10,12 @@ import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatRepository;
+import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import de.balloncon.cedh_tool_backend.util.ResponseMessages;
+import de.balloncon.cedh_tool_backend.util.ShuffleUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,6 +33,12 @@ public class TournamentService {
   @Autowired private PodRepository podRepository;
   @Autowired private SeatRepository seatRepository;
   @Autowired private TournamentRepository tournamentRepository;
+  @Autowired private PodMapper podMapper;
+  @Autowired private TournamentPlayerService tournamentPlayerService;
+  @Autowired private PodService podService;
+  @Autowired private PlayerService playerService;
+  @Autowired private SeatService seatService;
+  @Autowired private ShuffleUtil shuffleUtil;
 
   private static final int POD_SIZE = 4;
 
@@ -36,16 +46,13 @@ public class TournamentService {
   private final Set<String> seenPairs = new HashSet<>();
   private Map<Integer, Player> indexToPlayer = new HashMap<>();
   private Map<UUID, Integer> playerIdToIndex = new HashMap<>();
-  @Autowired private TournamentPlayerService tournamentPlayerService;
-  @Autowired private PodService podService;
-  @Autowired private PlayerService playerService;
 
   public void save(Tournament tournament) {
     tournamentRepository.save(tournament);
   }
   public RoundDto generateNextRound(UUID tournamentId) {
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
-    List<Player> players = tournamentPlayerRepository.findAllPlayersByTournamentId(tournamentId);
+    List<Player> players = tournamentPlayerRepository.findByTournamentId(tournamentId);
     int numPlayers = players.size();
     int groupsPerRound = numPlayers / POD_SIZE;
 
@@ -191,13 +198,15 @@ public class TournamentService {
       for (int idx : group) {
         Player player = indexToPlayer.get(idx);
 
-        generateAndPersistSeat(pod, player, seatNum);
+        seatService.generateAndPersistSeat(pod, player, seatNum);
 
         seats.add(
             RoundDto.SeatDto.builder()
                 .playerId(player.getId())
                 .nickname(player.getNickname())
                 .seat(seatNum++)
+                .firstname(player.getFirstname())
+                .lastname(player.getLastname())
                 .build());
       }
 
@@ -208,19 +217,11 @@ public class TournamentService {
     return podDtos;
   }
 
-  private void generateAndPersistSeat(Pod pod, Player player, int seatNum) {
-    Seat seat = new Seat();
-    seat.setPod(pod);
-    seat.setPlayer(player);
-    seat.setSeat(seatNum);
-    seatRepository.save(seat);
-  }
-
   @Transactional
   public ResponseEntity<String> determineCut(UUID tournamentId, int cutTo) {
 
     if (cutTo == 10) {
-      generateTopTenCut(tournamentId, cutTo);
+      return generateTopTenCut(tournamentId, cutTo);
     } else {
       ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(ResponseMessages.RESPONSE_BAD_REQUEST_TOP_CUT);
@@ -255,7 +256,7 @@ public class TournamentService {
     int middle = players.size() / 2;
     int semifinalRoundNumber = lastRound + 1;
 
-    Collections.shuffle(players);
+    shuffleUtil.shuffle(players);
 
     List<TournamentPlayer> listOfFirstSemifinalPlayers;
     listOfFirstSemifinalPlayers = players.subList(0, middle);
@@ -310,7 +311,7 @@ public class TournamentService {
   private void findPlayerForSeating(List<TournamentPlayer> finalists, Pod pod) {
     for (int i = 0; i < finalists.size(); i++) {
       Player player = playerService.findPlayerById(finalists.get(i).getPlayer().getId());
-      generateAndPersistSeat(pod, player, i + 1);
+      seatService.generateAndPersistSeat(pod, player, i + 1);
     }
   }
 
@@ -323,4 +324,42 @@ public class TournamentService {
     pod.setType(podType);
     return podRepository.save(pod); // This will persist the pod and return the saved pod
   }
+
+  public List<RoundDto> getRoundsByTournamentId(UUID tournamentId) {
+    // Fetch pods sorted by round and name
+    List<Pod> pods = podRepository.findByTournamentIdOrderByRoundAscNameAsc(tournamentId);
+
+    // Group pods by round number
+    Map<Integer, List<Pod>> podsByRound = pods.stream()
+            .collect(Collectors.groupingBy(Pod::getRound));
+
+    // Build RoundDto for each round
+    List<RoundDto> rounds = podsByRound.entrySet().stream()
+            .map(entry -> {
+              int roundNumber = entry.getKey();
+              List<RoundDto.PodDto> podDtos = entry.getValue().stream()
+                      .map(pod -> {
+                        // For each pod, get seats (players + seat numbers)
+                        List<RoundDto.SeatDto> seats = pod.getSeats().stream()
+                                .map(seat -> new RoundDto.SeatDto(
+                                        seat.getPlayer().getId(),
+                                        seat.getPlayer().getFirstname(),
+                                        seat.getPlayer().getLastname(),
+                                        seat.getPlayer().getNickname(),
+                                        seat.getSeat()))
+                                .collect(Collectors.toList());
+
+                        return new RoundDto.PodDto(pod.getId(), pod.getName(), seats);
+                      })
+                      .collect(Collectors.toList());
+
+              return new RoundDto(roundNumber, podDtos);
+            })
+            .sorted(Comparator.comparingInt(RoundDto::round))
+            .collect(Collectors.toList());
+
+    return rounds;
+  }
+
+
 }

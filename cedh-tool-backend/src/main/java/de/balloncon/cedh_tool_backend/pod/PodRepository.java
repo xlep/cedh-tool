@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public interface PodRepository extends JpaRepository<Pod, UUID> {
 
+  List<Pod> findByTournamentIdOrderByRoundAscNameAsc(UUID tournamentId);
+
   @Query(
       "SELECT DISTINCT p FROM Pod p JOIN p.seats s WHERE p.tournament.id = :tournamentId AND p.round IS NOT NULL AND s.player IS NOT NULL")
   List<Pod> findByTournamentId(@Param("tournamentId") UUID tournamentId);
@@ -35,4 +37,7 @@ public interface PodRepository extends JpaRepository<Pod, UUID> {
 
   @Query("SELECT p FROM Pod p WHERE p.id = :id")
   Optional<List<Player>> findPlayersByPodId(@Param("id") UUID podId);
+
+  @Query("SELECT P FROM Pod P WHERE P.tournament.id = :tournamentId AND P.type = :type")
+  Pod findPodByTournamentIdAndType(@Param("tournamentId") UUID tournamentId, @Param("type") PodType type);
 }
