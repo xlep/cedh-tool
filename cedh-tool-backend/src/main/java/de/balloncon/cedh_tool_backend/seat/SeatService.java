@@ -17,7 +17,6 @@ import java.util.*;
 public class SeatService {
 
   @Autowired SeatRepository seatRepository;
-  @Autowired TournamentPlayerService tournamentPlayerService;
 
   @Transactional
   public void saveResult(UUID podId, UUID playerId, Result result) {

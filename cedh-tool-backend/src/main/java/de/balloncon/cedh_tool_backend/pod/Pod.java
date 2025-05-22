@@ -24,7 +24,7 @@ public class Pod {
   @JoinColumn(name = "tournament_id", nullable = false)
   private Tournament tournament;
 
-  @Column(name = "\"name\"")
+  @Column(name = "name")
   private Integer name;
 
   @Column(name = "round")
@@ -34,7 +34,7 @@ public class Pod {
   private Set<Seat> seats = new HashSet<>();
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "pod_type", length = 12)
+  @Column(name = "type", length = 12)
   private PodType type;
 
   public List<Player> getPlayers() {

@@ -1,6 +1,5 @@
 package de.balloncon.cedh_tool_backend.pod;
 
-import de.balloncon.cedh_tool_backend.dto.PodDto;
 import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.mapper.PodMapper;
 import de.balloncon.cedh_tool_backend.player.Player;
@@ -55,31 +54,31 @@ public class PodService {
 
   @Transactional
   public ResponseEntity<Void> reportResult(
-      UUID podId, UUID winningPlayerID, Result result, UUID tournamentId, PodType podType) {
+      UUID podId, UUID winningPlayerID, Result result) {
     return switch (result) {
-      case Result.win -> recordWin(podId, winningPlayerID, tournamentId, podType);
+      case Result.win -> recordWin(podId, winningPlayerID);
       case Result.draw -> recordDraw(podId);
       default -> new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     };
   }
 
   private ResponseEntity<Void> recordWin(
-      UUID podId, UUID winningPlayerID, UUID tournamentId, PodType podType) {
+      UUID podId, UUID winningPlayerID) {
     Pod pod = getPodById(podId);
 
     if (pod == null || !pod.hasPlayerWithId(winningPlayerID)) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    switch (podType) {
-      case SWISS -> reportResult(podId, winningPlayerID, pod);
-      case SEMIFINAL -> recordSemifinal(podId, winningPlayerID, tournamentId);
+    switch (pod.getType()) {
+      case SWISS -> reportPodResult(podId, winningPlayerID, pod);
+      case SEMIFINAL -> recordSemifinal(podId, winningPlayerID, pod.getTournament().getId());
       case FINAL -> recordFinals(podId, winningPlayerID);
     }
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  private void reportResult(UUID podId, UUID winningPlayerID, Pod pod) {
+  private void reportPodResult(UUID podId, UUID winningPlayerID, Pod pod) {
     // persist win for winning player
     seatService.saveResult(podId, winningPlayerID, Result.win);
 
@@ -158,5 +157,25 @@ public class PodService {
     }
 
     podRepository.save(pod);
+  }
+
+  public Result getResult(Pod pod) {
+    // default to a winning pod
+    Result podResult = Result.win;
+
+    if (pod != null) {
+      for (Seat seat : pod.getSeats()) {
+        if (seat.getResult() == null) {
+          break;
+        }
+        Result result = seat.getResult();
+        switch (result) {
+          case Result.draw -> podResult = Result.draw;
+          case Result.bye -> podResult = Result.bye;
+        };
+      }
+    }
+
+    return podResult;
   }
 }

@@ -42,9 +42,8 @@ public class PodController {
     return podService.reportResult(
             podId,
             podResultDto.playerId(),
-            podResultDto.result(),
-            podResultDto.tournamentId(),
-            podResultDto.podType());
+            podResultDto.result()
+    );
   }
 
   @PatchMapping("/{podId}/result")
