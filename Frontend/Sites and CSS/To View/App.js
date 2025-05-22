@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import PlayerManager from './PlayerManager';
 import TournamentManager from './TournamentManager';
-import { ResultsProvider } from './ResultsContext';  // import your context provider
+import {ResultsProvider} from './ResultsContext'; // import your context provider
 
 function App() {
   const [activeView, setActiveView] = useState('playerManager');
@@ -10,11 +10,11 @@ function App() {
   const renderContent = () => {
     switch (activeView) {
       case 'playerManager':
-        return <PlayerManager />;
+        return <PlayerManager/>;
       case 'tournamentManager':
-        return <TournamentManager />;
+        return <TournamentManager/>;
       default:
-        return <div style={{ color: '#aaa' }}>Coming Soon...</div>;
+        return <div style={{color: '#aaa'}}>Coming Soon...</div>;
     }
   };
 
@@ -25,13 +25,15 @@ function App() {
             <h1 className="nav-title">cEDH TOol</h1>
             <div className="nav-buttons">
               <button
-                  className={activeView === 'playerManager' ? 'nav-btn active' : 'nav-btn'}
+                  className={activeView === 'playerManager' ? 'nav-btn active'
+                      : 'nav-btn'}
                   onClick={() => setActiveView('playerManager')}
               >
                 Player Manager
               </button>
               <button
-                  className={activeView === 'tournamentManager' ? 'nav-btn active' : 'nav-btn'}
+                  className={activeView === 'tournamentManager'
+                      ? 'nav-btn active' : 'nav-btn'}
                   onClick={() => setActiveView('tournamentManager')}
               >
                 Tournament Manager

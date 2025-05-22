@@ -17,28 +17,45 @@ import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import de.balloncon.cedh_tool_backend.util.ResponseMessages;
 import de.balloncon.cedh_tool_backend.util.ShuffleUtil;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 @Service
 @Transactional
 public class TournamentService {
 
-  @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
-  @Autowired private PodRepository podRepository;
-  @Autowired private SeatRepository seatRepository;
-  @Autowired private TournamentRepository tournamentRepository;
-  @Autowired private PodMapper podMapper;
-  @Autowired private TournamentPlayerService tournamentPlayerService;
-  @Autowired private PodService podService;
-  @Autowired private PlayerService playerService;
-  @Autowired private SeatService seatService;
-  @Autowired private ShuffleUtil shuffleUtil;
+  @Autowired
+  private TournamentPlayerRepository tournamentPlayerRepository;
+  @Autowired
+  private PodRepository podRepository;
+  @Autowired
+  private SeatRepository seatRepository;
+  @Autowired
+  private TournamentRepository tournamentRepository;
+  @Autowired
+  private PodMapper podMapper;
+  @Autowired
+  private TournamentPlayerService tournamentPlayerService;
+  @Autowired
+  private PodService podService;
+  @Autowired
+  private PlayerService playerService;
+  @Autowired
+  private SeatService seatService;
+  @Autowired
+  private ShuffleUtil shuffleUtil;
 
   private static final int POD_SIZE = 4;
 
@@ -50,6 +67,7 @@ public class TournamentService {
   public void save(Tournament tournament) {
     tournamentRepository.save(tournament);
   }
+
   public RoundDto generateNextRound(UUID tournamentId) {
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
     List<Player> players = tournamentPlayerRepository.findByTournamentId(tournamentId);
@@ -94,22 +112,29 @@ public class TournamentService {
 
     List<Integer> candidates = new ArrayList<>();
     for (int i = 0; i < numPlayers; i++) {
-      if (!used[i]) candidates.add(i);
+      if (!used[i]) {
+        candidates.add(i);
+      }
     }
 
     List<List<Integer>> combinations = generateCombinations(candidates, groupSize);
     for (List<Integer> combo : combinations) {
       if (isValidGroup(combo)) {
-        for (int p : combo) used[p] = true;
+        for (int p : combo) {
+          used[p] = true;
+        }
         addPairs(combo);
         groups.add(combo);
 
-        if (backtrack(groups, used, groupIdx + 1, groupsPerRound, groupSize, numPlayers))
+        if (backtrack(groups, used, groupIdx + 1, groupsPerRound, groupSize, numPlayers)) {
           return true;
+        }
 
         groups.remove(groups.size() - 1);
         removePairs(combo);
-        for (int p : combo) used[p] = false;
+        for (int p : combo) {
+          used[p] = false;
+        }
       }
     }
 
@@ -138,7 +163,9 @@ public class TournamentService {
     for (int i = 0; i < group.size(); i++) {
       for (int j = i + 1; j < group.size(); j++) {
         String key = makeKey(group.get(i), group.get(j));
-        if (seenPairs.contains(key)) return false;
+        if (seenPairs.contains(key)) {
+          return false;
+        }
       }
     }
     return true;
@@ -331,32 +358,32 @@ public class TournamentService {
 
     // Group pods by round number
     Map<Integer, List<Pod>> podsByRound = pods.stream()
-            .collect(Collectors.groupingBy(Pod::getRound));
+        .collect(Collectors.groupingBy(Pod::getRound));
 
     // Build RoundDto for each round
     List<RoundDto> rounds = podsByRound.entrySet().stream()
-            .map(entry -> {
-              int roundNumber = entry.getKey();
-              List<RoundDto.PodDto> podDtos = entry.getValue().stream()
-                      .map(pod -> {
-                        // For each pod, get seats (players + seat numbers)
-                        List<RoundDto.SeatDto> seats = pod.getSeats().stream()
-                                .map(seat -> new RoundDto.SeatDto(
-                                        seat.getPlayer().getId(),
-                                        seat.getPlayer().getFirstname(),
-                                        seat.getPlayer().getLastname(),
-                                        seat.getPlayer().getNickname(),
-                                        seat.getSeat()))
-                                .collect(Collectors.toList());
+        .map(entry -> {
+          int roundNumber = entry.getKey();
+          List<RoundDto.PodDto> podDtos = entry.getValue().stream()
+              .map(pod -> {
+                // For each pod, get seats (players + seat numbers)
+                List<RoundDto.SeatDto> seats = pod.getSeats().stream()
+                    .map(seat -> new RoundDto.SeatDto(
+                        seat.getPlayer().getId(),
+                        seat.getPlayer().getFirstname(),
+                        seat.getPlayer().getLastname(),
+                        seat.getPlayer().getNickname(),
+                        seat.getSeat()))
+                    .collect(Collectors.toList());
 
-                        return new RoundDto.PodDto(pod.getId(), pod.getName(), seats);
-                      })
-                      .collect(Collectors.toList());
+                return new RoundDto.PodDto(pod.getId(), pod.getName(), seats);
+              })
+              .collect(Collectors.toList());
 
-              return new RoundDto(roundNumber, podDtos);
-            })
-            .sorted(Comparator.comparingInt(RoundDto::round))
-            .collect(Collectors.toList());
+          return new RoundDto(roundNumber, podDtos);
+        })
+        .sorted(Comparator.comparingInt(RoundDto::round))
+        .collect(Collectors.toList());
 
     return rounds;
   }

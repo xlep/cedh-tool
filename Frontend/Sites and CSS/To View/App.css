@@ -271,6 +271,7 @@ button:disabled, .nav-btn:disabled {
   transition: background-color 0.3s ease;
   border: 1px solid #555;
 }
+
 .submit-btn:hover:not(:disabled) {
   background-color: #ff7f11;
 }
@@ -312,6 +313,7 @@ button:disabled, .nav-btn:disabled {
   cursor: pointer;
   font-size: 0.9rem;
 }
+
 .undo-draw-btn:hover {
   background-color: #ddd;
 }

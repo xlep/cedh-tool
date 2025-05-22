@@ -1,31 +1,31 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import "./signup.css"; // Assuming styles go here
 
-function Card({ children }) {
+function Card({children}) {
   return <div className="pod">{children}</div>;
 }
 
-function CardContent({ children, className }) {
+function CardContent({children, className}) {
   return <div className={className}>{children}</div>;
 }
 
-function Input({ type, placeholder, value, onChange, className }) {
+function Input({type, placeholder, value, onChange, className}) {
   return (
-    <input
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={`search-bar ${className}`}
-    />
+      <input
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          className={`search-bar ${className}`}
+      />
   );
 }
 
-function Button({ type, children }) {
+function Button({type, children}) {
   return (
-    <button type={type} className="submit-button">
-      {children}
-    </button>
+      <button type={type} className="submit-button">
+        {children}
+      </button>
   );
 }
 
@@ -38,7 +38,9 @@ export default function TournamentSignup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!nickname.trim() || !firstname.trim() || !lastname.trim()) return;
+    if (!nickname.trim() || !firstname.trim() || !lastname.trim()) {
+      return;
+    }
 
     try {
       const response = await fetch("http://127.0.0.1:8080/api/v1/player", {
@@ -79,45 +81,48 @@ export default function TournamentSignup() {
   };
 
   return (
-    <div className="container">
-      <h1 className="title">Tournament Signup</h1>
-      <form onSubmit={handleSubmit} className="signup-form">
-        <Input
-          type="text"
-          placeholder="Nickname"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="First Name"
-          value={firstname}
-          onChange={(e) => setFirstname(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Last Name"
-          value={lastname}
-          onChange={(e) => setLastname(e.target.value)}
-        />
-        <Button type="submit">Sign Up</Button>
-      </form>
+      <div className="container">
+        <h1 className="title">Tournament Signup</h1>
+        <form onSubmit={handleSubmit} className="signup-form">
+          <Input
+              type="text"
+              placeholder="Nickname"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+          />
+          <Input
+              type="text"
+              placeholder="First Name"
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+          />
+          <Input
+              type="text"
+              placeholder="Last Name"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+          />
+          <Button type="submit">Sign Up</Button>
+        </form>
 
-      {successMessage && (
-        <p style={{ textAlign: "center", color: "#4caf50" }}>{successMessage}</p>
-      )}
+        {successMessage && (
+            <p style={{
+              textAlign: "center",
+              color: "#4caf50"
+            }}>{successMessage}</p>
+        )}
 
-      <div className="pods-grid">
-        {players.map((player, index) => (
-          <Card key={index}>
-            <CardContent>
-              <h2>{player.nickname}</h2>
-              <p>{player.firstname} {player.lastname}</p>
-              <p>Signed up at: {player.timestamp}</p>
-            </CardContent>
-          </Card>
-        ))}
+        <div className="pods-grid">
+          {players.map((player, index) => (
+              <Card key={index}>
+                <CardContent>
+                  <h2>{player.nickname}</h2>
+                  <p>{player.firstname} {player.lastname}</p>
+                  <p>Signed up at: {player.timestamp}</p>
+                </CardContent>
+              </Card>
+          ))}
+        </div>
       </div>
-    </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 function PlayerManager() {
   const tournamentId = 'e29fbe3f-1755-43cc-a27a-393ec6d80a09';
@@ -14,7 +14,8 @@ function PlayerManager() {
   useEffect(() => {
     async function fetchPlayers() {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/tournament/players/${tournamentId}`);
+        const response = await fetch(
+            `http://localhost:8080/api/v1/tournament/players/${tournamentId}`);
         if (!response.ok) {
           throw new Error(`Failed to load players: ${response.statusText}`);
         }
@@ -26,6 +27,7 @@ function PlayerManager() {
         setLoading(false);
       }
     }
+
     fetchPlayers();
   }, [tournamentId]);
 
@@ -37,26 +39,33 @@ function PlayerManager() {
   };
 
   const handleDrop = async (playerId) => {
-    if (!window.confirm('Are you sure you want to drop this player from the tournament?')) return;
-    setDroppingPlayer((prev) => ({ ...prev, [playerId]: true }));
+    if (!window.confirm(
+        'Are you sure you want to drop this player from the tournament?')) {
+      return;
+    }
+    setDroppingPlayer((prev) => ({...prev, [playerId]: true}));
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/tournament/players/${tournamentId}/drop/${playerId}`, {
-        method: 'POST',
-      });
-      if (!res.ok) throw new Error('Failed to drop player');
+      const res = await fetch(
+          `http://localhost:8080/api/v1/tournament/players/${tournamentId}/drop/${playerId}`,
+          {
+            method: 'POST',
+          });
+      if (!res.ok) {
+        throw new Error('Failed to drop player');
+      }
       setPlayers((prev) => prev.filter((p) => p.playerId !== playerId));
       setCheckedIn((prev) => {
-        const updated = { ...prev };
+        const updated = {...prev};
         delete updated[playerId];
         return updated;
       });
       setEditingDecklist((prev) => {
-        const updated = { ...prev };
+        const updated = {...prev};
         delete updated[playerId];
         return updated;
       });
       setDecklistDrafts((prev) => {
-        const updated = { ...prev };
+        const updated = {...prev};
         delete updated[playerId];
         return updated;
       });
@@ -66,7 +75,7 @@ function PlayerManager() {
       console.error(e);
     } finally {
       setDroppingPlayer((prev) => {
-        const updated = { ...prev };
+        const updated = {...prev};
         delete updated[playerId];
         return updated;
       });
@@ -75,35 +84,37 @@ function PlayerManager() {
 
   const startEditingDecklist = (playerId) => {
     const current = decklistDrafts[playerId] ?? '';
-    setEditingDecklist((prev) => ({ ...prev, [playerId]: true }));
-    setDecklistDrafts((prev) => ({ ...prev, [playerId]: current }));
+    setEditingDecklist((prev) => ({...prev, [playerId]: true}));
+    setDecklistDrafts((prev) => ({...prev, [playerId]: current}));
   };
 
   const saveDecklist = async (playerId) => {
-    setSavingDecklist((prev) => ({ ...prev, [playerId]: true }));
+    setSavingDecklist((prev) => ({...prev, [playerId]: true}));
     try {
       // TODO: Replace with actual API call to save decklist
-      await fetch(`http://localhost:8080/api/v1/tournament/players/${tournamentId}/decklist/${playerId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ decklist: decklistDrafts[playerId] }),
-      });
-      setEditingDecklist((prev) => ({ ...prev, [playerId]: false }));
+      await fetch(
+          `http://localhost:8080/api/v1/tournament/players/${tournamentId}/decklist/${playerId}`,
+          {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({decklist: decklistDrafts[playerId]}),
+          });
+      setEditingDecklist((prev) => ({...prev, [playerId]: false}));
       alert('Decklist saved.');
     } catch (e) {
       alert('Failed to save decklist.');
       console.error(e);
     } finally {
-      setSavingDecklist((prev) => ({ ...prev, [playerId]: false }));
+      setSavingDecklist((prev) => ({...prev, [playerId]: false}));
     }
   };
 
   const cancelEditing = (playerId) => {
-    setEditingDecklist((prev) => ({ ...prev, [playerId]: false }));
+    setEditingDecklist((prev) => ({...prev, [playerId]: false}));
   };
 
   const handleDecklistChange = (playerId, value) => {
-    setDecklistDrafts((prev) => ({ ...prev, [playerId]: value }));
+    setDecklistDrafts((prev) => ({...prev, [playerId]: value}));
   };
 
   const lockPlayerToTable = (playerId) => {
@@ -117,9 +128,9 @@ function PlayerManager() {
   };
 
   return (
-      <div style={{ padding: '0 10px' }}>
+      <div style={{padding: '0 10px'}}>
         {loading && <p>Loading players...</p>}
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        {error && <p style={{color: 'red'}}>Error: {error}</p>}
 
         {!loading && !error && players.length === 0 && (
             <p className="no-results">No players found.</p>
@@ -129,7 +140,12 @@ function PlayerManager() {
             <>
               <div
                   className="total-players"
-                  style={{ fontWeight: 'bold', color: '#ff7f11', marginBottom: '0.5rem', textAlign: 'right' }}
+                  style={{
+                    fontWeight: 'bold',
+                    color: '#ff7f11',
+                    marginBottom: '0.5rem',
+                    textAlign: 'right'
+                  }}
               >
                 Total Players: {players.length}
               </div>
@@ -162,15 +178,20 @@ function PlayerManager() {
                                 <input
                                     type="text"
                                     value={decklist}
-                                    onChange={(e) => handleDecklistChange(playerId, e.target.value)}
-                                    style={{ width: '100%' }}
+                                    onChange={(e) => handleDecklistChange(
+                                        playerId, e.target.value)}
+                                    style={{width: '100%'}}
                                     disabled={isSaving}
                                 />
-                                <div style={{ marginTop: '4px' }}>
-                                  <button onClick={() => saveDecklist(playerId)} disabled={isSaving}>
+                                <div style={{marginTop: '4px'}}>
+                                  <button onClick={() => saveDecklist(playerId)}
+                                          disabled={isSaving}>
                                     {isSaving ? 'Saving...' : 'Save'}
                                   </button>
-                                  <button onClick={() => cancelEditing(playerId)} style={{ marginLeft: '4px' }} disabled={isSaving}>
+                                  <button
+                                      onClick={() => cancelEditing(playerId)}
+                                      style={{marginLeft: '4px'}}
+                                      disabled={isSaving}>
                                     Cancel
                                   </button>
                                 </div>
@@ -180,31 +201,33 @@ function PlayerManager() {
                           )}
                         </td>
                         <td>
-                      <span className={`tag ${isCheckedIn ? 'checked-in' : 'sign-up'}`}>
+                      <span className={`tag ${isCheckedIn ? 'checked-in'
+                          : 'sign-up'}`}>
                         {isCheckedIn ? 'Checked In' : 'Sign-up'}
                       </span>
                         </td>
                         <td>
-                          <button onClick={() => toggleCheckIn(playerId)} disabled={isDropping}>
+                          <button onClick={() => toggleCheckIn(playerId)}
+                                  disabled={isDropping}>
                             {isCheckedIn ? 'Uncheck' : 'Check In'}
                           </button>
                           <button
                               onClick={() => startEditingDecklist(playerId)}
-                              style={{ marginLeft: '8px' }}
+                              style={{marginLeft: '8px'}}
                               disabled={isDropping || isEditing}
                           >
                             Modify Decklist
                           </button>
                           <button
                               onClick={() => lockPlayerToTable(playerId)}
-                              style={{ marginLeft: '8px' }}
+                              style={{marginLeft: '8px'}}
                               disabled={isDropping}
                           >
                             Lock Player to Table
                           </button>
                           <button
                               onClick={() => handleDrop(playerId)}
-                              style={{ marginLeft: '8px', color: 'red' }}
+                              style={{marginLeft: '8px', color: 'red'}}
                               disabled={isDropping}
                           >
                             {isDropping ? 'Dropping...' : 'Drop'}

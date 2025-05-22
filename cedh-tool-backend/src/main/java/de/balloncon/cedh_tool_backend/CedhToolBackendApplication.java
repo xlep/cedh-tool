@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CedhToolBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CedhToolBackendApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(CedhToolBackendApplication.class, args);
+  }
 
 }

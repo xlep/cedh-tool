@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import './style.css';
 
 export default function TournamentPods() {
@@ -37,7 +37,9 @@ export default function TournamentPods() {
     };
 
     return () => {
-      if (ws.current) ws.current.close();
+      if (ws.current) {
+        ws.current.close();
+      }
     };
   }, [timerRunning]);
 
@@ -48,7 +50,9 @@ export default function TournamentPods() {
   }, [timeLeft, overtime, timerRunning]);
 
   useEffect(() => {
-    if (!timerRunning) return;
+    if (!timerRunning) {
+      return;
+    }
 
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
@@ -73,50 +77,50 @@ export default function TournamentPods() {
   };
 
   const filteredPods = podsData.filter((pod) =>
-    pod.players.some((player) =>
-      player.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+      pod.players.some((player) =>
+          player.toLowerCase().includes(searchTerm.toLowerCase())
+      )
   );
 
   return (
-    <div className="container">
-      <div className="header">
-        <h1 className="title">Tournament Pods</h1>
-        {timerRunning && (
-          <div className="timer-container">
+      <div className="container">
+        <div className="header">
+          <h1 className="title">Tournament Pods</h1>
+          {timerRunning && (
+              <div className="timer-container">
             <span className={`timer-label ${overtime ? 'overtime' : ''}`}>
               {overtime ? 'Overtime' : 'Round Time'}
             </span>
-            <div className={`timer ${overtime ? 'overtime' : ''}`}>
-              {timeLeft > 0 ? formatTime(timeLeft) : "Timeout"}
-            </div>
-          </div>
-        )}
-      </div>
+                <div className={`timer ${overtime ? 'overtime' : ''}`}>
+                  {timeLeft > 0 ? formatTime(timeLeft) : "Timeout"}
+                </div>
+              </div>
+          )}
+        </div>
 
-      <input
-        type="text"
-        placeholder="Search for a player..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar"
-      />
+        <input
+            type="text"
+            placeholder="Search for a player..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-bar"
+        />
 
-      <div className="pods-grid">
-        {filteredPods.map((pod) => (
-          <div key={pod.id} className="pod">
-            <h2>Pod {pod.id}</h2>
-            <ul>
-              {pod.players.map((player, index) => (
-                <li key={index}>{player}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-        {filteredPods.length === 0 && (
-          <p className="no-results">No players found.</p>
-        )}
+        <div className="pods-grid">
+          {filteredPods.map((pod) => (
+              <div key={pod.id} className="pod">
+                <h2>Pod {pod.id}</h2>
+                <ul>
+                  {pod.players.map((player, index) => (
+                      <li key={index}>{player}</li>
+                  ))}
+                </ul>
+              </div>
+          ))}
+          {filteredPods.length === 0 && (
+              <p className="no-results">No players found.</p>
+          )}
+        </div>
       </div>
-    </div>
   );
 }

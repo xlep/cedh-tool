@@ -1,21 +1,21 @@
 package de.balloncon.cedh_tool_backend.player;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 class PlayerServiceTest {
 
-  @Autowired PlayerService playerService;
+  @Autowired
+  PlayerService playerService;
 
   @Disabled
   @Test

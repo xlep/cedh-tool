@@ -7,28 +7,34 @@ import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-
 @Component
 public class PodService {
 
-  @Autowired private PodRepository podRepository;
-  @Autowired private SeatService seatService;
-  @Autowired private PlayerService playerService;
-  @Autowired private PodMapper podMapper;
+  @Autowired
+  private PodRepository podRepository;
+  @Autowired
+  private SeatService seatService;
+  @Autowired
+  private PlayerService playerService;
+  @Autowired
+  private PodMapper podMapper;
 
   public Pod getPodById(UUID podId) {
     return podRepository.findById(podId).orElse(null);
   }
 
   public List<Pod> getPodsByTournamentId(UUID tournamentId) {
-        return podRepository.findByTournamentId(tournamentId);
+    return podRepository.findByTournamentId(tournamentId);
   }
 
   public List<Pod> getPodsAndSeatsByTournamentId(UUID tournamentId) {
@@ -150,7 +156,7 @@ public class PodService {
   public void resetResult(UUID podId) {
 
     Pod pod = podRepository.findById(podId)
-            .orElseThrow(() -> new EntityNotFoundException("Pod not found"));
+        .orElseThrow(() -> new EntityNotFoundException("Pod not found"));
 
     for (Seat seat : pod.getSeats()) {
       seat.setResult(null);
@@ -172,7 +178,8 @@ public class PodService {
         switch (result) {
           case Result.draw -> podResult = Result.draw;
           case Result.bye -> podResult = Result.bye;
-        };
+        }
+        ;
       }
     }
 

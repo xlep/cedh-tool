@@ -2,7 +2,8 @@ package de.balloncon.cedh_tool_backend.util;
 
 public class ResponseMessages {
 
-  private ResponseMessages() {}
+  private ResponseMessages() {
+  }
 
   public static final String RESPONSE_OF_WIN = "The win was successfully registered";
   public static final String RESPONSE_OF_DRAW = "The draw was successfully registered";

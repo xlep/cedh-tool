@@ -2,10 +2,9 @@ package de.balloncon.cedh_tool_backend.tournament.player.score.view;
 
 
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class TournamentPlayerScoreViewFactory {
@@ -16,20 +15,21 @@ public class TournamentPlayerScoreViewFactory {
     tournamentPlayerScoreView.setScore(tournamentPlayer.getScore().toString());
 
     if (!tournamentPlayer.getPlayer().getFirstname().isEmpty()) {
-        tournamentPlayerScoreView.setFirstname(tournamentPlayer.getPlayer().getFirstname());
+      tournamentPlayerScoreView.setFirstname(tournamentPlayer.getPlayer().getFirstname());
     }
     if (!tournamentPlayer.getPlayer().getLastname().isEmpty()) {
-        tournamentPlayerScoreView.setLastname(tournamentPlayer.getPlayer().getLastname());
+      tournamentPlayerScoreView.setLastname(tournamentPlayer.getPlayer().getLastname());
     }
 
     return tournamentPlayerScoreView;
   }
 
-  public List<TournamentPlayerScoreView> createFromTournamentPlayerList(List<TournamentPlayer> tournamentPlayerList) {
-      List<TournamentPlayerScoreView> tournamentPlayerScoreViews = new ArrayList<>();
-      for (TournamentPlayer tournamentPlayer : tournamentPlayerList) {
-          tournamentPlayerScoreViews.add(createFromTournamentPlayer(tournamentPlayer));
-      }
-      return tournamentPlayerScoreViews;
+  public List<TournamentPlayerScoreView> createFromTournamentPlayerList(
+      List<TournamentPlayer> tournamentPlayerList) {
+    List<TournamentPlayerScoreView> tournamentPlayerScoreViews = new ArrayList<>();
+    for (TournamentPlayer tournamentPlayer : tournamentPlayerList) {
+      tournamentPlayerScoreViews.add(createFromTournamentPlayer(tournamentPlayer));
+    }
+    return tournamentPlayerScoreViews;
   }
 }

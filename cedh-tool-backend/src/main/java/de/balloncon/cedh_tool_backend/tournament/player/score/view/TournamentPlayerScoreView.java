@@ -5,16 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class TournamentPlayerScoreView {
-    String nickname;
-    String score;
-    String firstname;
-    String lastname;
+
+  String nickname;
+  String score;
+  String firstname;
+  String lastname;
 }
 

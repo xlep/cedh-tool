@@ -2,29 +2,29 @@ package de.balloncon.cedh_tool_backend.tournament.player;
 
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreView;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 @Repository
 public interface TournamentPlayerRepository extends JpaRepository<TournamentPlayer, UUID> {
+
   @Query(
       value =
           """
-        SELECT tp.score as score,
-               p.nickname as nickname,
-               p.firstname as firstname,
-               p.lastname as lastname
-        FROM tournamentplayers tp
-        JOIN player p ON tp.player = p.id
-        WHERE tp.tournament = :tournamentId
-        """,
+              SELECT tp.score as score,
+                     p.nickname as nickname,
+                     p.firstname as firstname,
+                     p.lastname as lastname
+              FROM tournamentplayers tp
+              JOIN player p ON tp.player = p.id
+              WHERE tp.tournament = :tournamentId
+              """,
       nativeQuery = true)
   List<TournamentPlayerScoreView> findPlayerScoresByTournament(
       @Param("tournamentId") UUID tournamentId);
@@ -33,9 +33,9 @@ public interface TournamentPlayerRepository extends JpaRepository<TournamentPlay
   List<Player> findByTournamentId(@Param("tournamentId") UUID tournamentId);
 
   @Query(
-          "SELECT tp FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId")
+      "SELECT tp FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId")
   List<TournamentPlayer> findByTournament(
-          @Param("tournamentId") UUID tournamentId);
+      @Param("tournamentId") UUID tournamentId);
 
   @Query(
       "SELECT tp FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId AND tp.player.id IN :playerIds")
@@ -44,11 +44,11 @@ public interface TournamentPlayerRepository extends JpaRepository<TournamentPlay
 
   @Query(
       """
-                SELECT tp
-                FROM TournamentPlayer tp
-                WHERE tp.tournament.id = :tournamentId
-                ORDER BY tp.score DESC
-            """)
+              SELECT tp
+              FROM TournamentPlayer tp
+              WHERE tp.tournament.id = :tournamentId
+              ORDER BY tp.score DESC
+          """)
   Optional<List<TournamentPlayer>> findTopTenByTournamentOrderByScoreDesc(
       @Param("tournamentId") UUID tournamentId, Pageable pageable);
 }

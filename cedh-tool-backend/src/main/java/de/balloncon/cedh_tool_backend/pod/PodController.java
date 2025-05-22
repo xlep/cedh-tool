@@ -3,11 +3,17 @@ package de.balloncon.cedh_tool_backend.pod;
 import de.balloncon.cedh_tool_backend.dto.PodDto;
 import de.balloncon.cedh_tool_backend.dto.PodResultDto;
 import de.balloncon.cedh_tool_backend.mapper.PodMapper;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("${apiVersion}/pods")
@@ -36,13 +42,13 @@ public class PodController {
 
   @PostMapping("/{podId}/results")
   public ResponseEntity<Void> reportPodResult(
-          @PathVariable UUID podId,
-          @RequestBody PodResultDto podResultDto
+      @PathVariable UUID podId,
+      @RequestBody PodResultDto podResultDto
   ) {
     return podService.reportResult(
-            podId,
-            podResultDto.playerId(),
-            podResultDto.result()
+        podId,
+        podResultDto.playerId(),
+        podResultDto.result()
     );
   }
 
@@ -50,5 +56,6 @@ public class PodController {
   public ResponseEntity<Void> resetPodResult(@PathVariable UUID podId) {
     podService.resetResult(podId);
     return ResponseEntity.noContent().build();
-  }}
+  }
+}
 

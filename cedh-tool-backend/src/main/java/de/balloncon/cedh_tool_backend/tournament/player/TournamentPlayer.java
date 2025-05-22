@@ -4,18 +4,26 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "tournamentplayers")
-public class TournamentPlayer implements  Cloneable {
-  @EmbeddedId private TournamentPlayerId id;
+public class TournamentPlayer implements Cloneable {
+
+  @EmbeddedId
+  private TournamentPlayerId id;
 
   @JsonBackReference
   @MapsId("tournament")

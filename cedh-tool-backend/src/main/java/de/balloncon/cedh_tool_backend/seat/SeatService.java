@@ -2,21 +2,17 @@ package de.balloncon.cedh_tool_backend.seat;
 
 import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.player.Player;
-import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
-import de.balloncon.cedh_tool_backend.pod.PodService;
-import de.balloncon.cedh_tool_backend.pod.PodType;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import jakarta.transaction.Transactional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 @Component
 public class SeatService {
 
-  @Autowired SeatRepository seatRepository;
+  @Autowired
+  SeatRepository seatRepository;
 
   @Transactional
   public void saveResult(UUID podId, UUID playerId, Result result) {

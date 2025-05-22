@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.UUID;
 
 public record PodDto(
-        UUID podId,
-        UUID tournamentId,
-        int podNumber,
-        List<PlayerDto> players) {}
+    UUID podId,
+    UUID tournamentId,
+    int podNumber,
+    List<PlayerDto> players) {
+
+}

@@ -1,5 +1,7 @@
 package de.balloncon.cedh_tool_backend.pod;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
 import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerRepository;
@@ -9,6 +11,7 @@ import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import de.balloncon.cedh_tool_backend.tournament.TournamentRepository;
 import de.balloncon.cedh_tool_backend.util.TestDataGenerator;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,230 +19,231 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.transaction.TestTransaction;
 
-import java.util.List;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 @Transactional
 class PodServiceTest {
 
-  @Autowired private PodService podService;
+  @Autowired
+  private PodService podService;
 
-  @Autowired PlayerRepository playerRepository;
+  @Autowired
+  PlayerRepository playerRepository;
 
-  @Autowired TournamentRepository tournamentRepository;
+  @Autowired
+  TournamentRepository tournamentRepository;
 
-  @Autowired PodRepository podRepository;
+  @Autowired
+  PodRepository podRepository;
 
-  @Autowired SeatRepository seatRepository;
+  @Autowired
+  SeatRepository seatRepository;
 
-    
-    @Test
-    void reportWinForSwiss() {
-        Player player1 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player1);
-        Player player2 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player2);
-        Player player3 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player3);
-        Player player4 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player4);
 
-        Tournament tournament = TestDataGenerator.generateTournament();
-        tournamentRepository.save(tournament);
-        Pod pod = TestDataGenerator.generatePod(tournament);
-        pod.setType(PodType.SWISS);
-        podRepository.save(pod);
+  @Test
+  void reportWinForSwiss() {
+    Player player1 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player1);
+    Player player2 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player2);
+    Player player3 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player3);
+    Player player4 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player4);
 
-        Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
-        seatRepository.save(seat1);
-        Seat seat2 = TestDataGenerator.generateSeatWithoutResult(pod, player2);
-        seatRepository.save(seat2);
-        Seat seat3 = TestDataGenerator.generateSeatWithoutResult(pod, player3);
-        seatRepository.save(seat3);
-        Seat seat4 = TestDataGenerator.generateSeatWithoutResult(pod, player4);
-        seatRepository.save(seat4);    
+    Tournament tournament = TestDataGenerator.generateTournament();
+    tournamentRepository.save(tournament);
+    Pod pod = TestDataGenerator.generatePod(tournament);
+    pod.setType(PodType.SWISS);
+    podRepository.save(pod);
 
-        List<Seat> byPodId = seatRepository.findByPodId(pod.getId());
+    Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
+    seatRepository.save(seat1);
+    Seat seat2 = TestDataGenerator.generateSeatWithoutResult(pod, player2);
+    seatRepository.save(seat2);
+    Seat seat3 = TestDataGenerator.generateSeatWithoutResult(pod, player3);
+    seatRepository.save(seat3);
+    Seat seat4 = TestDataGenerator.generateSeatWithoutResult(pod, player4);
+    seatRepository.save(seat4);
 
-        // needed to ensure a commit the transaction before we start 
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
-        TestTransaction.start();
+    List<Seat> byPodId = seatRepository.findByPodId(pod.getId());
 
-        // report win for player1
-        podService.reportResult(pod.getId(), player1.getId(), Result.win);
+    // needed to ensure a commit the transaction before we start
+    TestTransaction.flagForCommit();
+    TestTransaction.end();
+    TestTransaction.start();
 
-        Pod podFromDb = podService.getPodById(pod.getId());
-        assertThat(podFromDb.getSeats())
-                .hasSize(4)
-                .extracting(
-                    seat -> seat.getPlayer().getId(),
-                        Seat::getResult)
-                .containsExactlyInAnyOrder(
-                    new Tuple(player1.getId(), Result.win),
-                    new Tuple(player2.getId(), Result.loss),
-                    new Tuple(player3.getId(), Result.loss),
-                    new Tuple(player4.getId(), Result.loss)
-                );
-    }
+    // report win for player1
+    podService.reportResult(pod.getId(), player1.getId(), Result.win);
 
-    @Test
-    void reportDrawForSwiss() {
-        Player player1 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player1);
-        Player player2 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player2);
-        Player player3 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player3);
-        Player player4 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player4);
+    Pod podFromDb = podService.getPodById(pod.getId());
+    assertThat(podFromDb.getSeats())
+        .hasSize(4)
+        .extracting(
+            seat -> seat.getPlayer().getId(),
+            Seat::getResult)
+        .containsExactlyInAnyOrder(
+            new Tuple(player1.getId(), Result.win),
+            new Tuple(player2.getId(), Result.loss),
+            new Tuple(player3.getId(), Result.loss),
+            new Tuple(player4.getId(), Result.loss)
+        );
+  }
 
-        Tournament tournament = TestDataGenerator.generateTournament();
-        tournamentRepository.save(tournament);
-        Pod pod = TestDataGenerator.generatePod(tournament);
-        podRepository.save(pod);
+  @Test
+  void reportDrawForSwiss() {
+    Player player1 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player1);
+    Player player2 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player2);
+    Player player3 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player3);
+    Player player4 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player4);
 
-        Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
-        seatRepository.save(seat1);
-        Seat seat2 = TestDataGenerator.generateSeatWithoutResult(pod, player2);
-        seatRepository.save(seat2);
-        Seat seat3 = TestDataGenerator.generateSeatWithoutResult(pod, player3);
-        seatRepository.save(seat3);
-        Seat seat4 = TestDataGenerator.generateSeatWithoutResult(pod, player4);
-        seatRepository.save(seat4);
+    Tournament tournament = TestDataGenerator.generateTournament();
+    tournamentRepository.save(tournament);
+    Pod pod = TestDataGenerator.generatePod(tournament);
+    podRepository.save(pod);
 
-        List<Seat> byPodId = seatRepository.findByPodId(pod.getId());
+    Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
+    seatRepository.save(seat1);
+    Seat seat2 = TestDataGenerator.generateSeatWithoutResult(pod, player2);
+    seatRepository.save(seat2);
+    Seat seat3 = TestDataGenerator.generateSeatWithoutResult(pod, player3);
+    seatRepository.save(seat3);
+    Seat seat4 = TestDataGenerator.generateSeatWithoutResult(pod, player4);
+    seatRepository.save(seat4);
 
-        // needed to ensure a commit the transaction before we start
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
-        TestTransaction.start();
+    List<Seat> byPodId = seatRepository.findByPodId(pod.getId());
 
-        // report win for player1
-        podService.reportResult(pod.getId(), player1.getId(), Result.draw);
+    // needed to ensure a commit the transaction before we start
+    TestTransaction.flagForCommit();
+    TestTransaction.end();
+    TestTransaction.start();
 
-        Pod podFromDb = podService.getPodById(pod.getId());
-        assertThat(podFromDb.getSeats())
-                .hasSize(4)
-                .extracting(
-                        seat -> seat.getPlayer().getId(),
-                        Seat::getResult)
-                .containsExactlyInAnyOrder(
-                        new Tuple(player1.getId(), Result.draw),
-                        new Tuple(player2.getId(), Result.draw),
-                        new Tuple(player3.getId(), Result.draw),
-                        new Tuple(player4.getId(), Result.draw)
-                );
-    }
+    // report win for player1
+    podService.reportResult(pod.getId(), player1.getId(), Result.draw);
 
-    @Test
-    void reportWinForSemifinal() {
-        // data for semifinals
-        Player player1 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player1);
-        Player player2 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player2);
-        Player player3 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player3);
-        Player player4 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player4);
+    Pod podFromDb = podService.getPodById(pod.getId());
+    assertThat(podFromDb.getSeats())
+        .hasSize(4)
+        .extracting(
+            seat -> seat.getPlayer().getId(),
+            Seat::getResult)
+        .containsExactlyInAnyOrder(
+            new Tuple(player1.getId(), Result.draw),
+            new Tuple(player2.getId(), Result.draw),
+            new Tuple(player3.getId(), Result.draw),
+            new Tuple(player4.getId(), Result.draw)
+        );
+  }
 
-        Tournament tournament = TestDataGenerator.generateTournament();
-        tournamentRepository.save(tournament);
-        Pod pod = TestDataGenerator.generatePod(tournament);
-        pod.setType(PodType.SEMIFINAL);
-        podRepository.save(pod);
+  @Test
+  void reportWinForSemifinal() {
+    // data for semifinals
+    Player player1 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player1);
+    Player player2 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player2);
+    Player player3 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player3);
+    Player player4 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player4);
 
-        Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
-        seatRepository.save(seat1);
-        Seat seat2 = TestDataGenerator.generateSeatWithoutResult(pod, player2);
-        seatRepository.save(seat2);
-        Seat seat3 = TestDataGenerator.generateSeatWithoutResult(pod, player3);
-        seatRepository.save(seat3);
-        Seat seat4 = TestDataGenerator.generateSeatWithoutResult(pod, player4);
-        seatRepository.save(seat4);
+    Tournament tournament = TestDataGenerator.generateTournament();
+    tournamentRepository.save(tournament);
+    Pod pod = TestDataGenerator.generatePod(tournament);
+    pod.setType(PodType.SEMIFINAL);
+    podRepository.save(pod);
 
-        List<Seat> byPodId = seatRepository.findByPodId(pod.getId());
+    Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
+    seatRepository.save(seat1);
+    Seat seat2 = TestDataGenerator.generateSeatWithoutResult(pod, player2);
+    seatRepository.save(seat2);
+    Seat seat3 = TestDataGenerator.generateSeatWithoutResult(pod, player3);
+    seatRepository.save(seat3);
+    Seat seat4 = TestDataGenerator.generateSeatWithoutResult(pod, player4);
+    seatRepository.save(seat4);
 
-        // data for finals
-        Player player7 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player7);
-        Player player8 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player8);
-        Pod podForFinals = TestDataGenerator.generatePod(tournament);
-        podForFinals.setType(PodType.FINAL);
-        podRepository.save(podForFinals);
+    List<Seat> byPodId = seatRepository.findByPodId(pod.getId());
 
-        // needed to ensure a commit the transaction before we start
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
-        TestTransaction.start();
+    // data for finals
+    Player player7 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player7);
+    Player player8 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player8);
+    Pod podForFinals = TestDataGenerator.generatePod(tournament);
+    podForFinals.setType(PodType.FINAL);
+    podRepository.save(podForFinals);
 
-        // report win
-        podService.reportResult(
-                pod.getId(), player1.getId(), Result.win);
+    // needed to ensure a commit the transaction before we start
+    TestTransaction.flagForCommit();
+    TestTransaction.end();
+    TestTransaction.start();
 
-        Pod podFromDb = podService.getPodById(pod.getId());
-        assertThat(podFromDb.getSeats())
-                .hasSize(4)
-                .extracting(seat -> seat.getPlayer().getId(), Seat::getResult)
-                .containsExactlyInAnyOrder(
-                        new Tuple(player1.getId(), Result.win),
-                        new Tuple(player2.getId(), Result.loss),
-                        new Tuple(player3.getId(), Result.loss),
-                        new Tuple(player4.getId(), Result.loss));
-        Pod finalsPod = podService.getPodById(podForFinals.getId());
+    // report win
+    podService.reportResult(
+        pod.getId(), player1.getId(), Result.win);
 
-        assertThat(finalsPod.getSeats().size() == 3);
-        assertThat(finalsPod.getSeats().contains(player1));
-    }
+    Pod podFromDb = podService.getPodById(pod.getId());
+    assertThat(podFromDb.getSeats())
+        .hasSize(4)
+        .extracting(seat -> seat.getPlayer().getId(), Seat::getResult)
+        .containsExactlyInAnyOrder(
+            new Tuple(player1.getId(), Result.win),
+            new Tuple(player2.getId(), Result.loss),
+            new Tuple(player3.getId(), Result.loss),
+            new Tuple(player4.getId(), Result.loss));
+    Pod finalsPod = podService.getPodById(podForFinals.getId());
 
-    @Test
-    void reportWinForFinals() {
-        Player player1 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player1);
-        Player player2 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player2);
-        Player player3 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player3);
-        Player player4 = TestDataGenerator.generatePlayer();
-        playerRepository.save(player4);
-        Tournament tournament = TestDataGenerator.generateTournament();
-        tournamentRepository.save(tournament);
-        Pod pod = TestDataGenerator.generatePod(tournament);
-        pod.setType(PodType.FINAL);
+    assertThat(finalsPod.getSeats().size() == 3);
+    assertThat(finalsPod.getSeats().contains(player1));
+  }
 
-        podRepository.save(pod);
-        Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
-        seatRepository.save(seat1);
-        Seat seat2 = TestDataGenerator.generateSeatWithoutResult(pod, player2);
-        seatRepository.save(seat2);
-        Seat seat3 = TestDataGenerator.generateSeatWithoutResult(pod, player3);
-        seatRepository.save(seat3);
-        Seat seat4 = TestDataGenerator.generateSeatWithoutResult(pod, player4);
-        seatRepository.save(seat4);
-        List<Seat> byPodId = seatRepository.findByPodId(pod.getId());
+  @Test
+  void reportWinForFinals() {
+    Player player1 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player1);
+    Player player2 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player2);
+    Player player3 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player3);
+    Player player4 = TestDataGenerator.generatePlayer();
+    playerRepository.save(player4);
+    Tournament tournament = TestDataGenerator.generateTournament();
+    tournamentRepository.save(tournament);
+    Pod pod = TestDataGenerator.generatePod(tournament);
+    pod.setType(PodType.FINAL);
 
-        // needed to ensure a commit the transaction before we start
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
-        TestTransaction.start();
+    podRepository.save(pod);
+    Seat seat1 = TestDataGenerator.generateSeatWithoutResult(pod, player1);
+    seatRepository.save(seat1);
+    Seat seat2 = TestDataGenerator.generateSeatWithoutResult(pod, player2);
+    seatRepository.save(seat2);
+    Seat seat3 = TestDataGenerator.generateSeatWithoutResult(pod, player3);
+    seatRepository.save(seat3);
+    Seat seat4 = TestDataGenerator.generateSeatWithoutResult(pod, player4);
+    seatRepository.save(seat4);
+    List<Seat> byPodId = seatRepository.findByPodId(pod.getId());
 
-        // report win
-        podService.reportResult(
-                pod.getId(), player1.getId(), Result.win);
+    // needed to ensure a commit the transaction before we start
+    TestTransaction.flagForCommit();
+    TestTransaction.end();
+    TestTransaction.start();
 
-        Pod podFromDb = podService.getPodById(pod.getId());
-        assertThat(podFromDb.getSeats())
-                .hasSize(4)
-                .extracting(seat -> seat.getPlayer().getId(), Seat::getResult)
-                .containsExactlyInAnyOrder(
-                        new Tuple(player1.getId(), Result.win),
-                        new Tuple(player2.getId(), Result.loss),
-                        new Tuple(player3.getId(), Result.loss),
-                        new Tuple(player4.getId(), Result.loss));
-    }
+    // report win
+    podService.reportResult(
+        pod.getId(), player1.getId(), Result.win);
+
+    Pod podFromDb = podService.getPodById(pod.getId());
+    assertThat(podFromDb.getSeats())
+        .hasSize(4)
+        .extracting(seat -> seat.getPlayer().getId(), Seat::getResult)
+        .containsExactlyInAnyOrder(
+            new Tuple(player1.getId(), Result.win),
+            new Tuple(player2.getId(), Result.loss),
+            new Tuple(player3.getId(), Result.loss),
+            new Tuple(player4.getId(), Result.loss));
+  }
 }

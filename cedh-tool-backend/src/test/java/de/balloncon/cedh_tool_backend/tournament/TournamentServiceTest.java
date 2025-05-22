@@ -1,41 +1,49 @@
 package de.balloncon.cedh_tool_backend.tournament;
 
+import static org.springframework.test.util.AssertionErrors.assertEquals;
+
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
-
 import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.math.BigDecimal;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.util.AssertionErrors.assertEquals;
-
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 class TournamentServiceTest {
 
-  @Autowired TournamentService tournamentService;
+  @Autowired
+  TournamentService tournamentService;
 
-  @Autowired PodService podService;
+  @Autowired
+  PodService podService;
 
-  @Autowired TournamentPlayerService tournamentPlayerService;
+  @Autowired
+  TournamentPlayerService tournamentPlayerService;
 
-  @Autowired SeatService seatService;
+  @Autowired
+  SeatService seatService;
 
-  @Autowired PlayerService playerService;
+  @Autowired
+  PlayerService playerService;
 
   // Test is for 60 player tournaments
   @Test
@@ -168,7 +176,7 @@ class TournamentServiceTest {
     List<Player> players = new ArrayList<>();
 
     String[] firstnames = {
-      "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"
     };
 
     for (int i = 0; i < 10; i++) {
