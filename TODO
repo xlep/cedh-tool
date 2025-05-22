@@ -3,3 +3,5 @@
 [ ] seat weighting,
 [ ] Report winner should also write all loosers,
 [ ] Automatic result BYE
+
+[ ] Deploy Test Tournament to AWS
