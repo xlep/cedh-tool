@@ -56,13 +56,7 @@ public class TournamentPlayerService {
             tournamentPlayerRepository.findByTournament(tournamentId);
 
     // prepare a map of players that can be referenced by their id
-    HashMap<UUID, TournamentPlayer> tournamentPlayerMap = new HashMap<>();
-    for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
-      // assign starting score to each player, to make sure the data from the DB does not affect the calculation
-      tournamentPlayer.setScore(STARTING_SCORE);
-      // then populate playerMap, so we can reference them via PlayerId
-      tournamentPlayerMap.put(tournamentPlayer.getPlayer().getId(), tournamentPlayer);
-    }
+    HashMap<UUID, TournamentPlayer> tournamentPlayerMap = buildPlayerUuidMap(tournamentPlayers);
 
     // data store for the results of all permutations
     List<HashMap<UUID, TournamentPlayer>> playerScoresByPermutation = new ArrayList<>();
@@ -83,18 +77,54 @@ public class TournamentPlayerService {
       }
     }
 
-
     // calculate average score per player
-    Map<UUID, List<BigDecimal>> playerScores = new HashMap<>();
-    for(HashMap<UUID, TournamentPlayer> tournamentPlayer : playerScoresByPermutation) {
-      for(Map.Entry<UUID, TournamentPlayer> entry : tournamentPlayer.entrySet()) {
-        UUID playerId = entry.getKey();
-        BigDecimal score = entry.getValue().getScore();
+    calculateAverageThroughPermutations(playerScoresByPermutation, tournamentPlayers);
 
-        // adds an entry for the player, if not present yet
-        playerScores.computeIfAbsent(playerId, k -> new ArrayList<>()).add(score);
+    // BYE adjustment
+    adjustForByes(tournamentId, rounds, tournamentPlayers);
+
+    return tournamentPlayers;
+  }
+
+  private void adjustForByes(UUID tournamentId, int rounds, List<TournamentPlayer> tournamentPlayers) {
+    HashMap<UUID, Integer> amountOfByesPerPlayer = getByesPerPlayer(tournamentId);
+
+    for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+      if (tournamentPlayer.getScore().compareTo(STARTING_SCORE) == 1
+              && amountOfByesPerPlayer.containsKey(tournamentPlayer.getPlayer().getId())) {
+        addAverageScoreDiffToPlayer(rounds, tournamentPlayer, amountOfByesPerPlayer);
       }
     }
+  }
+
+  private static void addAverageScoreDiffToPlayer(int rounds, TournamentPlayer tournamentPlayer, HashMap<UUID, Integer> amountOfByesPerPlayer) {
+    BigDecimal scoreDiff = tournamentPlayer.getScore().subtract(STARTING_SCORE);
+    Integer amountOfByes = amountOfByesPerPlayer.get(tournamentPlayer.getPlayer().getId());
+
+    BigDecimal scoreDiffPerRound = scoreDiff.divide(new BigDecimal(rounds - amountOfByes),
+            NUMBER_OF_DIGITS_BEHIND_DECIMAL_POINT, RoundingMode.UP);
+    BigDecimal newScore = tournamentPlayer.getScore().add(scoreDiffPerRound.multiply(new BigDecimal(amountOfByes)));
+    tournamentPlayer.setScore(newScore);
+  }
+
+  private HashMap<UUID, Integer> getByesPerPlayer(UUID tournamentId) {
+    HashMap<UUID, Integer> amountOfByesPerPlayer = new HashMap<>();
+    for (Pod pod : podService.getPodsAndSeatsByTournamentId(tournamentId)) {
+      for (Seat seat : pod.getSeats()) {
+        if (Result.bye.toString().equals(seat.getResult())) {
+          int amountOfByes = amountOfByesPerPlayer.containsKey(seat.getPlayer().getId())
+                  ? amountOfByesPerPlayer.get(seat.getPlayer().getId()) + 1
+                  : 1;
+          amountOfByesPerPlayer.put(seat.getPlayer().getId(), amountOfByes);
+        }
+      }
+    }
+    return amountOfByesPerPlayer;
+  }
+
+  private static void calculateAverageThroughPermutations(List<HashMap<UUID, TournamentPlayer>> playerScoresByPermutation, List<TournamentPlayer> tournamentPlayers) {
+    Map<UUID, List<BigDecimal>> playerScores = new HashMap<>();
+    extractPlayerScoresFromPermutations(playerScoresByPermutation, playerScores);
 
     for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
       UUID playerId = tournamentPlayer.getPlayer().getId();
@@ -113,8 +143,29 @@ public class TournamentPlayerService {
         tournamentPlayer.setScore(BigDecimal.ZERO);
       }
     }
+  }
 
-    return tournamentPlayers;
+  private static void extractPlayerScoresFromPermutations(List<HashMap<UUID, TournamentPlayer>> playerScoresByPermutation, Map<UUID, List<BigDecimal>> playerScores) {
+    for(HashMap<UUID, TournamentPlayer> tournamentPlayer : playerScoresByPermutation) {
+      for(Map.Entry<UUID, TournamentPlayer> entry : tournamentPlayer.entrySet()) {
+        UUID playerId = entry.getKey();
+        BigDecimal score = entry.getValue().getScore();
+
+        // adds an entry for the player, if not present yet
+        playerScores.computeIfAbsent(playerId, k -> new ArrayList<>()).add(score);
+      }
+    }
+  }
+
+  private static HashMap<UUID, TournamentPlayer> buildPlayerUuidMap(List<TournamentPlayer> tournamentPlayers) {
+    HashMap<UUID, TournamentPlayer> tournamentPlayerMap = new HashMap<>();
+    for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+      // assign starting score to each player, to make sure the data from the DB does not affect the calculation
+      tournamentPlayer.setScore(STARTING_SCORE);
+      // then populate playerMap, so we can reference them via PlayerId
+      tournamentPlayerMap.put(tournamentPlayer.getPlayer().getId(), tournamentPlayer);
+    }
+    return tournamentPlayerMap;
   }
 
   private static HashMap<UUID, TournamentPlayer> cloneTournamentPlayerMap(HashMap<UUID, TournamentPlayer> tournamentPlayerMap) {
@@ -146,7 +197,6 @@ public class TournamentPlayerService {
           potAmount = potAmount.add(performHareruyaCalculationBySeat(tournamentPlayerMap.get(seat.getPlayer().getId()),
                   seat.getSeat()));
         }
-        log.info(String.format("Total points in pot for pod %s are %s", pod.getId(), potAmount.toString()));
 
         assignNewScoresToPod(tournamentPlayerMap, pod, potAmount);
       }
@@ -156,7 +206,6 @@ public class TournamentPlayerService {
   private void assignNewScoresToPod(HashMap<UUID, TournamentPlayer> tournamentPlayersMap, Pod pod, BigDecimal potAmount) {
     Result podResult = podService.getResult(pod);
 
-    // TODO bye
     switch (podResult) {
       case Result.win -> addPointsToPodWinner(tournamentPlayersMap, pod, potAmount);
       case Result.draw -> addPointsForDraw(tournamentPlayersMap, pod, potAmount);
