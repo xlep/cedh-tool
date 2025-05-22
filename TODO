@@ -1,7 +1,15 @@
+Backend:
 [ ] Lock player to table,
 [ ] drop player,
 [ ] seat weighting,
 [ ] Report winner should also write all loosers,
 [ ] Automatic result BYE
 
+Frontend:
+[ ] Report Results, we report results per pod
+[ ] Calculate Player score only if round 1-5 has results
+[ ] Cut to top 10 only if calculate scores was successful
+[ ] Implement a caching that the pod data stays on the site or is pulled from the site
+
+Deployment and Test:
 [ ] Deploy Test Tournament to AWS
