@@ -63,6 +63,7 @@ public class TournamentService {
   private final Set<String> seenPairs = new HashSet<>();
   private Map<Integer, Player> indexToPlayer = new HashMap<>();
   private Map<UUID, Integer> playerIdToIndex = new HashMap<>();
+  private final static int TOP_TEN_CUT = 10;
 
   public void save(Tournament tournament) {
     tournamentRepository.save(tournament);
@@ -72,11 +73,8 @@ public class TournamentService {
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
     List<Player> players = tournamentPlayerRepository.findByTournamentId(tournamentId);
 
-    List<Pod> pods = podRepository.findByTournamentId(tournamentId);
-    // pods will be empty for the first round, hence we shuffle the players bevore we generate the round
-    if (pods.isEmpty()) {
-    shuffleUtil.shuffle(players);
-    }
+    // shuffle players before we calculate anything
+    // shuffleUtil.shuffle(players);
 
     int numPlayers = players.size();
     int groupsPerRound = numPlayers / POD_SIZE;
@@ -254,8 +252,17 @@ public class TournamentService {
   @Transactional
   public ResponseEntity<String> determineCut(UUID tournamentId, int cutTo) {
 
-    if (cutTo == 10) {
-      return generateTopTenCut(tournamentId, cutTo);
+    Optional<Integer> optionalRoundNumber = podService.getLastPlayedRoundNumberByTournamentId(tournamentId);
+
+    if (optionalRoundNumber.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    int roundNumber = optionalRoundNumber.get();
+    List <TournamentPlayer> players = tournamentPlayerService.calculatePlayerScoresAfterSwissRounds(tournamentId, roundNumber);
+
+    if (cutTo == TOP_TEN_CUT) {
+      return generateTopTenCut(players, roundNumber);
     } else {
       ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(ResponseMessages.RESPONSE_BAD_REQUEST_TOP_CUT);
@@ -263,26 +270,20 @@ public class TournamentService {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
   }
 
-  private ResponseEntity<String> generateTopTenCut(UUID tournamentId, int cutSize) {
-    Optional<List<TournamentPlayer>> optionalListOfTopTen =
-        tournamentPlayerService.getTopTenByTournamentOrderByScoreDesc(tournamentId, cutSize);
-    if (optionalListOfTopTen.isPresent()) {
-      List<TournamentPlayer> players = optionalListOfTopTen.get();
-
-      Optional<Integer> optionalOflastRound =
-          podService.getLastPlayedRoundNumberByTournamentId(
-              players.getFirst().getTournament().getId());
-
-      if (optionalOflastRound.isPresent()) {
-        int lastRound = optionalOflastRound.get();
-        int firstPod = 1;
-        players = placeFinalPlayersInPod(players, lastRound, firstPod);
-        generateSemifinals(players, lastRound, firstPod);
-      } else {
-        // todo: error handling
-      }
-    }
+  private ResponseEntity<String> generateTopTenCut(List<TournamentPlayer> players,
+    int lastRoundNumber) {
+    List<TournamentPlayer> topTenPlayers = generateTopCut(players, TOP_TEN_CUT);
+    int firstPod = 1;
+    List<TournamentPlayer> topEightPlayers = placeFinalPlayersInPod(topTenPlayers, lastRoundNumber, firstPod);
+    generateSemifinals(topEightPlayers, lastRoundNumber, firstPod);
     return ResponseEntity.status(200).build();
+  }
+
+  private List<TournamentPlayer> generateTopCut(List<TournamentPlayer> players, int cutSize) {
+    return players.stream()
+        .sorted(Comparator.comparing(TournamentPlayer::getScore).reversed())
+        .limit(cutSize)
+        .toList();
   }
 
   private void generateSemifinals(List<TournamentPlayer> players, int lastRound, int firstPodName) {
@@ -290,7 +291,7 @@ public class TournamentService {
     int middle = players.size() / 2;
     int semifinalRoundNumber = lastRound + 1;
 
-    shuffleUtil.shuffle(players);
+    shuffleUtil.shuffleList(players);
 
     List<TournamentPlayer> listOfFirstSemifinalPlayers;
     listOfFirstSemifinalPlayers = players.subList(0, middle);
@@ -316,22 +317,24 @@ public class TournamentService {
   }
 
   private List<TournamentPlayer> placeFinalPlayersInPod(
-      List<TournamentPlayer> players, int lastRound, int podNumber) {
+      List<TournamentPlayer> immutablePlayerList, int lastRoundNumber, int podNumber) {
     // first and second player for final
+    List<TournamentPlayer> mutablePlayerList = new ArrayList<>(immutablePlayerList);
+
     List<TournamentPlayer> finalists = new ArrayList<>();
 
-    TournamentPlayer finalistOne = players.get(0);
-    TournamentPlayer finalistTwo = players.get(1);
+    TournamentPlayer finalistOne = mutablePlayerList.get(0);
+    TournamentPlayer finalistTwo = mutablePlayerList.get(1);
 
     finalists.add(finalistOne);
     finalists.add(finalistTwo);
 
     // remove these player from top 10
-    players.remove(finalistOne);
-    players.remove(finalistTwo);
+    mutablePlayerList.remove(finalistOne);
+    mutablePlayerList.remove(finalistTwo);
 
     int finals = 2;
-    int finalRoundNumber = lastRound + finals;
+    int finalRoundNumber = lastRoundNumber + finals;
 
     Pod pod =
         generateAndPersistPod(
@@ -339,7 +342,7 @@ public class TournamentService {
 
     findPlayerForSeating(finalists, pod);
 
-    return players;
+    return mutablePlayerList;
   }
 
   private void findPlayerForSeating(List<TournamentPlayer> finalists, Pod pod) {
