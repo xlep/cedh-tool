@@ -61,7 +61,7 @@ public class TournamentService {
   private static final int POD_SIZE = 4;
 
   private final List<List<List<Integer>>> schedule = new ArrayList<>();
-  private final Set<String> seenPairs = new HashSet<>();
+  private Set<String> seenPairs = new HashSet<>();
   private Map<Integer, Player> indexToPlayer = new HashMap<>();
   private Map<UUID, Integer> playerIdToIndex = new HashMap<>();
 
@@ -86,6 +86,9 @@ public class TournamentService {
     int numPlayers = players.size();
     int groupsPerRound = numPlayers / POD_SIZE;
 
+    // reset UUID:INT due to shuffling and new player IDs (just to be safe from orphant entry sets because of drops)
+    indexToPlayer = new HashMap<>();
+    playerIdToIndex = new HashMap<>();
     // Map UUIDs to integers
     for (int i = 0; i < players.size(); i++) {
       indexToPlayer.put(i, players.get(i));
@@ -227,6 +230,9 @@ public class TournamentService {
   }
 
   private void populateSeenPairs(UUID tournamentId) {
+    // reset seen pairs due to shuffling and new ids for each player
+    seenPairs = new HashSet<>();
+
     List<Pod> pods = podRepository.findByTournamentId(tournamentId);
     for (Pod pod : pods) {
       List<Seat> seats = seatRepository.findByPodId(pod.getId());
