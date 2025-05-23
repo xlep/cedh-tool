@@ -38,7 +38,7 @@ class ShuffleUtilTest {
       assertThat(playersBeforeShuffle.contains(player)).isTrue();
     }
 
-    shuffleUtil.shuffle(playersBeforeShuffle);
+    shuffleUtil.shuffleList(playersBeforeShuffle);
 
     assertThat(players.size()).isEqualTo(playersBeforeShuffle.size());
     for (Player player : players) {
