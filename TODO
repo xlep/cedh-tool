@@ -1,4 +1,6 @@
 Backend:
+[X] Shuffle players before we generate the first set of pods
+[ ] Return the players that got a bye in a bye pod when generating a new round
 [ ] Lock player to table,
 [ ] drop player,
 [ ] seat weighting,

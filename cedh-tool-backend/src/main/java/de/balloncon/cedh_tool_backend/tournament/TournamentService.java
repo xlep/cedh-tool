@@ -71,6 +71,13 @@ public class TournamentService {
   public RoundDto generateNextRound(UUID tournamentId) {
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
     List<Player> players = tournamentPlayerRepository.findByTournamentId(tournamentId);
+
+    List<Pod> pods = podRepository.findByTournamentId(tournamentId);
+    // pods will be empty for the first round, hence we shuffle the players bevore we generate the round
+    if (pods.isEmpty()) {
+    shuffleUtil.shuffle(players);
+    }
+
     int numPlayers = players.size();
     int groupsPerRound = numPlayers / POD_SIZE;
 
