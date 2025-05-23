@@ -36,11 +36,11 @@ public class TournamentPlayerController {
     return tournamentPlayerService.getPlayerScoresByTournamentId(tournamentId);
   }
 
-  @GetMapping("/score/{round}")
+  @GetMapping("/score/{tournamentId}/{round}")
   @Operation(summary = "Get tournament player scores.", description = "Creates tournament player scores for the specified round number.")
   public List<TournamentPlayerScoreView> getPlayerScoresByTournamentRound(
       @PathVariable int round,
-      @RequestParam UUID tournamentId) {
+      @PathVariable UUID tournamentId) {
     List<TournamentPlayer> tournamentPlayers = tournamentPlayerService
         .calculatePlayerScoresAfterSwissRounds(tournamentId, round);
     return tournamentPlayerScoreViewFactory.createFromTournamentPlayerList(tournamentPlayers);
