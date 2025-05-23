@@ -5,6 +5,8 @@ import de.balloncon.cedh_tool_backend.dto.PodResultDto;
 import de.balloncon.cedh_tool_backend.mapper.PodMapper;
 import java.util.List;
 import java.util.UUID;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("${apiVersion}/pods")
 @CrossOrigin(origins = "http://localhost:3000")
+@Tag(name = "Pod Controller", description = "Operations related to pod management.")
 public class PodController {
 
   private final PodService podService;
@@ -29,18 +32,21 @@ public class PodController {
   }
 
   @GetMapping("/{podId}")
+  @Operation(summary = "Get pod's.", description = "Get the pod with podId.")
   public ResponseEntity<PodDto> getPodById(@PathVariable UUID podId) {
     Pod pod = podService.getPodById(podId);
     return ResponseEntity.ok(podMapper.toDto(pod));
   }
 
   @GetMapping("/tournament/{tournamentId}")
+  @Operation(summary = "Get pod's for a tournament.", description = "Get the pod's for tournament with tournamentId.")
   public ResponseEntity<List<PodDto>> getPodsByTournament(@PathVariable UUID tournamentId) {
     List<Pod> pods = podService.getPodsByTournamentId(tournamentId);
     return ResponseEntity.ok(podMapper.toDto(pods));
   }
 
   @PostMapping("/{podId}/results")
+  @Operation(summary = "Report pod results.", description = "Report the result for pod with podId.")
   public ResponseEntity<Void> reportPodResult(
       @PathVariable UUID podId,
       @RequestBody PodResultDto podResultDto
@@ -50,12 +56,6 @@ public class PodController {
         podResultDto.playerId(),
         podResultDto.result()
     );
-  }
-
-  @PatchMapping("/{podId}/result")
-  public ResponseEntity<Void> resetPodResult(@PathVariable UUID podId) {
-    podService.resetResult(podId);
-    return ResponseEntity.noContent().build();
   }
 }
 

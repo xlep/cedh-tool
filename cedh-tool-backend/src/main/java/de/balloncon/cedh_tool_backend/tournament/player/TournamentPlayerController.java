@@ -5,6 +5,8 @@ import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPla
 import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreViewFactory;
 import java.util.List;
 import java.util.UUID;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("${apiVersion}/tournament/players")
+@Tag(name = "Tournament Player Controller", description = "Operations related to tournament player management.")
 public class TournamentPlayerController {
 
   private final TournamentPlayerService tournamentPlayerService;
@@ -34,6 +37,7 @@ public class TournamentPlayerController {
   }
 
   @GetMapping("/score/{round}")
+  @Operation(summary = "Get tournament player scores.", description = "Creates tournament player scores for the specified round number.")
   public List<TournamentPlayerScoreView> getPlayerScoresByTournamentRound(
       @PathVariable int round,
       @RequestParam UUID tournamentId) {
@@ -43,6 +47,7 @@ public class TournamentPlayerController {
   }
 
   @GetMapping("/{tournamentId}")
+  @Operation(summary = "Get tournament players.", description = "Get tournament players for the tournament with tournamentId.")
   public List<PlayerDto> getPlayersByTournamentId(@PathVariable UUID tournamentId) {
     return tournamentPlayerService.getPlayersById(tournamentId);
   }
