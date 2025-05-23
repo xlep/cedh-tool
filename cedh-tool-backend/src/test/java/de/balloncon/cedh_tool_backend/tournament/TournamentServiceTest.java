@@ -1,10 +1,12 @@
 package de.balloncon.cedh_tool_backend.tournament;
 
-import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
+import de.balloncon.cedh_tool_backend.pod.PodRepository;
 import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
@@ -17,17 +19,21 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import lombok.ToString.Include;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.transaction.TestTransaction;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
+@Transactional
 class TournamentServiceTest {
 
   @Autowired
@@ -44,6 +50,10 @@ class TournamentServiceTest {
 
   @Autowired
   PlayerService playerService;
+  @Autowired
+  private PodRepository podRepository;
+  @Autowired
+  private TournamentRepository tournamentRepository;
 
   // Test is for 60 player tournaments
   @Test
@@ -65,6 +75,10 @@ class TournamentServiceTest {
     // Fetch the updated pods and seats
     List<Pod> pods = podService.getPodsAndSeatsByTournamentId(tournamentId);
 
+    assertThat(pods)
+        .isNotEmpty()
+        .hasSize(75);
+
     // For each pod, generate pairings and ensure no repeats
     for (Pod pod : pods) {
       ArrayList<Seat> seats = new ArrayList<>(pod.getSeats());
@@ -77,22 +91,78 @@ class TournamentServiceTest {
           // Ensure pairing is stored in consistent order
           addPairingsResult = pairings.add(pairing);
           prairingsList.add(pairing);
-          assertEquals(
-              String.format("Double Pairing detected. Found pairing duplicate %s", pairing),
-              true,
-              addPairingsResult);
+          assertThat(addPairingsResult).isTrue()
+              .as(String.format("Double Pairing detected. Found pairing duplicate %s", pairing));
         }
       }
     }
-
-    // Ensure that no player has been paired with the same opponent more than once
-    // TODO: does not mean that there are no repeats - either check the result of .add() or count
-    // the permutations and compare to .size()
-    assertEquals(
-        "The number of unique pairings is not equal to the number of pairings generated",
-        pairings.size(),
-        pairings.size());
   }
+
+  @Test
+  void testByePodGeneration() {
+    UUID tournamentId = UUID.fromString("5a6b7c8d-9e0f-1111-2222-333344455566");
+
+    tournamentService.generateNextRound(tournamentId);
+
+    // needed to ensure a commit the transaction before we start
+    TestTransaction.flagForCommit();
+    TestTransaction.end();
+    TestTransaction.start();
+
+    List<Pod> pods = podService.getPodsAndSeatsByTournamentId(tournamentId);
+    List<PlayerDto> tournamentPlayers = tournamentPlayerService.getPlayersById(tournamentId);
+
+    // We have 26 players, so we should have 7 pods (with 1 BYE pod containing 2 players
+    assertThat(pods)
+        .isNotEmpty()
+        .hasSize(7);
+
+    // make sure every player is accounted for
+    List<Player> seatedPlayers = new ArrayList<>();
+    for (Pod pod : pods) {
+      for (Seat seat : pod.getSeats()) {
+        seatedPlayers.add(seat.getPlayer());
+      }
+    }
+    assertThat(seatedPlayers.size())
+        .isEqualTo(tournamentPlayers.size());
+
+  }
+
+  @Test
+  void testByeSeatGenerationByScore() {
+    UUID tournamentId = UUID.fromString("28a471f7-2adb-45ed-b9db-1376b473786d");
+
+    assertThat(tournamentRepository.findMaxRound(tournamentId)).isEqualTo(2);
+
+    tournamentService.generateNextRound(tournamentId);
+
+    List<Pod> roundThreePods = podService.getPodsByRoundNumber(tournamentId, 3);
+    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService.calculatePlayerScoresAfterSwissRounds(
+        tournamentId, 2);
+    List<TournamentPlayer> tournamentPlayersSortedByScore = new ArrayList<>(
+        tournamentPlayers.stream()
+            .sorted(Comparator.comparing(TournamentPlayer::getScore).reversed())
+            .toList());
+
+    Pod byePod = null;
+    for (Pod pod : roundThreePods) {
+      if (pod.getName() == 999) {
+        byePod = pod;
+      }
+    }
+
+    assertThat(byePod)
+        .isNotNull();
+    // this might break if the logic to create BYEs by player score changes
+    assertThat(byePod.getSeats())
+        .hasSize(2)
+        .extracting(seat -> seat.getPlayer().getId())
+        .contains(tournamentPlayersSortedByScore.getLast().getPlayer().getId())
+        .contains(tournamentPlayersSortedByScore.get(tournamentPlayersSortedByScore.size() -1 ).getPlayer().getId());
+  }
+
+
 
   private static String sortPair(String id1, String id2) {
     List<String> pairings = Arrays.asList(id1, id2);
@@ -102,7 +172,6 @@ class TournamentServiceTest {
   }
 
   @Test
-  @Transactional
   void testTopTenCut() {
 
     int cutSize = 10;
@@ -123,16 +192,6 @@ class TournamentServiceTest {
 
     assert semifinalPods.size() == 2;
     assert finalPods.size() == 1;
-
-    // todo seats is always an empty array
-
-    //    List<String> finalPlayerFirstnames = finalPods.getFirst().getSeats().stream()
-    //            .map(seat -> seat.getPlayer().getFirstname())
-    //            .toList();
-
-    //    assertTrue(finalPlayerFirstnames.contains("nine"));
-    //    assertTrue(finalPlayerFirstnames.contains("ten"));
-    //    assertEquals("2 players are in the final pod",2, finalPods.getFirst().getSeats().size());
   }
 
   private Tournament generateTestTournament() {

@@ -41,4 +41,8 @@ public interface PodRepository extends JpaRepository<Pod, UUID> {
   @Query("SELECT P FROM Pod P WHERE P.tournament.id = :tournamentId AND P.type = :type")
   Pod findPodByTournamentIdAndType(@Param("tournamentId") UUID tournamentId,
       @Param("type") PodType type);
+
+  @Query("SELECT DISTINCT p FROM Pod p JOIN p.seats s "
+      + "WHERE p.tournament.id = :tournamentId AND s.result = 'BYE'")
+  List<Pod> findAllByePodsForTournament(@Param("tournamentId")  UUID tournamentId);
 }
