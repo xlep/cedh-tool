@@ -6,7 +6,7 @@ import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
-import jakarta.persistence.EntityNotFoundException;
+import de.balloncon.cedh_tool_backend.util.ShuffleUtil;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,6 +28,8 @@ public class PodService {
   private PlayerService playerService;
   @Autowired
   private PodMapper podMapper;
+  @Autowired
+  private ShuffleUtil shuffleUtil;
 
   public Pod getPodById(UUID podId) {
     return podRepository.findById(podId).orElse(null);
@@ -120,6 +122,7 @@ public class PodService {
     Player finalist = playerService.findPlayerById(winningPlayerID);
     Seat seatForFinalist = generateSeat(finalPod, finalist, finalPod.getSeats().size() + 1);
     finalPod.getSeats().add(seatForFinalist);
+    shuffleUtil.randomizeSeatNumbers(finalPod.getSeats());
   }
 
   private void persistResults(UUID podId, UUID winningPlayerID) {
@@ -151,18 +154,6 @@ public class PodService {
 
   public List<Pod> findByTournamentIdOrderByRoundAscNameAsc(UUID tournamentId) {
     return podRepository.findByTournamentIdOrderByRoundAscNameAsc(tournamentId);
-  }
-
-  public void resetResult(UUID podId) {
-
-    Pod pod = podRepository.findById(podId)
-        .orElseThrow(() -> new EntityNotFoundException("Pod not found"));
-
-    for (Seat seat : pod.getSeats()) {
-      seat.setResult(null);
-    }
-
-    podRepository.save(pod);
   }
 
   public Result getResult(Pod pod) {
