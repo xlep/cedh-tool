@@ -1,5 +1,6 @@
 package de.balloncon.cedh_tool_backend.tournament;
 
+import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.dto.RoundDto;
 import de.balloncon.cedh_tool_backend.mapper.PodMapper;
 import de.balloncon.cedh_tool_backend.player.Player;
@@ -59,8 +60,9 @@ public class TournamentService {
 
   private static final int POD_SIZE = 4;
 
+  // TODO: these should not be fields of a Service class
   private final List<List<List<Integer>>> schedule = new ArrayList<>();
-  private final Set<String> seenPairs = new HashSet<>();
+  private Set<String> seenPairs = new HashSet<>();
   private Map<Integer, Player> indexToPlayer = new HashMap<>();
   private Map<UUID, Integer> playerIdToIndex = new HashMap<>();
   private final static int TOP_TEN_CUT = 10;
@@ -72,13 +74,23 @@ public class TournamentService {
   public RoundDto generateNextRound(UUID tournamentId) {
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
     List<Player> players = tournamentPlayerRepository.findByTournamentId(tournamentId);
+    int previousRound = tournamentRepository.findMaxRound(tournamentId) == null
+        ? 0
+        : tournamentRepository.findMaxRound(tournamentId);
 
-    // shuffle players before we calculate anything
-    // shuffleUtil.shuffle(players);
+    // Shuffle the player list each round, since the seating algorithm uses the first possible pod
+    shuffleUtil.shuffleList(players);
+
+    // if a BYE is needed, give it to the lowest ranking players
+    // !!! REMOVES players that are assigned a bye from the player list
+    createAndAssignByePod(players, tournament, previousRound);
 
     int numPlayers = players.size();
     int groupsPerRound = numPlayers / POD_SIZE;
 
+    // reset UUID:INT due to shuffling and new player IDs (just to be safe from orphant entry sets because of drops)
+    indexToPlayer = new HashMap<>();
+    playerIdToIndex = new HashMap<>();
     // Map UUIDs to integers
     for (int i = 0; i < players.size(); i++) {
       indexToPlayer.put(i, players.get(i));
@@ -97,10 +109,83 @@ public class TournamentService {
     }
 
     // Save result to DB
-    int nextRound = podRepository.findMaxRoundForTournament(tournamentId).orElse(0) + 1;
+    int nextRound = previousRound + 1;
     List<RoundDto.PodDto> podDtos = savePodsAndSeats(groups, nextRound, tournament);
 
     return RoundDto.builder().round(nextRound).pods(podDtos).build();
+  }
+
+  private void createAndAssignByePod(List<Player> players, Tournament tournament,
+      int previousRound) {
+    int numberOfByes = players.size() % POD_SIZE;
+
+
+    if (numberOfByes > 0) {
+      List<Player> playersWithBye = getPlayersForBye(tournament.getId(), players, previousRound,
+          numberOfByes);
+
+      Pod byePod = new Pod();
+      byePod.setTournament(tournament);
+      byePod.setType(PodType.SWISS);
+      byePod.setRound(previousRound + 1);
+      byePod.setName(999);
+
+      for (Player player : playersWithBye) {
+        Seat byeSeat = new Seat();
+        byeSeat.setPod(byePod);
+        byeSeat.setPlayer(player);
+        byeSeat.setResult(Result.bye);
+        byeSeat.setSeat(byePod.getSeats().size() + 1);
+        byePod.getSeats().add(byeSeat);
+      }
+
+      podRepository.save(byePod);
+    }
+  }
+
+  private List<Player> getPlayersForBye(UUID tournamentId, List<Player> players, int previousRound, int numberOfByes) {
+    List<Player> playersWithBye = new ArrayList<>();
+
+    if (previousRound == 0) {
+      for (int i = 0; i < numberOfByes; i++) {
+        playersWithBye.add(players.getLast());
+        players.removeLast();
+      }
+    } else {
+      List<TournamentPlayer> tournamentPlayers = tournamentPlayerService
+          .calculatePlayerScoresAfterSwissRounds(tournamentId, previousRound);
+
+      // remove players that already received a bye
+      List<Pod> allByePodsForTournament = podRepository.findAllByePodsForTournament(tournamentId);
+      for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+        for (Pod pod : allByePodsForTournament) {
+          for (Seat seat : pod.getSeats()) {
+            if (seat.getPlayer().getId().equals(tournamentPlayer.getId())) {
+              tournamentPlayers.remove(tournamentPlayer);
+            }
+          }
+        }
+      }
+
+      List<TournamentPlayer> tournamentPlayersSortedByScore = new ArrayList<>(
+          tournamentPlayers.stream()
+              .sorted(Comparator.comparing(TournamentPlayer::getScore).reversed())
+              .toList());
+
+      // remove players from possible pod list and add them to the BYE pod
+      for (int i = 0; i < numberOfByes; i++) {
+        /*
+            TODO: potential improvement
+              currently we get the players for a tournament and sort by score. If there are
+              more players with the same lowest score then BYEs, the assignement of byes is
+              determined by the order of the DB query and will not be random.
+         */
+        playersWithBye.add(tournamentPlayersSortedByScore.getLast().getPlayer());
+        tournamentPlayersSortedByScore.removeLast();
+      }
+    }
+
+    return playersWithBye;
   }
 
   private boolean backtrack(
@@ -147,6 +232,9 @@ public class TournamentService {
   }
 
   private void populateSeenPairs(UUID tournamentId) {
+    // reset seen pairs due to shuffling and new ids for each player
+    seenPairs = new HashSet<>();
+
     List<Pod> pods = podRepository.findByTournamentId(tournamentId);
     for (Pod pod : pods) {
       List<Seat> seats = seatRepository.findByPodId(pod.getId());
