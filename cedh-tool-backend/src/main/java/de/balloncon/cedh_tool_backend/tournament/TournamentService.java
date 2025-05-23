@@ -60,6 +60,7 @@ public class TournamentService {
 
   private static final int POD_SIZE = 4;
 
+  // TODO: these should not be fields of a Service class
   private final List<List<List<Integer>>> schedule = new ArrayList<>();
   private Set<String> seenPairs = new HashSet<>();
   private Map<Integer, Player> indexToPlayer = new HashMap<>();
