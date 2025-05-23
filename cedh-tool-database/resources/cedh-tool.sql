@@ -4,8 +4,7 @@ CREATE
 DATABASE cedhtool;
 
 -- connect to new db
-\c
-cedhtool;
+\c cedhtool;
 
 -- grant necessary privileges to user
 GRANT ALL PRIVILEGES ON DATABASE
@@ -253,6 +252,7 @@ VALUES ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '22321b1c-cade-4e9e-866c-3461051
 
 -- anonymized testdata ballonCon 4
 -- tournament
+/*
 INSERT INTO tournament (id, name, mode)
 VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'BallonCon cEDH Test', null);
 
@@ -2329,3 +2329,4 @@ INSERT INTO seats (pod, player, seat, result)
 VALUES ('6f418467-9ddc-4419-8661-95de3697a9fb', '63aebcf4-a90f-4e53-838f-a9f2bff0276d', 0, 'bye');
 INSERT INTO seats (pod, player, seat, result)
 VALUES ('6f418467-9ddc-4419-8661-95de3697a9fb', '882f45d6-b387-4461-a50a-4b01876c13e1', 0, 'bye');
+*/
