@@ -9,4 +9,7 @@ public interface TournamentRepository extends JpaRepository<Tournament, UUID> {
 
   @Query("SELECT t FROM Tournament t WHERE t.id = :id")
   Tournament findTournamentById(@Param("id") UUID id);
+
+  @Query("SELECT MAX(p.round) FROM Pod p WHERE p.tournament.id = :tournamentId")
+  Integer findMaxRound(@Param("tournamentId") UUID tournamentId);
 }
