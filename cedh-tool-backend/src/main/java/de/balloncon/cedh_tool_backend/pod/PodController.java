@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +46,7 @@ public class PodController {
     return ResponseEntity.ok(podMapper.toDto(pods));
   }
 
-  @PostMapping("/{podId}/results")
+  @PutMapping("/{podId}/results")
   @Operation(summary = "Report pod results.", description = "Report the result for pod with podId.")
   public ResponseEntity<Void> reportPodResult(
       @PathVariable UUID podId,
