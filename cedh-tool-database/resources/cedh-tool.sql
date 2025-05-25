@@ -45,6 +45,7 @@ CREATE TABLE tournamentplayers
   tournament_id UUID references tournament (id),
   player_id     UUID references player (id),
   score         NUMERIC(7, 3),
+  status       VARCHAR DEFAULT REGISTERED,
   PRIMARY KEY (tournament_id, player_id)
 );
 

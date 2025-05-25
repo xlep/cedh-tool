@@ -15,6 +15,7 @@ import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
 import de.balloncon.cedh_tool_backend.util.ResponseMessages;
 import de.balloncon.cedh_tool_backend.util.ShuffleUtil;
 import jakarta.transaction.Transactional;
@@ -73,7 +74,11 @@ public class TournamentService {
 
   public RoundDto generateNextRound(UUID tournamentId) {
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
-    List<Player> players = tournamentPlayerRepository.findByTournamentId(tournamentId);
+    List<Player> players = tournamentPlayerRepository
+        .findByTournament(tournamentId, TournamentPlayerStatus.active)
+        .stream()
+        .map(TournamentPlayer::getPlayer)
+        .collect(Collectors.toList());
     int previousRound = tournamentRepository.findMaxRound(tournamentId) == null
         ? 0
         : tournamentRepository.findMaxRound(tournamentId);
