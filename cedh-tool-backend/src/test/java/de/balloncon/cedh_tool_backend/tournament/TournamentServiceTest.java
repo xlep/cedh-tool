@@ -13,6 +13,7 @@ import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
 import jakarta.transaction.Transactional;
@@ -21,8 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import lombok.ToString.Include;
@@ -45,6 +48,9 @@ class TournamentServiceTest {
 
   @Autowired
   TournamentPlayerService tournamentPlayerService;
+
+  @Autowired
+  TournamentPlayerRepository tournamentPlayerRepository;
 
   @Autowired
   SeatService seatService;
@@ -193,6 +199,66 @@ class TournamentServiceTest {
 
     assert semifinalPods.size() == 2;
     assert finalPods.size() == 1;
+  }
+
+  @Test
+  void testGenerateSeatOrder() {
+    UUID tournamentId = UUID.fromString("28a471f7-2adb-45ed-b9db-1376b473786d");
+
+    Set<Player> players = new HashSet<>();
+    Player firebrand = playerService.findPlayerById(UUID.fromString("00000000-0000-0000-0000-000000000001")); // Firebrand -> 1+1 = 2
+    Player nightshade = playerService.findPlayerById(UUID.fromString("00000000-0000-0000-0000-000000000002")); // Nightshade -> 2+2 = 4
+    Player ironclad = playerService.findPlayerById(UUID.fromString("00000000-0000-0000-0000-000000000003")); // Ironclad -> 3+3 = 6
+    Player ghostwalker = playerService.findPlayerById(UUID.fromString("00000000-0000-0000-0000-000000000004")); // Ghostwalker -> 4+4 = 8
+
+    players.add(nightshade);
+    players.add(ironclad);
+    players.add(ghostwalker);
+    players.add(firebrand);
+
+    Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
+    List<Player> weightedSeats = tournamentService.generateSeatOrder(tournament, players);
+
+    assertThat(weightedSeats)
+        .hasSize(4)
+        .containsExactly(
+            ghostwalker,
+            ironclad,
+            nightshade,
+            firebrand
+        );
+  }
+
+  @Test
+  void testSeatWeightingWithMultipleRounds() {
+    // Use the provided tournament ID
+    UUID tournamentId = UUID.fromString("e29fbe3f-1755-43cc-a27a-393ec6d80a09");
+    Tournament tournamentById = tournamentRepository.findTournamentById(tournamentId);
+
+    // Track all pairings for uniqueness
+    // Generate 5 rounds
+    for (int round = 0; round < 5; round++) {
+      // Generate the next round
+      tournamentService.generateNextRound(tournamentId);
+    }
+
+    Map<TournamentPlayer, Integer> playerSeatSum = new HashMap<>();
+    List<TournamentPlayer> players = tournamentPlayerRepository.findByTournament(tournamentId);
+    for (TournamentPlayer tournamentPlayer : players) {
+      List<Seat> playerSeatsByTournament = seatService.getPlayerSeatsByTournament(tournamentId,
+          tournamentPlayer.getPlayer().getId());
+
+      Integer seatSum = 0;
+      for (Seat seat : playerSeatsByTournament) {
+        seatSum += seat.getSeat();
+      }
+      playerSeatSum.put(tournamentPlayer, seatSum);
+    }
+
+    assertThat(playerSeatSum)
+        .hasSize(60);
+    assertThat(playerSeatSum.values())
+        .allMatch(sum -> sum >= 11 && sum <= 15);
   }
 
   private Tournament generateTestTournament() {
