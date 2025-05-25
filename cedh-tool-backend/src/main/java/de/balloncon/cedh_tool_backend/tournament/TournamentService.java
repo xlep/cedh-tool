@@ -486,5 +486,7 @@ public class TournamentService {
     return rounds;
   }
 
-
+  public Tournament getTournament(UUID tournamentId) {
+    return tournamentRepository.findById(tournamentId).orElse(null);
+  }
 }

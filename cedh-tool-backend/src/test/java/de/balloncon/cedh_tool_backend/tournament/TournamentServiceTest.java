@@ -8,14 +8,11 @@ import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import de.balloncon.cedh_tool_backend.pod.PodRepository;
 import de.balloncon.cedh_tool_backend.pod.PodService;
-import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import jakarta.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import lombok.ToString.Include;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -179,74 +175,16 @@ class TournamentServiceTest {
     int semifinalRoundNumber = 6;
     int finalRoundNumber = 7;
 
-    Tournament tournament = generateTestTournament();
-    List<Player> playersList = generateTestPlayers();
-    generateTestTournamentPlayers(tournament, playersList);
-    generatePreviousRoundPod(tournament, previousRoundNumber);
+    UUID tournamentId = UUID.fromString("7addec25-9af0-452f-9e01-6481892e545d");
+    Tournament tournament = tournamentService.getTournament(tournamentId);
 
     tournamentService.determineCut(tournament.getId(), cutSize);
 
     List<Pod> semifinalPods =
-        podService.getPodsByRoundNumber(tournament.getId(), semifinalRoundNumber);
+        podService.getPodsByRoundNumber(tournamentId, semifinalRoundNumber);
     List<Pod> finalPods = podService.getPodsByRoundNumber(tournament.getId(), finalRoundNumber);
 
     assert semifinalPods.size() == 2;
     assert finalPods.size() == 1;
-  }
-
-  private Tournament generateTestTournament() {
-    Tournament tournament = new Tournament();
-    tournament.setMode("Hareruya");
-    tournament.setName("test top ten cut");
-    tournamentService.save(tournament);
-    return tournament;
-  }
-
-  private void generatePreviousRoundPod(Tournament tournament, int previousRoundNumber) {
-    Pod pod = new Pod();
-    pod.setType(PodType.SWISS);
-    pod.setRound(previousRoundNumber);
-    pod.setTournament(tournament);
-    pod.setName(1);
-    podService.save(pod);
-  }
-
-  private void generateTestTournamentPlayers(Tournament tournament, List<Player> playersList) {
-    Long multiplier = 1L;
-    Long baseScore = 100L;
-
-    for (Player player : playersList) {
-      TournamentPlayerId playerId = new TournamentPlayerId();
-      playerId.setTournament(tournament.getId());
-      playerId.setPlayer(player.getId());
-
-      TournamentPlayer tournamentPlayer = new TournamentPlayer();
-      tournamentPlayer.setId(playerId);
-      tournamentPlayer.setTournament(tournament);
-      tournamentPlayer.setPlayer(player);
-      tournamentPlayer.setScore(BigDecimal.valueOf(baseScore * multiplier));
-
-      multiplier++;
-      tournamentPlayerService.save(tournamentPlayer);
-    }
-  }
-
-  private List<Player> generateTestPlayers() {
-    List<Player> players = new ArrayList<>();
-
-    String[] firstnames = {
-        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"
-    };
-
-    for (int i = 0; i < 10; i++) {
-      Player player = new Player();
-      player.setFirstname(firstnames[i]);
-      player.setLastname("last" + (i + 1));
-      player.setNickname("nick_" + (i + 1));
-      players.add(player);
-    }
-
-    playerService.savePlayers(players);
-    return players;
   }
 }
