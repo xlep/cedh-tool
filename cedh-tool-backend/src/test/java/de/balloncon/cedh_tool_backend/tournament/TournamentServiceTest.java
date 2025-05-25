@@ -6,17 +6,11 @@ import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
-import de.balloncon.cedh_tool_backend.pod.PodRepository;
 import de.balloncon.cedh_tool_backend.pod.PodService;
-import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
-import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
 import jakarta.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import lombok.ToString.Include;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,24 +30,15 @@ import org.springframework.test.context.transaction.TestTransaction;
 @Transactional
 class TournamentServiceTest {
 
-  @Autowired
-  TournamentService tournamentService;
+  @Autowired TournamentService tournamentService;
 
-  @Autowired
-  PodService podService;
+  @Autowired PodService podService;
 
-  @Autowired
-  TournamentPlayerService tournamentPlayerService;
+  @Autowired TournamentPlayerService tournamentPlayerService;
 
-  @Autowired
-  SeatService seatService;
+  @Autowired PlayerService playerService;
 
-  @Autowired
-  PlayerService playerService;
-  @Autowired
-  private PodRepository podRepository;
-  @Autowired
-  private TournamentRepository tournamentRepository;
+  @Autowired private TournamentRepository tournamentRepository;
 
   // Test is for 60 player tournaments
   @Test
@@ -76,9 +60,7 @@ class TournamentServiceTest {
     // Fetch the updated pods and seats
     List<Pod> pods = podService.getPodsAndSeatsByTournamentId(tournamentId);
 
-    assertThat(pods)
-        .isNotEmpty()
-        .hasSize(75);
+    assertThat(pods).isNotEmpty().hasSize(75);
 
     // For each pod, generate pairings and ensure no repeats
     for (Pod pod : pods) {
@@ -92,7 +74,8 @@ class TournamentServiceTest {
           // Ensure pairing is stored in consistent order
           addPairingsResult = pairings.add(pairing);
           prairingsList.add(pairing);
-          assertThat(addPairingsResult).isTrue()
+          assertThat(addPairingsResult)
+              .isTrue()
               .as(String.format("Double Pairing detected. Found pairing duplicate %s", pairing));
         }
       }
@@ -114,9 +97,7 @@ class TournamentServiceTest {
     List<PlayerDto> tournamentPlayers = tournamentPlayerService.getPlayersById(tournamentId);
 
     // We have 26 players, so we should have 7 pods (with 1 BYE pod containing 2 players
-    assertThat(pods)
-        .isNotEmpty()
-        .hasSize(7);
+    assertThat(pods).isNotEmpty().hasSize(7);
 
     // make sure every player is accounted for
     List<Player> seatedPlayers = new ArrayList<>();
@@ -125,9 +106,7 @@ class TournamentServiceTest {
         seatedPlayers.add(seat.getPlayer());
       }
     }
-    assertThat(seatedPlayers.size())
-        .isEqualTo(tournamentPlayers.size());
-
+    assertThat(seatedPlayers.size()).isEqualTo(tournamentPlayers.size());
   }
 
   @Test
@@ -139,12 +118,13 @@ class TournamentServiceTest {
     tournamentService.generateNextRound(tournamentId);
 
     List<Pod> roundThreePods = podService.getPodsByRoundNumber(tournamentId, 3);
-    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService.calculatePlayerScoresAfterSwissRounds(
-        tournamentId, 2);
-    List<TournamentPlayer> tournamentPlayersSortedByScore = new ArrayList<>(
-        tournamentPlayers.stream()
-            .sorted(Comparator.comparing(TournamentPlayer::getScore).reversed())
-            .toList());
+    List<TournamentPlayer> tournamentPlayers =
+        tournamentPlayerService.calculatePlayerScoresAfterSwissRounds(tournamentId, 2);
+    List<TournamentPlayer> tournamentPlayersSortedByScore =
+        new ArrayList<>(
+            tournamentPlayers.stream()
+                .sorted(Comparator.comparing(TournamentPlayer::getScore).reversed())
+                .toList());
 
     Pod byePod = null;
     for (Pod pod : roundThreePods) {
@@ -153,17 +133,18 @@ class TournamentServiceTest {
       }
     }
 
-    assertThat(byePod)
-        .isNotNull();
+    assertThat(byePod).isNotNull();
     // this might break if the logic to create BYEs by player score changes
     assertThat(byePod.getSeats())
         .hasSize(2)
         .extracting(seat -> seat.getPlayer().getId())
         .contains(tournamentPlayersSortedByScore.getLast().getPlayer().getId())
-        .contains(tournamentPlayersSortedByScore.get(tournamentPlayersSortedByScore.size() -1 ).getPlayer().getId());
+        .contains(
+            tournamentPlayersSortedByScore
+                .get(tournamentPlayersSortedByScore.size() - 1)
+                .getPlayer()
+                .getId());
   }
-
-
 
   private static String sortPair(String id1, String id2) {
     List<String> pairings = Arrays.asList(id1, id2);
@@ -176,77 +157,17 @@ class TournamentServiceTest {
   void testTopTenCut() {
 
     int cutSize = 10;
-    int previousRoundNumber = 5;
     int semifinalRoundNumber = 6;
     int finalRoundNumber = 7;
 
     UUID tournamentId = UUID.fromString("7addec25-9af0-452f-9e01-6481892e545d");
-    Tournament tournament = tournamentService.getTournament(tournamentId);
 
-    tournamentService.determineCut(tournament.getId(), cutSize);
+    tournamentService.determineCut(tournamentId, cutSize);
 
-    List<Pod> semifinalPods =
-        podService.getPodsByRoundNumber(tournamentId, semifinalRoundNumber);
-    List<Pod> finalPods = podService.getPodsByRoundNumber(tournament.getId(), finalRoundNumber);
+    List<Pod> semifinalPods = podService.getPodsByRoundNumber(tournamentId, semifinalRoundNumber);
+    List<Pod> finalPods = podService.getPodsByRoundNumber(tournamentId, finalRoundNumber);
 
     assert semifinalPods.size() == 2;
     assert finalPods.size() == 1;
-  }
-
-  private Tournament generateTestTournament() {
-    Tournament tournament = new Tournament();
-    tournament.setMode("Hareruya");
-    tournament.setName("test top ten cut");
-    tournamentService.save(tournament);
-    return tournament;
-  }
-
-  private void generatePreviousRoundPod(Tournament tournament, int previousRoundNumber) {
-    Pod pod = new Pod();
-    pod.setType(PodType.SWISS);
-    pod.setRound(previousRoundNumber);
-    pod.setTournament(tournament);
-    pod.setName(1);
-    podService.save(pod);
-  }
-
-  private void generateTestTournamentPlayers(Tournament tournament, List<Player> playersList) {
-    Long multiplier = 1L;
-    Long baseScore = 100L;
-
-    for (Player player : playersList) {
-      TournamentPlayerId playerId = new TournamentPlayerId();
-      playerId.setTournament(tournament.getId());
-      playerId.setPlayer(player.getId());
-
-      TournamentPlayer tournamentPlayer = new TournamentPlayer();
-      tournamentPlayer.setId(playerId);
-      tournamentPlayer.setTournament(tournament);
-      tournamentPlayer.setPlayer(player);
-      tournamentPlayer.setScore(BigDecimal.valueOf(baseScore * multiplier));
-      tournamentPlayer.setStatus(TournamentPlayerStatus.active);
-
-      multiplier++;
-      tournamentPlayerService.save(tournamentPlayer);
-    }
-  }
-
-  private List<Player> generateTestPlayers() {
-    List<Player> players = new ArrayList<>();
-
-    String[] firstnames = {
-        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"
-    };
-
-    for (int i = 0; i < 10; i++) {
-      Player player = new Player();
-      player.setFirstname(firstnames[i]);
-      player.setLastname("last" + (i + 1));
-      player.setNickname("nick_" + (i + 1));
-      players.add(player);
-    }
-
-    playerService.savePlayers(players);
-    return players;
   }
 }
