@@ -12,6 +12,7 @@ import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatRepository;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import de.balloncon.cedh_tool_backend.tournament.TournamentRepository;
+import de.balloncon.cedh_tool_backend.tournament.TournamentService;
 import de.balloncon.cedh_tool_backend.util.TestDataGenerator;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -48,6 +49,8 @@ class TournamentPlayerServiceTest {
 
   private static Tournament tournament;
   private static Pod pod;
+  @Autowired
+  private TournamentService tournamentService;
 
 
   void setupTournamentWithOnePod() {
@@ -327,6 +330,30 @@ class TournamentPlayerServiceTest {
         .contains(new Tuple("Netizen", new BigDecimal("1009.21")))
         .contains(new Tuple("Webmaster", new BigDecimal("1072.43")));
 
+  }
+
+  @Test
+  void testDropPlayer() {
+    Tournament tournament = TestDataGenerator.generateTournament();
+    tournamentRepository.save(tournament);
+    Player player = TestDataGenerator.generatePlayer();
+    playerRepository.save(player);
+    TournamentPlayer tournamentPlayer = TestDataGenerator.generateTournamentPlayer(tournament,
+        player);
+    tournamentPlayerRepository.save(tournamentPlayer);
+
+    TournamentPlayer tournamentPlayerFromDb = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournament.getId(), player.getId());
+    assertThat(tournamentPlayerFromDb).isNotNull();
+    assertThat(tournamentPlayerFromDb.getStatus()).isEqualTo(TournamentPlayerStatus.active);
+
+    tournamentPlayerService.setPlayerStatus(tournament.getId(), player.getId(),
+        TournamentPlayerStatus.dropped);
+    tournamentPlayerRepository.save(tournamentPlayerFromDb);
+
+    TournamentPlayer tournamentPlayerAfterDrop = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournament.getId(), player.getId());
+    assertThat(tournamentPlayerAfterDrop.getStatus()).isEqualTo(TournamentPlayerStatus.dropped);
   }
 
   private void setupWinner(int seatNumber) {

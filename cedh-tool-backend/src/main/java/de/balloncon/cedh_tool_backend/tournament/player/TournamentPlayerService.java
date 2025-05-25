@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -49,6 +50,21 @@ public class TournamentPlayerService {
       PlayerMapper playerMapper) {
     this.tournamentPlayerRepository = tournamentPlayerRepository;
     this.playerMapper = playerMapper;
+  }
+
+  public ResponseEntity<Void> setPlayerStatus(UUID tournamentId, UUID playerId,
+      TournamentPlayerStatus status) {
+    TournamentPlayer tournamentPlayer = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournamentId, playerId);
+
+    if (tournamentPlayer == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    tournamentPlayer.setStatus(status);
+    tournamentPlayerRepository.save(tournamentPlayer);
+
+    return ResponseEntity.ok().build();
   }
 
   public void save(TournamentPlayer tournamentPlayer) {

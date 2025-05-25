@@ -54,6 +54,11 @@ public interface TournamentPlayerRepository extends JpaRepository<TournamentPlay
 
 
   @Query(
+      "SELECT tp FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId AND tp.player.id = :playerId")
+  TournamentPlayer findByTournamentAndPlayer(
+      @Param("tournamentId") UUID tournamentId, @Param("playerId") UUID playerId);
+
+  @Query(
       "SELECT tp FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId AND tp.player.id IN :playerIds")
   List<TournamentPlayer> findByTournamentAndPlayers(
       @Param("tournamentId") UUID tournamentId, @Param("playerIds") List<String> playerIds);
