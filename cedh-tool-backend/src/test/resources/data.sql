@@ -76,73 +76,73 @@ VALUES ('22321b1c-cade-4e9e-866c-34610510922b', 'nick_1', 'James', 'Smith'),
 
 
 --Populate Summer cEDH II with players
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '22321b1c-cade-4e9e-866c-34610510922b', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8dd9b669-929e-4fe2-8f95-3d64fa2d11d2', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ea070c1f-83cc-49ae-af54-95b661d07b3f', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '54256855-f77e-449b-ade3-c986168a56ca', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '328857fe-61b4-4295-9ed4-dbc395d7a747', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '74ba2c67-0a35-43b6-98ee-628739759ece', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '12779ebe-7d53-46df-999c-e81ec6243a34', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ce23deb8-83f0-4124-b37a-c3691defb150', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'f38e7124-620e-4961-91ed-227535dabb4c', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'acbca5d1-18ad-49ec-b91b-34923037681d', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '83a2ea79-2f8b-44f0-9017-a583f9e7797f', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'd9d0a2be-084e-4ac7-bb41-7812948a6df4', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '58a517cd-b73c-4bbe-a2d1-584face37da9', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'c41489a7-0d36-457e-9973-d2ebbfb631d2', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'a574c5d3-25b2-4a58-a877-7362ff0a52dc', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '73b8d869-175f-46e9-916b-96f754731997', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '0a19432f-509f-413a-9e4c-b25089b9b60c', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '49063bb2-0a34-4d8d-9524-f6bfa6fa70f5', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '2cc85517-c291-4e9a-b48f-11ed8e4bf12e', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '61b9e0e2-5d01-4b41-ad78-3fed33296b81', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8fbc64f9-ae36-4151-994d-b2f5e6d3a381', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'dae368a0-3c8a-4786-b4e7-9135534469ba', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '76caf60c-5f37-439f-b57e-264b91b3579a', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '46b49bcd-fa90-42a6-82f7-2df13a5ec749', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '99cfb36a-be39-4a1a-a361-f0480730fbe7', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6ff783ed-7c1e-4975-9bc8-7dc9d5a9e202', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '28324d70-bc41-43c2-96b6-a2eae0492b4d', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'f74315a0-2973-4730-b9dd-75db4a989d6b', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8407ca62-bd16-4976-9c00-12a8068383ec', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6a6e77ed-ccf0-4a88-bb10-a17a0cc0ec9c', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '4ab14f83-f137-4aff-8964-8c500981abdc', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ef492cd7-030d-486a-8586-590049c5f50f', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '12bd3140-7c47-48a9-9ffe-f28898ffd3d8', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '4c38acba-eebe-4461-9c7d-2676d0dbd722', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '7824f5a5-88da-404d-9f18-fc31d7fbc16c', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '0f93294b-0aa3-47a9-8d90-b0c3faa67e50', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'b2ba3304-5da8-42a7-9282-b139c2bde3ea', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'aa545aeb-bf8f-4e82-a6d0-7963ff73601b', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '925b3c3d-2335-467f-8b62-308f7d263bfb', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6ecea270-ef06-4eec-91f8-59ae7c993541', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '738d976a-0542-43ac-9cb7-cc01cbc9f259', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ba7c3921-7b75-4036-992c-6236942012ea', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '33a574b7-78c2-4558-ad1c-f235311ac3f8', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'd39a2de3-64c0-40fc-b756-209fe1ed009b', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '93314daa-f827-43de-abd5-2bb08e159967', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '2c4ce0a1-7ab3-48d8-bd08-d0cedacf095e', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '3f5c0a54-c98f-4605-9ffe-f74acdd05558', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '89f510a4-7c70-4228-b709-7d6de3a74c0e', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '44f4d1dd-d76f-4f53-8504-0a08db24cf79', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ff046fdb-1bed-42ba-a624-e8a81f1a3682', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '3ac97981-d361-46cb-ada6-1ca7ade9f38f', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'b0bd443e-f534-4c2d-8a23-38afbc70ec93', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'cd4aeaef-bd38-4ccd-84a1-7c9f5fbd6dc8', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '1bca64de-1bea-4fdb-b0c2-b2c8a6eae2cc', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'cde00fa1-2fc9-48f6-8c02-315e0a369a8a', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'db86c071-051b-4617-9a9c-bc7f593bd912', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'e2d93ab3-f18d-4154-ac8a-e05fb020911d', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '9289505f-c16d-4ce0-9518-27da74f8ac3f', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'fcc33a93-7270-46bb-994e-aecf7ccaf37f', 1500.000),
-       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ac27b7e0-626b-405d-aaad-80e6d9ac3274', 1500.000);
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '22321b1c-cade-4e9e-866c-34610510922b', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8dd9b669-929e-4fe2-8f95-3d64fa2d11d2', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ea070c1f-83cc-49ae-af54-95b661d07b3f', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '54256855-f77e-449b-ade3-c986168a56ca', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '328857fe-61b4-4295-9ed4-dbc395d7a747', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '74ba2c67-0a35-43b6-98ee-628739759ece', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '12779ebe-7d53-46df-999c-e81ec6243a34', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ce23deb8-83f0-4124-b37a-c3691defb150', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'f38e7124-620e-4961-91ed-227535dabb4c', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'acbca5d1-18ad-49ec-b91b-34923037681d', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '83a2ea79-2f8b-44f0-9017-a583f9e7797f', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'd9d0a2be-084e-4ac7-bb41-7812948a6df4', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '58a517cd-b73c-4bbe-a2d1-584face37da9', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'c41489a7-0d36-457e-9973-d2ebbfb631d2', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'a574c5d3-25b2-4a58-a877-7362ff0a52dc', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '73b8d869-175f-46e9-916b-96f754731997', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '0a19432f-509f-413a-9e4c-b25089b9b60c', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '49063bb2-0a34-4d8d-9524-f6bfa6fa70f5', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '2cc85517-c291-4e9a-b48f-11ed8e4bf12e', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '61b9e0e2-5d01-4b41-ad78-3fed33296b81', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8fbc64f9-ae36-4151-994d-b2f5e6d3a381', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'dae368a0-3c8a-4786-b4e7-9135534469ba', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '76caf60c-5f37-439f-b57e-264b91b3579a', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '46b49bcd-fa90-42a6-82f7-2df13a5ec749', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '99cfb36a-be39-4a1a-a361-f0480730fbe7', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6ff783ed-7c1e-4975-9bc8-7dc9d5a9e202', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '28324d70-bc41-43c2-96b6-a2eae0492b4d', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'f74315a0-2973-4730-b9dd-75db4a989d6b', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '8407ca62-bd16-4976-9c00-12a8068383ec', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6a6e77ed-ccf0-4a88-bb10-a17a0cc0ec9c', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '4ab14f83-f137-4aff-8964-8c500981abdc', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ef492cd7-030d-486a-8586-590049c5f50f', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '12bd3140-7c47-48a9-9ffe-f28898ffd3d8', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '4c38acba-eebe-4461-9c7d-2676d0dbd722', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '7824f5a5-88da-404d-9f18-fc31d7fbc16c', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '0f93294b-0aa3-47a9-8d90-b0c3faa67e50', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'b2ba3304-5da8-42a7-9282-b139c2bde3ea', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'aa545aeb-bf8f-4e82-a6d0-7963ff73601b', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '925b3c3d-2335-467f-8b62-308f7d263bfb', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '6ecea270-ef06-4eec-91f8-59ae7c993541', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '738d976a-0542-43ac-9cb7-cc01cbc9f259', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ba7c3921-7b75-4036-992c-6236942012ea', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '33a574b7-78c2-4558-ad1c-f235311ac3f8', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'd39a2de3-64c0-40fc-b756-209fe1ed009b', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '93314daa-f827-43de-abd5-2bb08e159967', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '2c4ce0a1-7ab3-48d8-bd08-d0cedacf095e', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '3f5c0a54-c98f-4605-9ffe-f74acdd05558', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '89f510a4-7c70-4228-b709-7d6de3a74c0e', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '44f4d1dd-d76f-4f53-8504-0a08db24cf79', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ff046fdb-1bed-42ba-a624-e8a81f1a3682', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '3ac97981-d361-46cb-ada6-1ca7ade9f38f', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'b0bd443e-f534-4c2d-8a23-38afbc70ec93', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'cd4aeaef-bd38-4ccd-84a1-7c9f5fbd6dc8', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '1bca64de-1bea-4fdb-b0c2-b2c8a6eae2cc', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'cde00fa1-2fc9-48f6-8c02-315e0a369a8a', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'db86c071-051b-4617-9a9c-bc7f593bd912', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'e2d93ab3-f18d-4154-ac8a-e05fb020911d', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '9289505f-c16d-4ce0-9518-27da74f8ac3f', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'fcc33a93-7270-46bb-994e-aecf7ccaf37f', 1500.000, 'active'),
+       ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'ac27b7e0-626b-405d-aaad-80e6d9ac3274', 1500.000, 'active');
 
 
 -- Test Tournamet BYE for pod generation
 -- INSERT statement for the 'tournament' table
 INSERT INTO tournament (id, name, mode)
-VALUES ('5a6b7c8d-9e0f-1111-2222-333344455566', 'test tournament BYE', NULL);
+VALUES ('5a6b7c8d-9e0f-1111-2222-333344455566', 'test tournament BYE', null);
 
 
 -- INSERT statements for the 'player' table
@@ -172,36 +172,36 @@ VALUES ('4e4c2f42-4b3e-4d4a-9c8d-1a2b3c4d5e6f', 'ShadowBlade', 'Liam', 'Chen', N
        ('f5a6b7c8-d9e0-1234-5678-90abcdef0123', 'Nightshade', 'Emily', 'Guerrero', NULL),
        ('a6b7c8d9-e0f1-2345-6789-0abcdef01234', 'Starfall', 'Matthew', 'Delgado', NULL),
        ('b7c8d9e0-f1a2-3456-7890-1abcdef01234', 'IronWill', 'Grace', 'Ramos', NULL),
-       ('c8d9e0f1-a2b3-4567-8901-2abcdef01234', 'Stormblade', 'David', 'Vasquez', NULL);
+       ('c8d9e0f1-a2b3-4567-8901-2abcdef01234', 'Stormblade', 'David', 'Vasquez', null);
 
 -- INSERT statements for the 'tournamentplayers' table
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('5a6b7c8d-9e0f-1111-2222-333344455566', '4e4c2f42-4b3e-4d4a-9c8d-1a2b3c4d5e6f', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'a1b2c3d4-e5f6-7890-1234-567890abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'b3c4d5e6-f7a8-9012-3456-7890abcdef01', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'c5d6e7f8-a9b0-1234-5678-90abcdef0123', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'd7e8f9a0-b1c2-3456-7890-abcdef012345', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'e9f0a1b2-c3d4-5678-90ab-cdef01234567', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'fbcdef01-2345-6789-0abc-def012345678', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '01234567-89ab-cdef-0123-456789abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '12345678-9abcdef0-1234-567890abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '23456789-abcdef01-2345-678901abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '34567890-bcdef012-3456-789012abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '45678901-cdef0123-4567-890123abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '56789012-def01234-5678-901234abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '67890123-ef012345-6789-012345abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '78901234-f0123456-7890-123456abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '89012345-01234567-8901-234567abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', '90123456-12345678-9012-345678abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'a0b1c2d3-e4f5-6789-0123-4567890abcde', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'b1c2d3e4-f5a6-7890-1234-567890abcdef', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'c2d3e4f5-a6b7-8901-2345-67890abcdef0', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'd3e4f5a6-b7c8-9012-3456-7890abcdef01', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'e4f5a6b7-c8d9-0123-4567-890abcdef012', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'f5a6b7c8-d9e0-1234-5678-90abcdef0123', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'a6b7c8d9-e0f1-2345-6789-0abcdef01234', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'b7c8d9e0-f1a2-3456-7890-1abcdef01234', 0.000),
-       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'c8d9e0f1-a2b3-4567-8901-2abcdef01234', 0.000);
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('5a6b7c8d-9e0f-1111-2222-333344455566', '4e4c2f42-4b3e-4d4a-9c8d-1a2b3c4d5e6f', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'a1b2c3d4-e5f6-7890-1234-567890abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'b3c4d5e6-f7a8-9012-3456-7890abcdef01', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'c5d6e7f8-a9b0-1234-5678-90abcdef0123', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'd7e8f9a0-b1c2-3456-7890-abcdef012345', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'e9f0a1b2-c3d4-5678-90ab-cdef01234567', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'fbcdef01-2345-6789-0abc-def012345678', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '01234567-89ab-cdef-0123-456789abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '12345678-9abcdef0-1234-567890abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '23456789-abcdef01-2345-678901abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '34567890-bcdef012-3456-789012abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '45678901-cdef0123-4567-890123abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '56789012-def01234-5678-901234abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '67890123-ef012345-6789-012345abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '78901234-f0123456-7890-123456abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '89012345-01234567-8901-234567abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', '90123456-12345678-9012-345678abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'a0b1c2d3-e4f5-6789-0123-4567890abcde', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'b1c2d3e4-f5a6-7890-1234-567890abcdef', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'c2d3e4f5-a6b7-8901-2345-67890abcdef0', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'd3e4f5a6-b7c8-9012-3456-7890abcdef01', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'e4f5a6b7-c8d9-0123-4567-890abcdef012', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'f5a6b7c8-d9e0-1234-5678-90abcdef0123', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'a6b7c8d9-e0f1-2345-6789-0abcdef01234', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'b7c8d9e0-f1a2-3456-7890-1abcdef01234', 0.000, 'active'),
+       ('5a6b7c8d-9e0f-1111-2222-333344455566', 'c8d9e0f1-a2b3-4567-8901-2abcdef01234', 0.000, 'active');
 
 
 -- test tournament for BYE calculation according to player score
@@ -238,38 +238,38 @@ VALUES ('00000000-0000-0000-0000-000000000001', 'Firebrand', 'Alice', 'Johnson',
        ('00000000-0000-0000-0000-000000000023', 'Coldsteel', 'Xavier', 'Ortiz', NULL),
        ('00000000-0000-0000-0000-000000000024', 'Bloodmoon', 'Yara', 'Chavez', NULL),
        ('00000000-0000-0000-0000-000000000025', 'Ironhide', 'Zackary', 'Guerrero', NULL),
-       ('00000000-0000-0000-0000-000000000026', 'Voidbringer', 'Amy', 'Delgado', NULL);
+       ('00000000-0000-0000-0000-000000000026', 'Voidbringer', 'Amy', 'Delgado', null);
 
 ---
 
 -- Tournament Players (all 26 players linked to the tournament with score 0.000)
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000001', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000002', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000003', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000004', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000005', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000006', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000007', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000008', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000009', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000010', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000011', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000012', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000013', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000014', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000015', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000016', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000017', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000018', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000019', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000020', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000021', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000022', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000023', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000024', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000025', 0.000),
-       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000026', 0.000);
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000001', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000002', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000003', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000004', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000005', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000006', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000007', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000008', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000009', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000010', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000011', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000012', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000013', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000014', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000015', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000016', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000017', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000018', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000019', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000020', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000021', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000022', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000023', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000024', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000025', 0.000, 'active'),
+       ('28a471f7-2adb-45ed-b9db-1376b473786d', '00000000-0000-0000-0000-000000000026', 0.000, 'active');
 
 ---
 
@@ -626,242 +626,242 @@ INSERT INTO player (id, nickname, firstname, lastname, email)
 VALUES ('7506e609-84b0-4016-966b-14e4ec647033', 'Admin', 'William', 'Kim', null);
 
 -- tournamentplayers
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c3f1fdda-ae40-4469-b9a8-b73445494455', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '6bd2e618-fa23-4c19-a98e-90228a705db0', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5e4e82dd-85de-4e2c-972d-e2f2f50d5473', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f380fc01-efa8-4d13-88da-c5457cb4c6f7', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '728a96e0-b09b-4b5e-97e0-64243b9e3c80', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3a7e92c6-6aff-4fca-b682-fca92750b4dd', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1eec196f-eaff-42d1-8ef0-94372b6e9858', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '38fba32b-c6c4-40e8-8bf7-b84eea7b74e4', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd5b0c609-7d69-4ca8-99f7-6a8b4366c61c', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'b6190ed6-28a8-415e-bd9d-0a944444cfe0', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ea75fc9b-276b-4826-b4a1-645ad3f1cf29', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e870d2b8-21bf-46d8-b7c9-d2cd27b693d5', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c9153faa-f437-4b84-bbdf-464d26daac3e', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0d88cae6-a3f8-4683-8ba8-8776b99bb74c', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '63aebcf4-a90f-4e53-838f-a9f2bff0276d', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1002e89b-92ab-4808-8369-4482e2d61301', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5ff28ef1-aa76-46f5-bd07-1e1bc62af078', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '8ec67b91-0c7b-4555-887a-bd26b285fc51', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c5ad4108-96a6-40c4-8706-8e14ccc39586', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3b037042-af74-4e80-b72e-f9d12a026f8c', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a44fcd68-21a6-4b29-a68e-287191a07cc2', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e64bd383-f074-4a86-b6ed-2e00ca12fb53', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '34747c04-b5b3-4fb5-a54a-5fafe4697d64', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '78c5c822-6bc7-4f0e-9f55-f765e0230cb7', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'eb08414f-1ca9-4cd0-8673-32dc7bc45722', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '99dc6562-144c-4439-a0bf-a0dd70673637', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c19da3cb-dcf2-4f1c-9596-a2a58f9e6fc5', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4e266f55-6a10-470c-8b97-f91e39468905', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '006f76da-e6da-4e78-894b-ccf094d333f6', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '45506cf3-5ef9-402c-808f-d490ce4cd97b', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '21a30c65-0783-468d-8727-398ecf4dd52e', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '2c8f0ee2-e25d-4774-9479-7bcc035526d3', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '42a367f9-d235-431c-8de0-25bbea4bca94', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0cecfa45-7720-4341-acea-4b070a09f681', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '74de865d-6ef9-496b-bbd1-bf59b4a77293', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '500c9705-e66f-403a-b43f-e12b18427e08', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7af67bc2-d6b1-470b-8d25-1eb013a5d119', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1595c0a0-78ba-4ae7-9a14-b925c31f31ab', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f0372977-ead0-48cd-a251-f3e8627d5d21', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5965face-6243-4ed1-9657-f40da460c771', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '50277c6a-6976-40c2-ba0c-103d83e49c52', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c240f849-9bea-4a3f-87d0-fd7efdc44004', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '55b6ec61-f6f7-4320-9b24-cd5ebd168e60', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a2858011-156a-4c6a-95b0-219dfae3a378', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9ca21c8a-5f8f-492d-b530-87051fac3c82', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a2ebbc3a-8f4b-42fc-8a6a-cba439805e0e', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7c7ad7f1-d83c-4904-8b38-e47ec8881fad', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f33c5f43-bcae-4dd0-beba-d264b413172b', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c4f9f93e-fb1f-4d69-a1dd-9032fc7014ae', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'bf56abda-1812-47ea-86b5-0cc4eb869596', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'de44ff27-a589-4730-94a7-757d6aa7b116', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0c143c41-eda0-4584-b01a-57d3948f4bee', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1431a2d8-24e9-40fc-b4d0-eb8637b4a9ab', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd7cf8c00-ebbf-4aab-83f5-af4e522b350a', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '62635dd9-cabb-45ca-b4e3-55d98dc0c884', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3cef6826-d934-4b3f-a4c7-8e1a1c47eb0b', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '49c75108-2252-4c99-9bcf-c4e4d153ee6f', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e1124234-3c6d-418e-ab97-f23a5ddd73dc', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2e0eb87-c9b7-4c49-9571-983cc0681153', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2efce71-199b-4f60-856f-7446babcdf45', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '8e849922-36d4-42b9-982d-cde5cb97e3df', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ecd5833e-6814-4727-ad9b-d7b49321a3da', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '15b3e4d7-291b-4838-9fe9-20ee036bf272', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c97ab6f7-cd67-4bc2-9a7b-492e05c6b746', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7656bd49-6cc9-41d3-8dc1-05152446b2bf', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9b4f2efb-675e-4ace-91cb-b9a2f9a4eadd', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'acbb8189-d9ab-411b-b549-4df8032942a2', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '12814d53-fab4-4803-b031-7e6f1a6a545a', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '369310a4-c89f-498f-a083-5dfb5aa7dabe', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5b4f12e1-7556-4049-bdad-a47225882137', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '192439d0-334b-4476-a707-82eb7a3140cd', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '95856529-983f-48bf-99a5-0bcbe9e39439', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd4cb537d-bfad-4740-9c75-2003275addd4', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0b322a15-4881-4ec0-ad05-7d1e99ace392', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '706f3960-9ba2-468e-bfbd-91d4a7ef5250', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '16ff8065-871d-40ab-9c8b-7997ff8e07d8', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3f65384c-f9c3-414f-90f3-a1f55d3a34c8', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '66aac8d2-fe46-465a-a5c0-00433b47a6f0', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '954902cb-d99f-4b06-92dc-c40427bb380f', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '51353bae-b739-4fe2-94a8-d66dd2759a45', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'eba4c852-3fe8-424a-b284-b94a837a191f', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2828084-86fc-49b8-bdc7-ad822e599ae9', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0b0b69d5-8762-4973-b08e-7926e37e173e', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '6de4807e-73df-4ddd-9500-f66cd694f807', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0d2dc979-2a3c-4604-ab17-d498960ca2a8', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1ebab4f3-61f4-47c4-919b-e5d50812c64d', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '435b02d2-1322-48b3-9003-9ad71f4b989e', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '650c91ae-e5fc-4270-b444-287fb9411ae2', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '195a26cd-d70c-4cac-a924-b3baab6c886d', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '28cd021e-5e43-489f-935f-f916dfd1c7d7', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd01b07dd-99dc-4b9f-8874-6c801b2ab28f', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '79e292e5-26f9-4cbd-b791-aee322fcf5e4', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3f89032f-c45e-44d8-947c-20d822a12ea4', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '48861d2d-ba57-4aff-8e94-e7b4814d0bbd', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ee571349-bdc7-4688-b4fa-7aff2493a979', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c8cf4eb9-1267-489c-88ae-88d95d061954', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd01532a1-b05d-4cda-a092-2c51809aa7ee', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f4e3a4e1-58a7-4e48-8a69-0969160eade6', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7c45cd3c-7707-4e98-b1ef-99712c54944a', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5875eea0-e342-48dd-99f0-759114c4a2f9', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f2243a7d-44d6-48a6-a9f3-9aeb1d245bbe', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '2cb5667d-d717-4503-a628-46e97e5fa77b', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f6b6e952-c020-4baa-b1ea-2c7280d7fbb0', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ccf04c01-be55-4ab7-9765-f85ec0549895', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e8e30811-1dd7-4708-a87c-916f7e755188', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a1be0e4d-309f-404e-82e2-c147b237216c', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '882f45d6-b387-4461-a50a-4b01876c13e1', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c3253fa7-c17c-4574-b9ac-122dcb685e25', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c333179b-4b96-4b90-95be-fb78072b695b', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '18c13825-b378-4f46-bcee-1eaae8d3d276', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4d4cdcf9-3aed-4a97-8fc5-37d921e15a8b', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4b5b625a-b5d6-4f73-bcb8-df0581dfdd8f', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7a074b5d-f3b8-42fe-875a-ab123e025daf', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e14dddec-0f85-46fb-8de2-7faf30ed2654', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1af0dd37-5b10-4523-ac61-c9d4ca7ff194', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'fa198306-4d98-4d10-b3ca-633e69f14b9e', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9260843f-6a9b-4c0b-99ad-7bd6e13c222e', null);
-INSERT INTO tournamentplayers (tournament_id, player_id, score)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7506e609-84b0-4016-966b-14e4ec647033', null);
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c3f1fdda-ae40-4469-b9a8-b73445494455', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '6bd2e618-fa23-4c19-a98e-90228a705db0', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5e4e82dd-85de-4e2c-972d-e2f2f50d5473', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f380fc01-efa8-4d13-88da-c5457cb4c6f7', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '728a96e0-b09b-4b5e-97e0-64243b9e3c80', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3a7e92c6-6aff-4fca-b682-fca92750b4dd', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1eec196f-eaff-42d1-8ef0-94372b6e9858', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '38fba32b-c6c4-40e8-8bf7-b84eea7b74e4', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd5b0c609-7d69-4ca8-99f7-6a8b4366c61c', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'b6190ed6-28a8-415e-bd9d-0a944444cfe0', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ea75fc9b-276b-4826-b4a1-645ad3f1cf29', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e870d2b8-21bf-46d8-b7c9-d2cd27b693d5', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c9153faa-f437-4b84-bbdf-464d26daac3e', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0d88cae6-a3f8-4683-8ba8-8776b99bb74c', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '63aebcf4-a90f-4e53-838f-a9f2bff0276d', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1002e89b-92ab-4808-8369-4482e2d61301', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5ff28ef1-aa76-46f5-bd07-1e1bc62af078', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '8ec67b91-0c7b-4555-887a-bd26b285fc51', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c5ad4108-96a6-40c4-8706-8e14ccc39586', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3b037042-af74-4e80-b72e-f9d12a026f8c', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a44fcd68-21a6-4b29-a68e-287191a07cc2', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e64bd383-f074-4a86-b6ed-2e00ca12fb53', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '34747c04-b5b3-4fb5-a54a-5fafe4697d64', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '78c5c822-6bc7-4f0e-9f55-f765e0230cb7', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'eb08414f-1ca9-4cd0-8673-32dc7bc45722', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '99dc6562-144c-4439-a0bf-a0dd70673637', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c19da3cb-dcf2-4f1c-9596-a2a58f9e6fc5', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4e266f55-6a10-470c-8b97-f91e39468905', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '006f76da-e6da-4e78-894b-ccf094d333f6', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '45506cf3-5ef9-402c-808f-d490ce4cd97b', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '21a30c65-0783-468d-8727-398ecf4dd52e', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '2c8f0ee2-e25d-4774-9479-7bcc035526d3', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '42a367f9-d235-431c-8de0-25bbea4bca94', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0cecfa45-7720-4341-acea-4b070a09f681', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '74de865d-6ef9-496b-bbd1-bf59b4a77293', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '500c9705-e66f-403a-b43f-e12b18427e08', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7af67bc2-d6b1-470b-8d25-1eb013a5d119', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1595c0a0-78ba-4ae7-9a14-b925c31f31ab', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f0372977-ead0-48cd-a251-f3e8627d5d21', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5965face-6243-4ed1-9657-f40da460c771', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '50277c6a-6976-40c2-ba0c-103d83e49c52', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c240f849-9bea-4a3f-87d0-fd7efdc44004', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '55b6ec61-f6f7-4320-9b24-cd5ebd168e60', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a2858011-156a-4c6a-95b0-219dfae3a378', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9ca21c8a-5f8f-492d-b530-87051fac3c82', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a2ebbc3a-8f4b-42fc-8a6a-cba439805e0e', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7c7ad7f1-d83c-4904-8b38-e47ec8881fad', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f33c5f43-bcae-4dd0-beba-d264b413172b', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c4f9f93e-fb1f-4d69-a1dd-9032fc7014ae', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'bf56abda-1812-47ea-86b5-0cc4eb869596', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'de44ff27-a589-4730-94a7-757d6aa7b116', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0c143c41-eda0-4584-b01a-57d3948f4bee', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1431a2d8-24e9-40fc-b4d0-eb8637b4a9ab', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd7cf8c00-ebbf-4aab-83f5-af4e522b350a', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '62635dd9-cabb-45ca-b4e3-55d98dc0c884', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3cef6826-d934-4b3f-a4c7-8e1a1c47eb0b', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '49c75108-2252-4c99-9bcf-c4e4d153ee6f', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e1124234-3c6d-418e-ab97-f23a5ddd73dc', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2e0eb87-c9b7-4c49-9571-983cc0681153', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2efce71-199b-4f60-856f-7446babcdf45', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '8e849922-36d4-42b9-982d-cde5cb97e3df', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ecd5833e-6814-4727-ad9b-d7b49321a3da', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '15b3e4d7-291b-4838-9fe9-20ee036bf272', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c97ab6f7-cd67-4bc2-9a7b-492e05c6b746', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7656bd49-6cc9-41d3-8dc1-05152446b2bf', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9b4f2efb-675e-4ace-91cb-b9a2f9a4eadd', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'acbb8189-d9ab-411b-b549-4df8032942a2', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '12814d53-fab4-4803-b031-7e6f1a6a545a', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '369310a4-c89f-498f-a083-5dfb5aa7dabe', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5b4f12e1-7556-4049-bdad-a47225882137', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '192439d0-334b-4476-a707-82eb7a3140cd', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '95856529-983f-48bf-99a5-0bcbe9e39439', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd4cb537d-bfad-4740-9c75-2003275addd4', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0b322a15-4881-4ec0-ad05-7d1e99ace392', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '706f3960-9ba2-468e-bfbd-91d4a7ef5250', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '16ff8065-871d-40ab-9c8b-7997ff8e07d8', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3f65384c-f9c3-414f-90f3-a1f55d3a34c8', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '66aac8d2-fe46-465a-a5c0-00433b47a6f0', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '954902cb-d99f-4b06-92dc-c40427bb380f', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '51353bae-b739-4fe2-94a8-d66dd2759a45', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'eba4c852-3fe8-424a-b284-b94a837a191f', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd2828084-86fc-49b8-bdc7-ad822e599ae9', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0b0b69d5-8762-4973-b08e-7926e37e173e', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '6de4807e-73df-4ddd-9500-f66cd694f807', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '0d2dc979-2a3c-4604-ab17-d498960ca2a8', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1ebab4f3-61f4-47c4-919b-e5d50812c64d', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '435b02d2-1322-48b3-9003-9ad71f4b989e', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '650c91ae-e5fc-4270-b444-287fb9411ae2', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '195a26cd-d70c-4cac-a924-b3baab6c886d', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '28cd021e-5e43-489f-935f-f916dfd1c7d7', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd01b07dd-99dc-4b9f-8874-6c801b2ab28f', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '79e292e5-26f9-4cbd-b791-aee322fcf5e4', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '3f89032f-c45e-44d8-947c-20d822a12ea4', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '48861d2d-ba57-4aff-8e94-e7b4814d0bbd', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ee571349-bdc7-4688-b4fa-7aff2493a979', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c8cf4eb9-1267-489c-88ae-88d95d061954', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'd01532a1-b05d-4cda-a092-2c51809aa7ee', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f4e3a4e1-58a7-4e48-8a69-0969160eade6', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7c45cd3c-7707-4e98-b1ef-99712c54944a', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '5875eea0-e342-48dd-99f0-759114c4a2f9', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f2243a7d-44d6-48a6-a9f3-9aeb1d245bbe', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '2cb5667d-d717-4503-a628-46e97e5fa77b', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'f6b6e952-c020-4baa-b1ea-2c7280d7fbb0', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'ccf04c01-be55-4ab7-9765-f85ec0549895', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e8e30811-1dd7-4708-a87c-916f7e755188', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'a1be0e4d-309f-404e-82e2-c147b237216c', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '882f45d6-b387-4461-a50a-4b01876c13e1', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c3253fa7-c17c-4574-b9ac-122dcb685e25', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'c333179b-4b96-4b90-95be-fb78072b695b', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '18c13825-b378-4f46-bcee-1eaae8d3d276', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4d4cdcf9-3aed-4a97-8fc5-37d921e15a8b', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '4b5b625a-b5d6-4f73-bcb8-df0581dfdd8f', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7a074b5d-f3b8-42fe-875a-ab123e025daf', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'e14dddec-0f85-46fb-8de2-7faf30ed2654', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '1af0dd37-5b10-4523-ac61-c9d4ca7ff194', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'fa198306-4d98-4d10-b3ca-633e69f14b9e', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '9260843f-6a9b-4c0b-99ad-7bd6e13c222e', null, 'active');
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', '7506e609-84b0-4016-966b-14e4ec647033', null, 'active');
 
 -- pod
 INSERT INTO pod (id, tournament_id, name, round, type)
@@ -2461,3 +2461,48 @@ VALUES ('6f418467-9ddc-4419-8661-95de3697a9fb', '63aebcf4-a90f-4e53-838f-a9f2bff
 INSERT INTO seats (pod, player, seat, result)
 VALUES ('6f418467-9ddc-4419-8661-95de3697a9fb', '882f45d6-b387-4461-a50a-4b01876c13e1', 0, 'bye');
 
+-- Testdata for TournamentPlayerStatuse');
+INSERT INTO player (id, nickname, firstname, lastname, email)
+VALUES ('6e0f80a4-2e91-4e4b-9d41-3e5f2b8f7c9a', 'DragonSlayer', 'Arthur', 'Pendragon',
+        'arthur.p@example.com'),
+       ('710f2392-0b71-4874-8538-f7fa11cf2a28', 'ShadowStriker', 'Lila', 'Chen',
+        'lila.c@example.com'),
+       ('0cd0998e-e235-4783-9ddd-0307985796b8', 'MysticMage', 'Elara', 'Vance',
+        'elara.v@example.com'),
+       ('425077e9-a7a7-4fc1-83d1-54636a6bacfc', 'Ironclad', 'Bjorn', 'Ironside',
+        'bjorn.i@example.com'),
+       ('06a96ce1-c9e0-41e1-a031-174de1380c30', 'Swiftfoot', 'Chloe', 'Decker',
+        'chloe.d@example.com'),
+       ('8b4a2d0b-47c5-4091-91a1-087e4a3d40d7', 'NightBlade', 'Ren', 'Sakurai',
+        'ren.s@example.com'),
+       ('3692448c-928a-4548-8c01-a4d0a05fb3ef', 'Sunfire', 'Sophia', 'Gonzales',
+        'sophia.g@example.com'),
+       ('5b23d685-4124-435b-b826-8cc8e8d5f8a1', 'BoulderBro', 'Magnus', 'Stone',
+        'magnus.s@example.com'),
+       ('1e70cc4a-decc-46f8-959d-c15798cbc28f', 'StarGazer', 'Luna', 'Moon', 'luna.m@example.com'),
+       ('8e1e0232-a8eb-4449-8359-bf7a39a9c6d7', 'Thunderstrike', 'Kai', 'Storm',
+        'kai.s@example.com');
+INSERT INTO tournament (id, name, mode)
+VALUES ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', 'Unified Grand Tournament', 'Commander');
+
+INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
+VALUES ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '6e0f80a4-2e91-4e4b-9d41-3e5f2b8f7c9a', 1500.000,
+        'active'),       -- DragonSlayer
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '710f2392-0b71-4874-8538-f7fa11cf2a28', 0.000,
+        'registered'),   -- ShadowStriker
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '0cd0998e-e235-4783-9ddd-0307985796b8', 1200.500,
+        'active'),       -- MysticMage
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '425077e9-a7a7-4fc1-83d1-54636a6bacfc', 800.000,
+        'dropped'),      -- Ironclad
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '06a96ce1-c9e0-41e1-a031-174de1380c30', 0.000,
+        'registered'),   -- Swiftfoot
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '8b4a2d0b-47c5-4091-91a1-087e4a3d40d7', 50.000,
+        'disqualified'), -- NightBlade
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '3692448c-928a-4548-8c01-a4d0a05fb3ef', 1350.250,
+        'active'),       -- Sunfire
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '5b23d685-4124-435b-b826-8cc8e8d5f8a1', 0.000,
+        'registered'),   -- BoulderBro
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '1e70cc4a-decc-46f8-959d-c15798cbc28f', 900.000,
+        'dropped'),      -- StarGazer
+       ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '8e1e0232-a8eb-4449-8359-bf7a39a9c6d7', 1100.000,
+        'active'); -- ThunderstrikeThunderstrike
