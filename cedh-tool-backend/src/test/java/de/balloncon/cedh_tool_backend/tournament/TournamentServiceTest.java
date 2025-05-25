@@ -14,6 +14,7 @@ import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -225,6 +226,7 @@ class TournamentServiceTest {
       tournamentPlayer.setTournament(tournament);
       tournamentPlayer.setPlayer(player);
       tournamentPlayer.setScore(BigDecimal.valueOf(baseScore * multiplier));
+      tournamentPlayer.setStatus(TournamentPlayerStatus.active);
 
       multiplier++;
       tournamentPlayerService.save(tournamentPlayer);

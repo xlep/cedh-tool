@@ -29,6 +29,7 @@ public interface TournamentPlayerRepository extends JpaRepository<TournamentPlay
   List<TournamentPlayerScoreView> findPlayerScoresByTournament(
       @Param("tournamentId") UUID tournamentId);
 
+  // TODO: this returns Player and should be in the PlayerRepository
   @Query("SELECT tp.player FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId")
   List<Player> findByTournamentId(@Param("tournamentId") UUID tournamentId);
 
@@ -36,6 +37,21 @@ public interface TournamentPlayerRepository extends JpaRepository<TournamentPlay
       "SELECT tp FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId")
   List<TournamentPlayer> findByTournament(
       @Param("tournamentId") UUID tournamentId);
+
+  @Query(
+      "SELECT tp FROM TournamentPlayer tp "
+      + "WHERE tp.tournament.id = :tournamentId AND tp.status in :playerStatus")
+  List<TournamentPlayer> findByTournament(
+    @Param("tournamentId") UUID tournamentId,
+    @Param("playerStatus") List<TournamentPlayerStatus> playerStatus);
+
+  @Query(
+      "SELECT tp FROM TournamentPlayer tp "
+          + "WHERE tp.tournament.id = :tournamentId AND tp.status = :playerStatus")
+  List<TournamentPlayer> findByTournament(
+      @Param("tournamentId") UUID tournamentId,
+      @Param("playerStatus") TournamentPlayerStatus playerStatus);
+
 
   @Query(
       "SELECT tp FROM TournamentPlayer tp WHERE tp.tournament.id = :tournamentId AND tp.player.id IN :playerIds")

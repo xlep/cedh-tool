@@ -7,6 +7,8 @@ import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -39,6 +41,10 @@ public class TournamentPlayer implements Cloneable {
 
   @Column(name = "score", precision = 7, scale = 3)
   private BigDecimal score;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status")
+  private TournamentPlayerStatus status;
 
   @Override
   public TournamentPlayer clone() {
