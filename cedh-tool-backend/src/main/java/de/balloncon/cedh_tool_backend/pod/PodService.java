@@ -176,4 +176,8 @@ public class PodService {
 
     return podResult;
   }
+
+  public Pod getPodByRoundAndTableNumber(UUID tournamentId, int round, int tableNumber) {
+    return podRepository.findPodByRoundAndPodNumber(tournamentId, round, tableNumber);
+  }
 }

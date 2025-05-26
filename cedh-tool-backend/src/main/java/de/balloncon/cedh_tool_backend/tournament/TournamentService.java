@@ -2,6 +2,8 @@ package de.balloncon.cedh_tool_backend.tournament;
 
 import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.dto.RoundDto;
+import de.balloncon.cedh_tool_backend.dto.RoundDto.PodDto;
+import de.balloncon.cedh_tool_backend.dto.RoundDto.SeatDto;
 import de.balloncon.cedh_tool_backend.mapper.PodMapper;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
@@ -20,6 +22,7 @@ import de.balloncon.cedh_tool_backend.util.ResponseMessages;
 import de.balloncon.cedh_tool_backend.util.ShuffleUtil;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -116,8 +119,42 @@ public class TournamentService {
     // Save result to DB
     int nextRound = previousRound + 1;
     List<RoundDto.PodDto> podDtos = savePodsAndSeats(groups, nextRound, tournament);
+    // swap pod-/table-names according to table-locks
+    adjustForTableLocks(tournament, podDtos);
 
     return RoundDto.builder().round(nextRound).pods(podDtos).build();
+  }
+
+  private void adjustForTableLocks(Tournament tournament, List<PodDto> podDtos) {
+    // TODO: using the DTO classes feels clunky in general. Why are using these for the internal logic around round generation?
+    // TODO: additional note; if we can refactor the pod generation so the pods only get persisted when everyhing is prepared, we can make this proces much cleaner
+    for (PodDto podDto : podDtos) {
+      for (SeatDto seatDto : podDto.seats()) {
+        TournamentPlayer tournamentPlayer = tournamentPlayerRepository
+            .findByTournamentAndPlayer(tournament.getId(), seatDto.playerId());
+
+        if (tournamentPlayer.getTableLock() != null) {
+          int playerLockedToTableNr = tournamentPlayer.getTableLock();
+          int playerSeededToTableNr = podDtos.indexOf(podDto);
+
+
+
+          if (playerSeededToTableNr != playerLockedToTableNr) {
+            // load affected pods from database
+            Pod seededPod = podService.getPodById(podDto.podId());
+            Pod podAtLockedTable = podService.getPodByRoundAndTableNumber(tournament.getId(),
+                seededPod.getRound(), playerLockedToTableNr);
+            // change pod / table numbers and save
+            seededPod.setName(playerLockedToTableNr);
+            podService.save(seededPod);
+            podAtLockedTable.setName(playerSeededToTableNr);
+            podService.save(podAtLockedTable);
+            // swap table in return object
+            Collections.swap(podDtos, playerLockedToTableNr, playerSeededToTableNr);
+          }
+        }
+      }
+    }
   }
 
   private void createAndAssignByePod(List<Player> players, Tournament tournament,

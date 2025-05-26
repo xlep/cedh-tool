@@ -3,6 +3,7 @@ package de.balloncon.cedh_tool_backend.tournament;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.balloncon.cedh_tool_backend.dto.PlayerDto;
+import de.balloncon.cedh_tool_backend.dto.RoundDto;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
@@ -93,6 +94,61 @@ class TournamentServiceTest {
         }
       }
     }
+  }
+
+  @Test
+  void testTableLockInMultipleRounds() {
+    // Use the provided tournament ID
+    UUID tournamentId = UUID.fromString("e29fbe3f-1755-43cc-a27a-393ec6d80a09");
+
+    UUID playerLockOneId = UUID.fromString("0a19432f-509f-413a-9e4c-b25089b9b60c"); // nick17
+    UUID playerLockTwoId = UUID.fromString("7824f5a5-88da-404d-9f18-fc31d7fbc16c"); // nick35
+
+    // lock players to tables
+    int tableLockOne = 5;
+    TournamentPlayer playerLockOne = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournamentId, playerLockOneId);
+    playerLockOne.setTableLock(tableLockOne);
+    tournamentPlayerRepository.save(playerLockOne);
+
+    int tableLockTwo = 12;
+    TournamentPlayer playerLockTwo = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournamentId, playerLockTwoId);
+    playerLockTwo.setTableLock(tableLockTwo);
+    tournamentPlayerRepository.save(playerLockTwo);
+
+    // Track all pairings for uniqueness
+    Set<String> pairings = new HashSet<>();
+    List<String> prairingsList = new ArrayList<>();
+    Boolean addPairingsResult;
+
+    // Generate 5 rounds
+    for (int round = 1; round <= 5; round++) {
+      // Generate the next round
+      tournamentService.generateNextRound(tournamentId);
+
+      // needed to ensure a commit the transaction before we start
+      TestTransaction.flagForCommit();
+      TestTransaction.end();
+      TestTransaction.start();
+
+      List<Pod> podsByRoundNumber = podService.getPodsByRoundNumber(tournamentId, round);
+      for (Pod pod : podsByRoundNumber) {
+        if (pod.getName() == tableLockOne) {
+          assertThat(pod.getSeats())
+              .extracting(Seat::getPlayer)
+              .extracting(Player::getId)
+              .contains(playerLockOneId);
+        } else if (pod.getName() == tableLockTwo) {
+          assertThat(pod.getSeats())
+              .extracting(Seat::getPlayer)
+              .extracting(Player::getId)
+              .contains(playerLockTwoId);
+        }
+      }
+    }
+
+
   }
 
   @Test
