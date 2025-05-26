@@ -3,7 +3,7 @@ Backend:
 [X] Return the players that got a bye in a bye pod when generating a new round
 [ ] Lock player to table,
 [X] drop player,
-[ ] seat weighting,
+[X] seat weighting,
 [ ] Report winner should also write all loosers,
 [X] Automatic result BYE
 
