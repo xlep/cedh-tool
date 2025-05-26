@@ -12,4 +12,7 @@ public interface SeatRepository extends JpaRepository<Seat, SeatId> {
 
   @Query("SELECT s FROM Seat s JOIN FETCH s.player WHERE s.pod.id = :podId AND s.player.id = :playerId")
   Seat findByPodAndPlayer(UUID podId, UUID playerId);
+
+  @Query("SELECT s FROM Seat s JOIN s.pod p WHERE s.player.id = :playerId AND p.tournament.id = :tournamentId")
+  List<Seat> findByTournamentAndPlayer(UUID tournamentId, UUID playerId);
 }

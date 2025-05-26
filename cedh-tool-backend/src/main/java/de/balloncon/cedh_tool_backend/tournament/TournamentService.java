@@ -320,9 +320,14 @@ public class TournamentService {
       List<RoundDto.SeatDto> seats = new ArrayList<>();
       int seatNum = 1;
 
+      // seat weighting
+      Set<Player> playersInProd = new HashSet<>();
       for (int idx : group) {
-        Player player = indexToPlayer.get(idx);
+        playersInProd.add(indexToPlayer.get(idx));
+      }
 
+      List<Player> playerSeatList = generateSeatOrder(tournament, playersInProd);
+      for (Player player : playerSeatList) {
         seatService.generateAndPersistSeat(pod, player, seatNum);
 
         seats.add(
@@ -340,6 +345,30 @@ public class TournamentService {
     }
 
     return podDtos;
+  }
+
+  protected List<Player> generateSeatOrder(Tournament tournament, Set<Player> playersInProd) {
+    Map<Player, Integer> seatHistory = new HashMap<>();
+
+    // add all previous seats for all players in the pod
+    for (Player player : playersInProd) {
+      List<Seat> previousPlayerSeats = seatService.getPlayerSeatsByTournament(
+          tournament.getId(), player.getId());
+
+      Integer playerSeatHistory = 0;
+      for (Seat seat : previousPlayerSeats) {
+        playerSeatHistory += seat.getSeat();
+      }
+      seatHistory.put(player, playerSeatHistory);
+    }
+
+    // order so the player with the highest combined value is first in the list
+    // -> will get the lowest seat next round
+    return seatHistory.entrySet()
+        .stream()
+        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+        .map(Map.Entry::getKey)
+        .collect(Collectors.toList());
   }
 
   @Transactional

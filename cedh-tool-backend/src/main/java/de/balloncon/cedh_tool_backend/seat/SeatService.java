@@ -4,6 +4,8 @@ import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,32 +34,8 @@ public class SeatService {
     seatRepository.save(seat);
   }
 
-  //  private ResponseEntity<Void> saveResult(UUID podId, UUID winningPlayerID) {
-  //    List<Seat> players = seatRepository.findByPodId(podId);
-  //    HashMap<String, Integer> playerSeatMap = new HashMap<String, Integer>();
-  //    boolean isWinningPlayer = winningPlayerID != null;
-  //
-  //    for (Seat seat : players) {
-  //      if (isWinningPlayer) {
-  //        if (winningPlayerID.equals(seat.getPlayer().getId())) {
-  //          seat.setResult(Result.win.toString());
-  //          playerSeatMap.put(seat.getPlayer().getId().toString(), seat.getSeat());
-  //        } else {
-  //          // TODO: find a better way
-  //          seat.setResult("loss");
-  //          playerSeatMap.put(seat.getPlayer().getId().toString(), seat.getSeat());
-  //        }
-  //      }
-  //      seat.setResult(Result.draw.toString());
-  //      playerSeatMap.put(seat.getPlayer().getId().toString(), seat.getSeat());
-  //    }
-  //    if (isWinningPlayer) {
-  ////      tournamentPlayerService.calculateAndAssignNewScores(
-  ////          tournamentId, playerSeatMap, winningPlayerID);
-  //      return new ResponseEntity<>(HttpStatus.OK);
-  //    }
-  //    //tournamentPlayerService.calculateAndAssignNewScores(tournamentId, playerSeatMap, null);
-  //    return new ResponseEntity<>(HttpStatus.OK);
-  //  }
+  public List<Seat> getPlayerSeatsByTournament(UUID tournamentId, UUID playerId) {
+    return seatRepository.findByTournamentAndPlayer(tournamentId, playerId);
+  }
 
 }

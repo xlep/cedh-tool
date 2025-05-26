@@ -7,16 +7,24 @@ import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import de.balloncon.cedh_tool_backend.pod.PodService;
+import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
+import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -38,7 +46,11 @@ class TournamentServiceTest {
 
   @Autowired PlayerService playerService;
 
+  @Autowired SeatService seatService;
+
   @Autowired private TournamentRepository tournamentRepository;
+
+  @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
 
   // Test is for 60 player tournaments
   @Test
@@ -60,7 +72,9 @@ class TournamentServiceTest {
     // Fetch the updated pods and seats
     List<Pod> pods = podService.getPodsAndSeatsByTournamentId(tournamentId);
 
-    assertThat(pods).isNotEmpty().hasSize(75);
+    assertThat(pods)
+        .isNotEmpty()
+        .hasSize(75);
 
     // For each pod, generate pairings and ensure no repeats
     for (Pod pod : pods) {
@@ -74,8 +88,7 @@ class TournamentServiceTest {
           // Ensure pairing is stored in consistent order
           addPairingsResult = pairings.add(pairing);
           prairingsList.add(pairing);
-          assertThat(addPairingsResult)
-              .isTrue()
+          assertThat(addPairingsResult).isTrue()
               .as(String.format("Double Pairing detected. Found pairing duplicate %s", pairing));
         }
       }
@@ -97,7 +110,9 @@ class TournamentServiceTest {
     List<PlayerDto> tournamentPlayers = tournamentPlayerService.getPlayerDtosByTournament(tournamentId);
 
     // We have 26 players, so we should have 7 pods (with 1 BYE pod containing 2 players
-    assertThat(pods).isNotEmpty().hasSize(7);
+    assertThat(pods)
+        .isNotEmpty()
+        .hasSize(7);
 
     // make sure every player is accounted for
     List<Player> seatedPlayers = new ArrayList<>();
@@ -106,7 +121,9 @@ class TournamentServiceTest {
         seatedPlayers.add(seat.getPlayer());
       }
     }
-    assertThat(seatedPlayers.size()).isEqualTo(tournamentPlayers.size());
+    assertThat(seatedPlayers.size())
+        .isEqualTo(tournamentPlayers.size());
+
   }
 
   @Test
@@ -133,7 +150,8 @@ class TournamentServiceTest {
       }
     }
 
-    assertThat(byePod).isNotNull();
+    assertThat(byePod)
+        .isNotNull();
     // this might break if the logic to create BYEs by player score changes
     assertThat(byePod.getSeats())
         .hasSize(2)
@@ -169,5 +187,122 @@ class TournamentServiceTest {
 
     assert semifinalPods.size() == 2;
     assert finalPods.size() == 1;
+  }
+
+  @Test
+  void testGenerateSeatOrder() {
+    UUID tournamentId = UUID.fromString("28a471f7-2adb-45ed-b9db-1376b473786d");
+
+    Set<Player> players = new HashSet<>();
+    Player firebrand = playerService.findPlayerById(UUID.fromString("00000000-0000-0000-0000-000000000001")); // Firebrand -> 1+1 = 2
+    Player nightshade = playerService.findPlayerById(UUID.fromString("00000000-0000-0000-0000-000000000002")); // Nightshade -> 2+2 = 4
+    Player ironclad = playerService.findPlayerById(UUID.fromString("00000000-0000-0000-0000-000000000003")); // Ironclad -> 3+3 = 6
+    Player ghostwalker = playerService.findPlayerById(UUID.fromString("00000000-0000-0000-0000-000000000004")); // Ghostwalker -> 4+4 = 8
+
+    players.add(nightshade);
+    players.add(ironclad);
+    players.add(ghostwalker);
+    players.add(firebrand);
+
+    Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
+    List<Player> weightedSeats = tournamentService.generateSeatOrder(tournament, players);
+
+    assertThat(weightedSeats)
+        .hasSize(4)
+        .containsExactly(
+            ghostwalker,
+            ironclad,
+            nightshade,
+            firebrand
+        );
+  }
+
+  @Test
+  void testSeatWeightingWithMultipleRounds() {
+    // Use the provided tournament ID
+    UUID tournamentId = UUID.fromString("e29fbe3f-1755-43cc-a27a-393ec6d80a09");
+    Tournament tournamentById = tournamentRepository.findTournamentById(tournamentId);
+
+    // Track all pairings for uniqueness
+    // Generate 5 rounds
+    for (int round = 0; round < 5; round++) {
+      // Generate the next round
+      tournamentService.generateNextRound(tournamentId);
+    }
+
+    Map<TournamentPlayer, Integer> playerSeatSum = new HashMap<>();
+    List<TournamentPlayer> players = tournamentPlayerRepository.findByTournament(tournamentId);
+    for (TournamentPlayer tournamentPlayer : players) {
+      List<Seat> playerSeatsByTournament = seatService.getPlayerSeatsByTournament(tournamentId,
+          tournamentPlayer.getPlayer().getId());
+
+      Integer seatSum = 0;
+      for (Seat seat : playerSeatsByTournament) {
+        seatSum += seat.getSeat();
+      }
+      playerSeatSum.put(tournamentPlayer, seatSum);
+    }
+
+    assertThat(playerSeatSum)
+        .hasSize(60);
+    assertThat(playerSeatSum.values())
+        .allMatch(sum -> sum >= 11 && sum <= 15);
+  }
+
+  private Tournament generateTestTournament() {
+    Tournament tournament = new Tournament();
+    tournament.setMode("Hareruya");
+    tournament.setName("test top ten cut");
+    tournamentService.save(tournament);
+    return tournament;
+  }
+
+  private void generatePreviousRoundPod(Tournament tournament, int previousRoundNumber) {
+    Pod pod = new Pod();
+    pod.setType(PodType.SWISS);
+    pod.setRound(previousRoundNumber);
+    pod.setTournament(tournament);
+    pod.setName(1);
+    podService.save(pod);
+  }
+
+  private void generateTestTournamentPlayers(Tournament tournament, List<Player> playersList) {
+    Long multiplier = 1L;
+    Long baseScore = 100L;
+
+    for (Player player : playersList) {
+      TournamentPlayerId playerId = new TournamentPlayerId();
+      playerId.setTournament(tournament.getId());
+      playerId.setPlayer(player.getId());
+
+      TournamentPlayer tournamentPlayer = new TournamentPlayer();
+      tournamentPlayer.setId(playerId);
+      tournamentPlayer.setTournament(tournament);
+      tournamentPlayer.setPlayer(player);
+      tournamentPlayer.setScore(BigDecimal.valueOf(baseScore * multiplier));
+      tournamentPlayer.setStatus(TournamentPlayerStatus.active);
+
+      multiplier++;
+      tournamentPlayerService.save(tournamentPlayer);
+    }
+  }
+
+  private List<Player> generateTestPlayers() {
+    List<Player> players = new ArrayList<>();
+
+    String[] firstnames = {
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"
+    };
+
+    for (int i = 0; i < 10; i++) {
+      Player player = new Player();
+      player.setFirstname(firstnames[i]);
+      player.setLastname("last" + (i + 1));
+      player.setNickname("nick_" + (i + 1));
+      players.add(player);
+    }
+
+    playerService.savePlayers(players);
+    return players;
   }
 }

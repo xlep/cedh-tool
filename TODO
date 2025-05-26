@@ -3,7 +3,7 @@ Backend:
 [X] Return the players that got a bye in a bye pod when generating a new round
 [ ] Lock player to table,
 [X] drop player,
-[ ] seat weighting,
+[X] seat weighting,
 [X] Report winner should also write all loosers,
 [X] Automatic result BYE
 
@@ -12,8 +12,6 @@ Frontend:
 [X] Calculate Player score only if round 1-5 has results
 [X] Cut to top 10 only if calculate scores was successful
 [ ] Lock player to table
-
-[ ] Implement a caching that the pod data stays on the site or is pulled from the site
 
 Deployment and Test:
 [ ] Deploy Test Tournament to AWS
