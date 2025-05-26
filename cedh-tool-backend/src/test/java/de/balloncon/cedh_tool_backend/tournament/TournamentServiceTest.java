@@ -6,7 +6,6 @@ import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
-import de.balloncon.cedh_tool_backend.pod.PodRepository;
 import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
@@ -28,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import lombok.ToString.Include;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,27 +38,19 @@ import org.springframework.test.context.transaction.TestTransaction;
 @Transactional
 class TournamentServiceTest {
 
-  @Autowired
-  TournamentService tournamentService;
+  @Autowired TournamentService tournamentService;
 
-  @Autowired
-  PodService podService;
+  @Autowired PodService podService;
 
-  @Autowired
-  TournamentPlayerService tournamentPlayerService;
+  @Autowired TournamentPlayerService tournamentPlayerService;
 
-  @Autowired
-  TournamentPlayerRepository tournamentPlayerRepository;
+  @Autowired PlayerService playerService;
 
-  @Autowired
-  SeatService seatService;
+  @Autowired SeatService seatService;
 
-  @Autowired
-  PlayerService playerService;
-  @Autowired
-  private PodRepository podRepository;
-  @Autowired
-  private TournamentRepository tournamentRepository;
+  @Autowired private TournamentRepository tournamentRepository;
+
+  @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
 
   // Test is for 60 player tournaments
   @Test
@@ -145,12 +135,13 @@ class TournamentServiceTest {
     tournamentService.generateNextRound(tournamentId);
 
     List<Pod> roundThreePods = podService.getPodsByRoundNumber(tournamentId, 3);
-    List<TournamentPlayer> tournamentPlayers = tournamentPlayerService.calculatePlayerScoresAfterSwissRounds(
-        tournamentId, 2);
-    List<TournamentPlayer> tournamentPlayersSortedByScore = new ArrayList<>(
-        tournamentPlayers.stream()
-            .sorted(Comparator.comparing(TournamentPlayer::getScore).reversed())
-            .toList());
+    List<TournamentPlayer> tournamentPlayers =
+        tournamentPlayerService.calculatePlayerScoresAfterSwissRounds(tournamentId, 2);
+    List<TournamentPlayer> tournamentPlayersSortedByScore =
+        new ArrayList<>(
+            tournamentPlayers.stream()
+                .sorted(Comparator.comparing(TournamentPlayer::getScore).reversed())
+                .toList());
 
     Pod byePod = null;
     for (Pod pod : roundThreePods) {
@@ -166,10 +157,12 @@ class TournamentServiceTest {
         .hasSize(2)
         .extracting(seat -> seat.getPlayer().getId())
         .contains(tournamentPlayersSortedByScore.getLast().getPlayer().getId())
-        .contains(tournamentPlayersSortedByScore.get(tournamentPlayersSortedByScore.size() -1 ).getPlayer().getId());
+        .contains(
+            tournamentPlayersSortedByScore
+                .get(tournamentPlayersSortedByScore.size() - 1)
+                .getPlayer()
+                .getId());
   }
-
-
 
   private static String sortPair(String id1, String id2) {
     List<String> pairings = Arrays.asList(id1, id2);
@@ -182,20 +175,15 @@ class TournamentServiceTest {
   void testTopTenCut() {
 
     int cutSize = 10;
-    int previousRoundNumber = 5;
     int semifinalRoundNumber = 6;
     int finalRoundNumber = 7;
 
-    Tournament tournament = generateTestTournament();
-    List<Player> playersList = generateTestPlayers();
-    generateTestTournamentPlayers(tournament, playersList);
-    generatePreviousRoundPod(tournament, previousRoundNumber);
+    UUID tournamentId = UUID.fromString("7addec25-9af0-452f-9e01-6481892e545d");
 
-    tournamentService.determineCut(tournament.getId(), cutSize);
+    tournamentService.determineCut(tournamentId, cutSize);
 
-    List<Pod> semifinalPods =
-        podService.getPodsByRoundNumber(tournament.getId(), semifinalRoundNumber);
-    List<Pod> finalPods = podService.getPodsByRoundNumber(tournament.getId(), finalRoundNumber);
+    List<Pod> semifinalPods = podService.getPodsByRoundNumber(tournamentId, semifinalRoundNumber);
+    List<Pod> finalPods = podService.getPodsByRoundNumber(tournamentId, finalRoundNumber);
 
     assert semifinalPods.size() == 2;
     assert finalPods.size() == 1;
