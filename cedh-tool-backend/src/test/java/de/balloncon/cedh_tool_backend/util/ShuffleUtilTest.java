@@ -1,7 +1,9 @@
 package de.balloncon.cedh_tool_backend.util;
 
 import de.balloncon.cedh_tool_backend.player.Player;
+import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import jakarta.transaction.Transactional;
 import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
@@ -25,13 +27,17 @@ class ShuffleUtilTest {
 
   @Autowired
   ShuffleUtil shuffleUtil;
+  @Autowired
+  private TournamentPlayerService tournamentPlayerService;
+  @Autowired
+  private PlayerService playerService;
 
   @Test
   void testSixtyPlayerShuffle() {
     UUID tournamentId = UUID.fromString("e29fbe3f-1755-43cc-a27a-393ec6d80a09");
 
-    List<Player> playersBeforeShuffle = tournamentPlayerRepository.findByTournamentId(tournamentId);
-    List<Player> players = tournamentPlayerRepository.findByTournamentId(tournamentId);
+    List<Player> playersBeforeShuffle = playerService.getPlayersByTournament(tournamentId);
+    List<Player> players = playerService.getPlayersByTournament(tournamentId);
 
     assertThat(players.size()).isEqualTo(playersBeforeShuffle.size());
     for (Player player : players) {

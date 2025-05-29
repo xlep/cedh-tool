@@ -25,21 +25,21 @@ public class TournamentController {
     this.tournamentService = tournamentService;
   }
 
-  @PostMapping("{tournamentId}/rounds")
+  @PostMapping("/{tournamentId}/rounds")
   @Operation(summary = "Create new rounds for tournaments.", description = "Create a new round for the tournament with tournamentId.")
   public ResponseEntity<RoundDto> createNewRound(@PathVariable UUID tournamentId) {
     RoundDto newRound = tournamentService.generateNextRound(tournamentId);
     return ResponseEntity.ok(newRound);
   }
 
-  @PostMapping("/topcut/{tournamentId}/{cutTo}")
+  @PostMapping("/{tournamentId}/topcut/{cutTo}")
   @Operation(summary = "Generate the top cut's.", description = "Create the top cut for the tournament with tournamentId and cutTo.")
   public ResponseEntity createTopCut(
       @PathVariable("tournamentId") UUID tournamentId, @PathVariable("cutTo") int cutTo) {
     return tournamentService.determineCut(tournamentId, cutTo);
   }
 
-  @GetMapping("{tournamentId}/rounds")
+  @GetMapping("/{tournamentId}/rounds")
   @Operation(summary = "Get all rounds for a tournament.", description = "Get all rounds for the tournament with tournamentId.")
   public ResponseEntity<List<RoundDto>> getRounds(@PathVariable UUID tournamentId) {
     List<RoundDto> rounds = tournamentService.getRoundsByTournamentId(tournamentId);

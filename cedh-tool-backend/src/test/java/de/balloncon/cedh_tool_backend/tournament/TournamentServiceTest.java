@@ -185,7 +185,7 @@ class TournamentServiceTest {
     TestTransaction.start();
 
     List<Pod> pods = podService.getPodsAndSeatsByTournamentId(tournamentId);
-    List<PlayerDto> tournamentPlayers = tournamentPlayerService.getPlayersById(tournamentId);
+    List<PlayerDto> tournamentPlayers = tournamentPlayerService.getPlayerDtosByTournament(tournamentId);
 
     // We have 26 players, so we should have 7 pods (with 1 BYE pod containing 2 players
     assertThat(pods)

@@ -2,12 +2,12 @@ package de.balloncon.cedh_tool_backend.tournament.player;
 
 import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.dto.Result;
+import de.balloncon.cedh_tool_backend.dto.TournamentPlayerDto;
 import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
-import de.balloncon.cedh_tool_backend.player.Player;
+import de.balloncon.cedh_tool_backend.mapper.TournamentPlayerMapper;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
-import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreView;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +30,7 @@ public class TournamentPlayerService {
 
   @Autowired
   private final TournamentPlayerRepository tournamentPlayerRepository;
-  @Autowired
-  private final PlayerMapper playerMapper;
+  @Autowired private final TournamentPlayerMapper tournamentPlayerMapper;
 
   // TODO: find a better way to declare these... db-table / cols related to tournament? properties?
   public static final BigDecimal STARTING_SCORE = new BigDecimal("1000.00");
@@ -46,10 +44,14 @@ public class TournamentPlayerService {
 
   @Autowired
   private PodService podService;
+  @Autowired private PlayerMapper playerMapper;
 
-  public TournamentPlayerService(TournamentPlayerRepository tournamentPlayerRepository,
+  public TournamentPlayerService(
+      TournamentPlayerRepository tournamentPlayerRepository,
+      TournamentPlayerMapper tournamentPlayerMapper,
       PlayerMapper playerMapper) {
     this.tournamentPlayerRepository = tournamentPlayerRepository;
+    this.tournamentPlayerMapper = tournamentPlayerMapper;
     this.playerMapper = playerMapper;
   }
 
@@ -72,20 +74,21 @@ public class TournamentPlayerService {
     tournamentPlayerRepository.save(tournamentPlayer);
   }
 
-  public List<TournamentPlayerScoreView> getPlayerScoresByTournamentId(UUID tournamentId) {
-    return tournamentPlayerRepository.findPlayerScoresByTournament(tournamentId);
-  }
+  public List<PlayerDto> getPlayerDtosByTournament(UUID tournamentId) {
+    List<TournamentPlayer> tournamentPlayers =
+        tournamentPlayerRepository.findByTournamentId(tournamentId);
 
-  public Optional<List<TournamentPlayer>> getTopTenByTournamentOrderByScoreDesc(
-      UUID tournamentId, int cutSize) {
-    return tournamentPlayerRepository.findTopTenByTournamentOrderByScoreDesc(
-        tournamentId, PageRequest.of(0, cutSize));
-  }
-
-  public List<PlayerDto> getPlayersById(UUID tournamentId) {
-    List<Player> tournamentPlayers = tournamentPlayerRepository.findByTournamentId(tournamentId);
     return tournamentPlayers.stream()
+        .map(TournamentPlayer::getPlayer)
         .map(playerMapper::toDto)
+        .collect(Collectors.toList());
+  }
+
+  public List<TournamentPlayerDto> getPlayersDtosById(UUID tournamentId) {
+    List<TournamentPlayer> tournamentPlayers =
+        tournamentPlayerRepository.findByTournament(tournamentId);
+    return tournamentPlayers.stream()
+        .map(tournamentPlayerMapper::toDto)
         .collect(Collectors.toList());
   }
 
