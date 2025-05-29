@@ -56,4 +56,16 @@ public class TournamentPlayerController {
     return tournamentPlayerService.setPlayerStatus(tournamentId, playerId, status);
   }
 
+  // TODO: url should look like this /api/v1/tournament/{tournamentId}/player/{playerId}/table_lock/{tableNumber} (PUT)
+  @PutMapping("/table_lock")
+  @Operation(summary = "Locks player to a table", description = "Locks player to a table (a.k.a. pod number) for the remainder of the rounds. Mainly for purposes of accessibility.")
+  public ResponseEntity<Void> lockPlayerTable(
+      @RequestParam UUID tournamentId,
+      @RequestParam UUID playerId,
+      @RequestParam Integer tableNumber
+  ) {
+    return tournamentPlayerService.lockPlayerToTable(tournamentId, playerId, tableNumber);
+  }
+
+
 }

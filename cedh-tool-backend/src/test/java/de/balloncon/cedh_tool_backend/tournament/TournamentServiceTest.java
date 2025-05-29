@@ -3,9 +3,13 @@ package de.balloncon.cedh_tool_backend.tournament;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.balloncon.cedh_tool_backend.dto.PlayerDto;
+import de.balloncon.cedh_tool_backend.dto.RoundDto;
+import de.balloncon.cedh_tool_backend.dto.RoundDto.PodDto;
+import de.balloncon.cedh_tool_backend.dto.RoundDto.SeatDto;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
+import de.balloncon.cedh_tool_backend.pod.PodRepository;
 import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.seat.Seat;
@@ -51,6 +55,8 @@ class TournamentServiceTest {
   @Autowired private TournamentRepository tournamentRepository;
 
   @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
+  @Autowired
+  private PodRepository podRepository;
 
   // Test is for 60 player tournaments
   @Test
@@ -92,6 +98,78 @@ class TournamentServiceTest {
               .as(String.format("Double Pairing detected. Found pairing duplicate %s", pairing));
         }
       }
+    }
+  }
+
+  @Test
+  void testTableLockInMultipleRounds() {
+    // Use the provided tournament ID
+    UUID tournamentId = UUID.fromString("e29fbe3f-1755-43cc-a27a-393ec6d80a09");
+
+    UUID playerLockOneId = UUID.fromString("0a19432f-509f-413a-9e4c-b25089b9b60c"); // nick17
+    UUID playerLockTwoId = UUID.fromString("7824f5a5-88da-404d-9f18-fc31d7fbc16c"); // nick35
+
+    // lock players to tables
+    int tableLockOne = 5;
+    TournamentPlayer playerLockOne = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournamentId, playerLockOneId);
+    playerLockOne.setTableLock(tableLockOne);
+    tournamentPlayerRepository.save(playerLockOne);
+
+    int tableLockTwo = 12;
+    TournamentPlayer playerLockTwo = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournamentId, playerLockTwoId);
+    playerLockTwo.setTableLock(tableLockTwo);
+    tournamentPlayerRepository.save(playerLockTwo);
+
+    // Track all pairings for uniqueness
+    Set<String> pairings = new HashSet<>();
+    List<String> prairingsList = new ArrayList<>();
+    Boolean addPairingsResult;
+
+    // Generate 5 rounds
+    for (int round = 1; round <= 5; round++) {
+      // Generate the next round
+      RoundDto roundDto = tournamentService.generateNextRound(tournamentId);
+
+      // needed to ensure a commit the transaction before we start
+      TestTransaction.flagForCommit();
+      TestTransaction.end();
+      TestTransaction.start();
+
+      // Validate swapped pods in database
+      Pod podTableLockOne = podRepository.findPodByRoundAndPodNumber(tournamentId, round,
+          tableLockOne);
+      assertThat(podTableLockOne.getSeats())
+          .as(String.format("Checking player %s in round %s in DB", playerLockOneId, round))
+          .extracting(Seat::getPlayer)
+          .extracting(Player::getId)
+          .contains(playerLockOneId);
+
+      Pod podTableLockTwo = podRepository.findPodByRoundAndPodNumber(tournamentId, round,
+          tableLockTwo);
+      assertThat(podTableLockTwo.getSeats())
+          .as(String.format("Checking player %s in round %s in DB", playerLockTwoId, round))
+          .extracting(Seat::getPlayer)
+          .extracting(Player::getId)
+          .contains(playerLockTwoId);
+
+      // Validate table locks in return DTO
+      assertThat(roundDto.pods().get(tableLockOne - 1))
+          .extracting(PodDto::podName)
+          .isEqualTo(tableLockOne);
+      assertThat(roundDto.pods().get(tableLockOne - 1).seats())
+          .as(String.format("Checking player %s in round %s in return DTO", playerLockOneId, round))
+          .extracting(SeatDto::playerId)
+          .contains(playerLockOneId);
+
+      assertThat(roundDto.pods().get(tableLockOne - 1))
+          .extracting(PodDto::podName)
+          .isEqualTo(tableLockOne);
+      assertThat(roundDto.pods().get(tableLockTwo - 1).seats())
+          .as(String.format("Checking player %s in round %s in return DTO", playerLockTwoId, round))
+          .extracting(SeatDto::playerId)
+          .contains(playerLockTwoId);
     }
   }
 

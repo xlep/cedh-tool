@@ -19,6 +19,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -88,6 +90,10 @@ public class TournamentPlayerService {
     return tournamentPlayers.stream()
         .map(tournamentPlayerMapper::toDto)
         .collect(Collectors.toList());
+  }
+
+  public List<TournamentPlayer> getPlayersForTournament (UUID tournamentId) {
+    return tournamentPlayerRepository.findByTournament(tournamentId);
   }
 
   public List<TournamentPlayer> calculatePlayerScoresAfterSwissRounds(UUID tournamentId,
@@ -398,5 +404,20 @@ public class TournamentPlayerService {
       roundList.add(i);
     }
     return roundList;
+  }
+
+  public ResponseEntity<Void> lockPlayerToTable(UUID tournamentId, UUID playerId,
+      Integer tableNumber) {
+    TournamentPlayer tournamentAndPlayer = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournamentId, playerId);
+    tournamentAndPlayer.setTableLock(tableNumber);
+
+    try {
+      tournamentPlayerRepository.save(tournamentAndPlayer);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // TODO: error handling could be cleaner and mroe responsive
+    }
+
+    return ResponseEntity.ok().build();
   }
 }
