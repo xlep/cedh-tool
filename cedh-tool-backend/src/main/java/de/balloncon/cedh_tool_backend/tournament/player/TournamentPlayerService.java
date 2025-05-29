@@ -89,6 +89,10 @@ public class TournamentPlayerService {
         .collect(Collectors.toList());
   }
 
+  public List<TournamentPlayer> getPlayersForTournament (UUID tournamentId) {
+    return tournamentPlayerRepository.findByTournament(tournamentId);
+  }
+
   public List<TournamentPlayer> calculatePlayerScoresAfterSwissRounds(UUID tournamentId,
       int rounds) {
     List<TournamentPlayer> tournamentPlayers =

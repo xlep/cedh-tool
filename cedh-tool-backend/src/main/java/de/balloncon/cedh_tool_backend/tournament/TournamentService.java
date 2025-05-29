@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -120,41 +121,59 @@ public class TournamentService {
     int nextRound = previousRound + 1;
     List<RoundDto.PodDto> podDtos = savePodsAndSeats(groups, nextRound, tournament);
     // swap pod-/table-names according to table-locks
-    adjustForTableLocks(tournament, podDtos);
+    List<PodDto> podDtosTableLockAdjusted = adjustForTableLocks(tournament, podDtos);
 
-    return RoundDto.builder().round(nextRound).pods(podDtos).build();
+    return RoundDto.builder().round(nextRound).pods(podDtosTableLockAdjusted).build();
   }
 
-  private void adjustForTableLocks(Tournament tournament, List<PodDto> podDtos) {
+  private List<PodDto> adjustForTableLocks(Tournament tournament, List<PodDto> podDtos) {
     // TODO: using the DTO classes feels clunky in general. Why are using these for the internal logic around round generation?
     // TODO: additional note; if we can refactor the pod generation so the pods only get persisted when everyhing is prepared, we can make this proces much cleaner
+    Map<UUID, TournamentPlayer> playersWithTableLock = tournamentPlayerService
+        .getPlayersForTournament(tournament.getId())
+        .stream()
+        .filter(player -> player.getTableLock() != null)
+        .collect(Collectors.toMap(player -> player.getPlayer().getId(), player -> player));
+
     for (PodDto podDto : podDtos) {
       for (SeatDto seatDto : podDto.seats()) {
-        TournamentPlayer tournamentPlayer = tournamentPlayerRepository
-            .findByTournamentAndPlayer(tournament.getId(), seatDto.playerId());
+        if (playersWithTableLock.containsKey(seatDto.playerId())) {
+          int tableLockNumber = playersWithTableLock.get(seatDto.playerId()).getTableLock();
+          int seededTableNumber = podDtos.indexOf(podDto) + 1;
 
-        if (tournamentPlayer.getTableLock() != null) {
-          int playerLockedToTableNr = tournamentPlayer.getTableLock();
-          int playerSeededToTableNr = podDtos.indexOf(podDto);
-
-
-
-          if (playerSeededToTableNr != playerLockedToTableNr) {
+          if (seededTableNumber != tableLockNumber) {
             // load affected pods from database
             Pod seededPod = podService.getPodById(podDto.podId());
             Pod podAtLockedTable = podService.getPodByRoundAndTableNumber(tournament.getId(),
-                seededPod.getRound(), playerLockedToTableNr);
+                seededPod.getRound(), tableLockNumber);
             // change pod / table numbers and save
-            seededPod.setName(playerLockedToTableNr);
+            seededPod.setName(tableLockNumber);
             podService.save(seededPod);
-            podAtLockedTable.setName(playerSeededToTableNr);
+            podAtLockedTable.setName(seededTableNumber);
             podService.save(podAtLockedTable);
-            // swap table in return object
-            Collections.swap(podDtos, playerLockedToTableNr, playerSeededToTableNr);
+            // swap table in return object - index is table number - 1
+            Collections.swap(podDtos, tableLockNumber - 1, podDtos.indexOf(podDto));
           }
         }
       }
     }
+
+    // rebuild list and correct podNames
+    return IntStream.range(0, podDtos.size())
+        .mapToObj(index -> {
+          PodDto currentPod = podDtos.get(index);
+          int expectedPodName = index + 1; // PodName should be index + 1
+
+          if (currentPod.podName() != expectedPodName) {
+            return currentPod.toBuilder()
+                .podName(expectedPodName)
+                .build();
+          } else {
+            // If podName is already correct, return the original PodDto
+            return currentPod;
+          }
+        })
+        .toList();
   }
 
   private void createAndAssignByePod(List<Player> players, Tournament tournament,
