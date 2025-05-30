@@ -38,4 +38,7 @@ public class SeatService {
     return seatRepository.findByTournamentAndPlayer(tournamentId, playerId);
   }
 
+  public List<Player> getPlayerByTournament(UUID tournamentId) {
+    return seatRepository.findDistinctPlayersByTournamentId(tournamentId);
+  }
 }

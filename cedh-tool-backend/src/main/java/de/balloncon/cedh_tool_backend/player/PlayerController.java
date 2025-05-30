@@ -2,6 +2,7 @@ package de.balloncon.cedh_tool_backend.player;
 
 import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
+import java.util.List;
 import java.util.UUID;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("${apiVersion}")
 @Tag(name = "Player Controller", description = "Operations related to player management.")
@@ -32,7 +32,7 @@ public class PlayerController {
   @Operation(summary = "Used to get player data.", description = "Get the player with playerId.")
   PlayerDto player(@PathVariable UUID playerId) {
     Player player = playerService.findPlayerById(playerId);
-    return playerMapper.toDto(player);
+    return playerMapper.toDtoList(player);
   }
 
   @PostMapping("player")

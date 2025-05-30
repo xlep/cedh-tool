@@ -71,4 +71,13 @@ public interface TournamentPlayerRepository extends JpaRepository<TournamentPlay
           """)
   Optional<List<TournamentPlayer>> findTopTenByTournamentOrderByScoreDesc(
       @Param("tournamentId") UUID tournamentId, Pageable pageable);
+
+  @Query("""
+    SELECT tp
+    FROM TournamentPlayer tp
+    WHERE tp.id.tournament = :tournamentId
+      AND tp.status = :status
+    """)
+  List<TournamentPlayer> findByTournamentIdAndStatus(@Param("tournamentId") UUID tournamentId,
+      @Param("status") TournamentPlayerStatus status);
 }

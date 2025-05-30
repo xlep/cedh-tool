@@ -6,8 +6,8 @@ import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
+import de.balloncon.cedh_tool_backend.score.ScoreService;
 
 public class TestDataGenerator {
 
@@ -67,7 +67,7 @@ public class TestDataGenerator {
     tournamentPlayer.setId(id);
     tournamentPlayer.setTournament(tournament);
     tournamentPlayer.setPlayer(player);
-    tournamentPlayer.setScore(TournamentPlayerService.STARTING_SCORE);
+    tournamentPlayer.setScore(ScoreService.STARTING_SCORE);
     tournamentPlayer.setStatus(TournamentPlayerStatus.active);
 
     return tournamentPlayer;

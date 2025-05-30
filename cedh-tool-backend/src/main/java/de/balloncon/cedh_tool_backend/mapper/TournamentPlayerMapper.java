@@ -18,6 +18,6 @@ public class TournamentPlayerMapper {
         tournamentPlayer.getTournament().getId(),
         tournamentPlayer.getScore(),
         tournamentPlayer.getStatus(),
-        playerMapper.toDto(tournamentPlayer.getPlayer()));
+        playerMapper.toDtoList(tournamentPlayer.getPlayer()));
   }
 }

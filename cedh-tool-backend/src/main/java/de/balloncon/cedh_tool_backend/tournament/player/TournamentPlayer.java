@@ -40,11 +40,11 @@ public class TournamentPlayer implements Cloneable {
   private Player player;
 
   @Column(name = "score", precision = 7, scale = 3)
-  private BigDecimal score;
+  private BigDecimal score = BigDecimal.valueOf(1000);
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
-  private TournamentPlayerStatus status;
+  private TournamentPlayerStatus status = TournamentPlayerStatus.registered;
 
   @Column(name = "table_lock")
   private Integer tableLock;

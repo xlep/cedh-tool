@@ -20,7 +20,7 @@ public class PodMapper {
         pod.getId(),
         pod.getTournament().getId(),
         pod.getName(),
-        playerMapper.toDto(pod.getPlayers()));
+        playerMapper.toDtoList(pod.getPlayers()));
   }
 
   public List<PodDto> toDto(List<Pod> pods) {
