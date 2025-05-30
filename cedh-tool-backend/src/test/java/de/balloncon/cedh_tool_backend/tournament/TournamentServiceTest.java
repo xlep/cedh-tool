@@ -15,6 +15,7 @@ import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
+import de.balloncon.cedh_tool_backend.score.ScoreService;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ class TournamentServiceTest {
   @Autowired private TournamentRepository tournamentRepository;
 
   @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
+
+  @Autowired private ScoreService scoreService;
 
   // Test is for 60 player tournaments
   @Test
@@ -136,7 +139,7 @@ class TournamentServiceTest {
 
     List<Pod> roundThreePods = podService.getPodsByRoundNumber(tournamentId, 3);
     List<TournamentPlayer> tournamentPlayers =
-        tournamentPlayerService.calculatePlayerScoresAfterSwissRounds(tournamentId, 2);
+        scoreService.calculatePlayerScoresAfterSwissRounds(tournamentId, 2);
     List<TournamentPlayer> tournamentPlayersSortedByScore =
         new ArrayList<>(
             tournamentPlayers.stream()
@@ -187,6 +190,16 @@ class TournamentServiceTest {
 
     assert semifinalPods.size() == 2;
     assert finalPods.size() == 1;
+    //todo this test needs to be improved to reflect the seating order
+    /*
+    Player seating table for semifinals
+    Seat => player number in list
+    Pod 1     | Pod 2
+    1   =>  1 | 2   =>  2
+    4   =>  4 | 3   =>  3
+    5   =>  5 | 6   =>  6
+    8   =>  8 | 7   =>  7
+    */
   }
 
   @Test

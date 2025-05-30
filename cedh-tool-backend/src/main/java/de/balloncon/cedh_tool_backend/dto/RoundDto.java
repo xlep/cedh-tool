@@ -9,12 +9,10 @@ public record RoundDto(int round, List<PodDto> pods) {
 
   @Builder
   public record PodDto(UUID podId, int podName, List<SeatDto> seats) {
-
   }
 
   @Builder
   public record SeatDto(UUID playerId, String firstname, String lastname, String nickname,
-                        int seat) {
-
+                        int seat, Result result) {
   }
 }

@@ -1,17 +1,20 @@
 package de.balloncon.cedh_tool_backend.pod;
 
 import de.balloncon.cedh_tool_backend.dto.Result;
-import de.balloncon.cedh_tool_backend.mapper.PodMapper;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
-import de.balloncon.cedh_tool_backend.util.ShuffleUtil;
+import de.balloncon.cedh_tool_backend.tournament.Tournament;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -27,9 +30,7 @@ public class PodService {
   @Autowired
   private PlayerService playerService;
   @Autowired
-  private PodMapper podMapper;
-  @Autowired
-  private ShuffleUtil shuffleUtil;
+  private TournamentPlayerService tournamentPlayerService;
 
   public Pod getPodById(UUID podId) {
     return podRepository.findById(podId).orElse(null);
@@ -92,6 +93,7 @@ public class PodService {
 
     // persist loss for all other players in pod
     List<Player> players = pod.getPlayers();
+
     players.remove(playerService.findPlayerById(winningPlayerID));
 
     for (Player player : players) {
@@ -118,11 +120,64 @@ public class PodService {
   }
 
   private void seatWinnerInFinals(UUID winningPlayerID, UUID tournamentId) {
+    int podFullyfilled = 4;
     Pod finalPod = getFinalPodByTournamentIdAndType(tournamentId, PodType.FINAL);
     Player finalist = playerService.findPlayerById(winningPlayerID);
     Seat seatForFinalist = generateSeat(finalPod, finalist, finalPod.getSeats().size() + 1);
-    finalPod.getSeats().add(seatForFinalist);
-    shuffleUtil.randomizeSeatNumbers(finalPod.getSeats());
+    Set<Seat> seats = finalPod.getSeats();
+    seats.add(seatForFinalist);
+
+
+    if (seats.size() == podFullyfilled) {
+      arrangeSeatsInFinalPod(finalPod);
+    }
+  }
+
+  private void arrangeSeatsInFinalPod(Pod pod) {
+    // 1. Filter seats 3 and 4
+    Seat seat3 = null;
+    Seat seat4 = null;
+
+    for (Seat seat : pod.getSeats()) {
+      if (seat.getSeat() != null) {
+        if (seat.getSeat() == 3) {
+          seat3 = seat;
+        } else if (seat.getSeat() == 4) {
+          seat4 = seat;
+        }
+      }
+    }
+    //2. remove seats 3 and 4 to reassign them later
+    pod.getSeats().remove(seat3);
+    pod.getSeats().add(seat4);
+
+    //3. Look up their scores (assuming you have tournament context)
+    if (seat3 != null && seat4 != null) {
+      Player player3 = seat3.getPlayer();
+      Player player4 = seat4.getPlayer();
+
+      Tournament tournament = pod.getTournament();
+
+      TournamentPlayer tp3 = tournamentPlayerService.getPlayerById(tournament.getId(), player3.getId());
+      TournamentPlayer tp4 = tournamentPlayerService.getPlayerById(tournament.getId(), player4.getId());
+
+      BigDecimal score3 = tp3.getScore();
+      BigDecimal score4 = tp4.getScore();
+
+      // 4. Reassign seats: higher score gets seat 3
+      if (score3.compareTo(score4) < 0) {
+        // seat4 has higher score → swap
+        seat3.setSeat(4);
+        seat4.setSeat(3);
+      } else {
+        // seat3 already has higher score → do nothing or reassign to be sure
+        seat3.setSeat(3);
+        seat4.setSeat(4);
+      }
+      pod.getSeats().add(seat3);
+      pod.getSeats().add(seat4);
+    }
+
   }
 
   private void persistResults(UUID podId, UUID winningPlayerID) {

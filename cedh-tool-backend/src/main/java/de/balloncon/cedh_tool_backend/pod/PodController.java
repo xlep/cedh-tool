@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("${apiVersion}/pods")
-@CrossOrigin(origins = "http://localhost:3000")
 @Tag(name = "Pod Controller", description = "Operations related to pod management.")
 public class PodController {
 

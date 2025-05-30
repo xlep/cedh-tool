@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public record PlayerDto(
-    @NotBlank(message = "nickname can not be empty") String nickname,
+    String nickname,
     @NotBlank(message = "firstname can not be empty") String firstname,
-    @NotBlank(message = "lastname can nit be empty") String lastname,
+    String lastname,
     @Email String email,
     UUID playerId) {
 

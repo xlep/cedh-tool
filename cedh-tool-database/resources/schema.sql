@@ -24,7 +24,7 @@ DELETE, REFERENCES
 ON TABLES TO cedh;
 
 -- table schema
-CREATE TABLE player
+CREATE TABLE public.player
 (
   id        uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   nickname  VARCHAR,
@@ -33,24 +33,32 @@ CREATE TABLE player
   email     VARCHAR
 );
 
-CREATE TABLE tournament
+CREATE TABLE public.tournament
 (
   id   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name VARCHAR,
   mode VARCHAR
 );
 
-CREATE TABLE tournamentplayers
-(
-  tournament_id UUID references tournament (id),
-  player_id     UUID references player (id),
-  score         NUMERIC(7, 3),
-  status       VARCHAR DEFAULT 'registered',
-  PRIMARY KEY (tournament_id, player_id)
+CREATE TABLE public.tournamentplayers (
+  tournament_id uuid NOT NULL,
+  player_id uuid NOT NULL,
+  score numeric(7, 3) DEFAULT 1000,
+  status varchar(255) DEFAULT 'registered',
+  CONSTRAINT tournamentplayers_pkey PRIMARY KEY (tournament_id, player_id),
+  CONSTRAINT tournamentplayers_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.player(id),
+  CONSTRAINT tournamentplayers_tournament_id_fkey FOREIGN KEY (tournament_id) REFERENCES public.tournament(id)
 );
 
+CREATE TABLE public.users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  username varchar(50) NOT NULL,
+  password varchar(255) NOT NULL,
+  CONSTRAINT users_pkey PRIMARY KEY (id),
+  CONSTRAINT users_username_key UNIQUE (username)
+);
 
-CREATE TABLE pod
+CREATE TABLE public.pod
 (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   tournament_id UUID NOT NULL,
@@ -60,7 +68,7 @@ CREATE TABLE pod
   CONSTRAINT fk_tournament FOREIGN KEY (tournament_id) REFERENCES tournament (id)
 );
 
-CREATE TABLE seats
+CREATE TABLE public.seats
 (
   pod    UUID REFERENCES pod (id),
   player UUID REFERENCES player (id),
@@ -69,6 +77,16 @@ CREATE TABLE seats
   PRIMARY KEY (pod, player)
 );
 
+CREATE TABLE public.api_user (
+                        username VARCHAR(255) PRIMARY KEY,
+                        password VARCHAR(255) NOT NULL
+);
+
+INSERT INTO public.api_user (username, password) VALUES
+  ('Marciel', '$2a$10$xWyhbzaS2D2yk4oregwZ2.GZn9zrWQnYp/1ES9oJypNcAYX3N4kay');
+
+INSERT into public.users (username, password) VALUES
+('Marciel', '$2a$10$XGKw9GZ942byAyqrKN30L.WsoPPoZpPTAWi0oYf/E64w.v87ddvfm');
 
 -- test data players
 WITH ids(id) AS (SELECT UNNEST(ARRAY[

@@ -16,7 +16,7 @@ services:
       POSTGRES_PASSWORD: admin
     volumes:
       - ./resources/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
-      - ./resources/cedh-tool.sql:/tmp/cedh-tool.sql
+      - ./resources/schema.sql:/tmp/schema.sql
     ports:
       - 5432:5432
 
