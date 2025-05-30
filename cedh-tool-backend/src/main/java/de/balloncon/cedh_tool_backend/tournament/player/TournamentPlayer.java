@@ -46,6 +46,9 @@ public class TournamentPlayer implements Cloneable {
   @Column(name = "status")
   private TournamentPlayerStatus status = TournamentPlayerStatus.registered;
 
+  @Column(name = "table_lock")
+  private Integer tableLock;
+
   @Override
   public TournamentPlayer clone() {
     try {

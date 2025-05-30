@@ -15,6 +15,9 @@ import de.balloncon.cedh_tool_backend.tournament.TournamentService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -72,6 +75,9 @@ public class TournamentPlayerService {
   public List<TournamentPlayer> getTournamentPlayers(UUID tournamentId) {
     return tournamentPlayerRepository.findByTournamentId(tournamentId);
   }
+  public List<TournamentPlayer> getPlayersForTournament (UUID tournamentId) {
+    return tournamentPlayerRepository.findByTournament(tournamentId);
+  }
 
   public TournamentPlayer getPlayerById(UUID tournamentId, UUID playerId) {
     return tournamentPlayerRepository.findByTournamentAndPlayer(tournamentId, playerId);
@@ -91,5 +97,20 @@ public class TournamentPlayerService {
 
   public void saveAll(List<TournamentPlayer> tournamentPlayers) {
     tournamentPlayerRepository.saveAll(tournamentPlayers);
+  }
+
+  public ResponseEntity<Void> lockPlayerToTable(UUID tournamentId, UUID playerId,
+      Integer tableNumber) {
+    TournamentPlayer tournamentAndPlayer = tournamentPlayerRepository.findByTournamentAndPlayer(
+        tournamentId, playerId);
+    tournamentAndPlayer.setTableLock(tableNumber);
+
+    try {
+      tournamentPlayerRepository.save(tournamentAndPlayer);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // TODO: error handling could be cleaner and mroe responsive
+    }
+
+    return ResponseEntity.ok().build();
   }
 }
