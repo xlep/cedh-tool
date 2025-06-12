@@ -3,11 +3,11 @@ package de.balloncon.cedh_tool_backend.seat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import de.balloncon.cedh_tool_backend.player.Player;
-import de.balloncon.cedh_tool_backend.player.PlayerRepository;
+import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
-import de.balloncon.cedh_tool_backend.pod.PodRepository;
+import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
-import de.balloncon.cedh_tool_backend.tournament.TournamentRepository;
+import de.balloncon.cedh_tool_backend.tournament.TournamentService;
 import de.balloncon.cedh_tool_backend.util.TestDataGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 @TestPropertySource(locations = "classpath:application-test.properties")
 class SeatRepositoryTest {
 
-  @Autowired
-  private SeatRepository seatRepository;
+  @Autowired private SeatService seatService;
 
-  @Autowired
-  private PodRepository podRepository;
+  @Autowired private PodService podService;
 
-  @Autowired
-  private PlayerRepository playerRepository;
+  @Autowired private PlayerService playerService;
 
-  @Autowired
-  private TournamentRepository tournamentRepository;
-
+  @Autowired private TournamentService tournamentService;
 
   @Test
   @Transactional
@@ -38,22 +33,22 @@ class SeatRepositoryTest {
     Seat seat = new Seat();
 
     Player player = TestDataGenerator.generatePlayer();
-    playerRepository.save(player);
+    playerService.save(player);
     assertThat(player.getId()).isNotNull();
 
     Tournament tournament = TestDataGenerator.generateTournament();
-    tournamentRepository.save(tournament);
+    tournamentService.save(tournament);
     assertThat(tournament.getId()).isNotNull();
 
     Pod pod = TestDataGenerator.generatePod(tournament);
-    podRepository.save(pod);
+    podService.save(pod);
     assertThat(pod.getId()).isNotNull();
 
     seat.setPod(pod);
     seat.setPlayer(player);
-    seatRepository.save(seat);
+    seatService.save(seat);
 
-    Seat seatFromDb = seatRepository.findByPodAndPlayer(pod.getId(), player.getId());
+    Seat seatFromDb = seatService.getByPodIdAndPlayerId(pod.getId(), player.getId());
     assertThat(seatFromDb).isNotNull();
     assertThat(seatFromDb.getPod().getId()).isEqualTo(pod.getId());
     assertThat(seatFromDb.getPlayer().getId()).isEqualTo(player.getId());

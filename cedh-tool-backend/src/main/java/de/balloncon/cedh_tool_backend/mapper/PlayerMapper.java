@@ -11,7 +11,10 @@ public class PlayerMapper {
 
   public PlayerDto toDtoList(Player player) {
     return new PlayerDto(
-        player.getNickname(), player.getFirstname(), player.getLastname(), player.getEmail(),
+        player.getNickname(),
+        player.getFirstname(),
+        player.getLastname(),
+        player.getEmail(),
         player.getId());
   }
 

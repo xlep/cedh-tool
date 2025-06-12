@@ -1,9 +1,9 @@
 package de.balloncon.cedh_tool_backend.apiuser;
 
-import org.springframework.security.core.userdetails.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Service;
 import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ApiUserDetailsService implements UserDetailsService {

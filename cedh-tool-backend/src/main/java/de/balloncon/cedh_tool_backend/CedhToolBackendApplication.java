@@ -14,5 +14,4 @@ public class CedhToolBackendApplication {
     System.out.println("Hashed password: " + hashed);
     SpringApplication.run(CedhToolBackendApplication.class, args);
   }
-
 }

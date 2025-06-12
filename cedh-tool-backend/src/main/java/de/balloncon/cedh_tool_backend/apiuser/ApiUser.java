@@ -1,8 +1,8 @@
 package de.balloncon.cedh_tool_backend.apiuser;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 

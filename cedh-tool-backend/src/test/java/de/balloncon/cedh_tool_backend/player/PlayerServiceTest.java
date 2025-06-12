@@ -14,8 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(locations = "classpath:application-test.properties")
 class PlayerServiceTest {
 
-  @Autowired
-  PlayerService playerService;
+  @Autowired PlayerService playerService;
 
   @Disabled
   @Test

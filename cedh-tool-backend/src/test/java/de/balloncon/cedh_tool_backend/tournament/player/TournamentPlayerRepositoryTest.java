@@ -1,16 +1,15 @@
 package de.balloncon.cedh_tool_backend.tournament.player;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -18,20 +17,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TournamentPlayerRepositoryTest {
 
   @Autowired
-  private TournamentPlayerRepository tournamentPlayerRepository;
+  private TournamentPlayerService tournamentPlayerService;
 
   @Test
   void findPlayersBySStatus() {
     UUID tournamentId = UUID.fromString("1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c");
-    List<TournamentPlayer> allPlayers = tournamentPlayerRepository
+    List<TournamentPlayer> allPlayers = tournamentPlayerService
         .findByTournament(tournamentId);
 
     assertThat(allPlayers)
         .hasSize(10);
 
     // check query by one status
-    List<TournamentPlayer> activePlayers = tournamentPlayerRepository
-        .findByTournament(tournamentId, TournamentPlayerStatus.active);
+    List<TournamentPlayer> activePlayers = tournamentPlayerService
+        .findByTournamentAndStatus(tournamentId, TournamentPlayerStatus.active);
 
     assertThat(activePlayers)
         .hasSize(4)
@@ -49,7 +48,7 @@ class TournamentPlayerRepositoryTest {
     inactiveStatus.add(TournamentPlayerStatus.disqualified);
     inactiveStatus.add(TournamentPlayerStatus.dropped);
 
-    List<TournamentPlayer> inactivePlayers = tournamentPlayerRepository.findByTournament(
+    List<TournamentPlayer> inactivePlayers = tournamentPlayerService.findByTournamentAndStatus(
         tournamentId, inactiveStatus);
 
     assertThat(inactivePlayers)

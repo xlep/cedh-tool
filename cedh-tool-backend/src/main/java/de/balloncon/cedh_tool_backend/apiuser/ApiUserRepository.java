@@ -1,7 +1,7 @@
 package de.balloncon.cedh_tool_backend.apiuser;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ApiUserRepository extends JpaRepository<ApiUser, String> {
   Optional<ApiUser> findByUsername(String username);

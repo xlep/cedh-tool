@@ -14,10 +14,10 @@ public class OpenApiConfig {
   public OpenAPI customOpenAPI() {
     return new OpenAPI()
         .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
-        .components(new Components()
-            .addSecuritySchemes("basicAuth",
-                new SecurityScheme()
-                    .type(SecurityScheme.Type.HTTP)
-                    .scheme("basic")));
+        .components(
+            new Components()
+                .addSecuritySchemes(
+                    "basicAuth",
+                    new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")));
   }
 }

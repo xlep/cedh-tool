@@ -4,19 +4,12 @@ import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.dto.TournamentPlayerDto;
 import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
 import de.balloncon.cedh_tool_backend.mapper.TournamentPlayerMapper;
-import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import de.balloncon.cedh_tool_backend.tournament.Tournament;
-import de.balloncon.cedh_tool_backend.tournament.TournamentService;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -95,6 +88,16 @@ public class TournamentPlayerService {
     return tournamentPlayerRepository.findByTournament(tournamentId);
   }
 
+  public List<TournamentPlayer> findByTournamentAndStatus(
+      UUID tournamentId, TournamentPlayerStatus status) {
+    return tournamentPlayerRepository.findByTournamentIdAndStatus(tournamentId, status);
+  }
+
+  public List<TournamentPlayer> findByTournamentAndStatus(
+      UUID tournamentId, List<TournamentPlayerStatus> statuses) {
+    return tournamentPlayerRepository.findByTournament(tournamentId, statuses);
+  }
+
   public void saveAll(List<TournamentPlayer> tournamentPlayers) {
     tournamentPlayerRepository.saveAll(tournamentPlayers);
   }
@@ -112,5 +115,14 @@ public class TournamentPlayerService {
     }
 
     return ResponseEntity.ok().build();
+  }
+
+  public TournamentPlayer findPlayerByTournamentAndID(UUID tournamentId, UUID playerId) {
+    return tournamentPlayerRepository.findByTournamentAndPlayer(tournamentId, playerId);
+  }
+
+  public List<TournamentPlayer> getActiveTournamentPlayers(UUID tournamentId) {
+    return tournamentPlayerRepository.findByTournamentIdAndStatus(
+        tournamentId, TournamentPlayerStatus.active);
   }
 }

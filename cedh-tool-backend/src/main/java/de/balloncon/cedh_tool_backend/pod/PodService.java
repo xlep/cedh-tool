@@ -7,14 +7,13 @@ import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -65,8 +64,8 @@ public class PodService {
   public ResponseEntity<Void> reportResult(
       UUID podId, UUID winningPlayerID, Result result) {
     return switch (result) {
-      case Result.win -> recordWin(podId, winningPlayerID);
-      case Result.draw -> recordDraw(podId);
+      case Result.WIN -> recordWin(podId, winningPlayerID);
+      case Result.DRAW -> recordDraw(podId);
       default -> new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     };
   }
@@ -89,7 +88,7 @@ public class PodService {
 
   private void reportPodResult(UUID podId, UUID winningPlayerID, Pod pod) {
     // persist win for winning player
-    seatService.saveResult(podId, winningPlayerID, Result.win);
+    seatService.saveResult(podId, winningPlayerID, Result.WIN);
 
     // persist loss for all other players in pod
     List<Player> players = pod.getPlayers();
@@ -97,7 +96,7 @@ public class PodService {
     players.remove(playerService.findPlayerById(winningPlayerID));
 
     for (Player player : players) {
-      seatService.saveResult(podId, player.getId(), Result.loss);
+      seatService.saveResult(podId, player.getId(), Result.LOSS);
     }
   }
 
@@ -106,7 +105,7 @@ public class PodService {
     List<Player> players = pod.getPlayers();
 
     for (Player player : players) {
-      seatService.saveResult(podId, player.getId(), Result.draw);
+      seatService.saveResult(podId, player.getId(), Result.DRAW);
     }
 
     return new ResponseEntity<>(HttpStatus.OK);
@@ -186,9 +185,9 @@ public class PodService {
     Set<Seat> seats = pod.getSeats();
     for (Seat seat : seats) {
       if (seat.getPlayer().equals(winningPlayer)) {
-        seat.setResult(Result.win);
+        seat.setResult(Result.WIN);
       } else {
-        seat.setResult(Result.loss);
+        seat.setResult(Result.LOSS);
       }
     }
   }
@@ -213,7 +212,7 @@ public class PodService {
 
   public Result getResult(Pod pod) {
     // default to a winning pod
-    Result podResult = Result.win;
+    Result podResult = Result.WIN;
 
     if (pod != null) {
       for (Seat seat : pod.getSeats()) {
@@ -222,8 +221,8 @@ public class PodService {
         }
         Result result = seat.getResult();
         switch (result) {
-          case Result.draw -> podResult = Result.draw;
-          case Result.bye -> podResult = Result.bye;
+          case Result.DRAW -> podResult = Result.DRAW;
+          case Result.BYE -> podResult = Result.BYE;
         }
         ;
       }
@@ -234,5 +233,21 @@ public class PodService {
 
   public Pod getPodByRoundAndTableNumber(UUID tournamentId, int round, int tableNumber) {
     return podRepository.findPodByRoundAndPodNumber(tournamentId, round, tableNumber);
+  }
+
+  public List<Pod> getAllByePodsByTournamentId(UUID tournamentId) {
+    return podRepository.findAllByePodsForTournament(tournamentId);
+  }
+
+  public Pod findPodByRoundAndPodNumber(UUID tournamentId, int round, int tableLock) {
+    return podRepository.findPodByRoundAndPodNumber(tournamentId, round, tableLock);
+  }
+
+  public List<Pod> getByTournamentIdOrderByRoundAscNameAsc(UUID tournamentId) {
+    return podRepository.findByTournamentIdOrderByRoundAscNameAsc(tournamentId);
+  }
+
+  public Optional<Pod> findByID(UUID podId) {
+    return podRepository.findById(podId);
   }
 }

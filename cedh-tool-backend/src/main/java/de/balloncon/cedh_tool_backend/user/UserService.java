@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserService {
-  @Autowired
-  UserRepository userRepository;
   private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  @Autowired UserRepository userRepository;
 
   public ResponseEntity<String> registerUser(String username, String rawPassword) {
     String hashedPassword = passwordEncoder.encode(rawPassword);
@@ -35,5 +34,4 @@ public class UserService {
     User user = userRepository.findByUsername(username);
     return user != null && passwordEncoder.matches(rawPassword, user.getPassword());
   }
-
 }

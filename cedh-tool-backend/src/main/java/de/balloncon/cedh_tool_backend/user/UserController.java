@@ -22,7 +22,8 @@ public class UserController {
   @Operation(summary = "Simple login verification")
   @PostMapping("/login")
   public ResponseEntity<Boolean> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
-    boolean isValid = userService.verifyLogin(loginRequestDto.getUsername(), loginRequestDto.getPassword());
+    boolean isValid =
+        userService.verifyLogin(loginRequestDto.getUsername(), loginRequestDto.getPassword());
     return ResponseEntity.ok(isValid);
   }
 

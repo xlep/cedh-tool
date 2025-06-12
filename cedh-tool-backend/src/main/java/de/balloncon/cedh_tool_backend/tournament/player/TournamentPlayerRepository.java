@@ -1,6 +1,5 @@
 package de.balloncon.cedh_tool_backend.tournament.player;
 
-import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.tournament.player.score.view.TournamentPlayerScoreView;
 import java.util.List;
 import java.util.Optional;
