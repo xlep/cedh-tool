@@ -5,7 +5,6 @@ import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.pod.Pod;
 import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,5 +44,17 @@ public class SeatService {
   // used by tests
   public List<Seat> getSeatsByPodId(UUID podId) {
     return seatRepository.findByPodId(podId);
+  }
+
+  public void save(Seat seat) {
+    seatRepository.save(seat);
+  }
+
+  public List<Seat> getByPodID(UUID podID) {
+    return seatRepository.findByPodId(podID);
+  }
+
+  public Seat getByPodIdAndPlayerId(UUID podId, UUID playerId) {
+    return seatRepository.findByPodAndPlayer(podId, playerId);
   }
 }

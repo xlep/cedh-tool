@@ -2,7 +2,6 @@ package de.balloncon.cedh_tool_backend.player;
 
 import java.util.List;
 import java.util.UUID;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

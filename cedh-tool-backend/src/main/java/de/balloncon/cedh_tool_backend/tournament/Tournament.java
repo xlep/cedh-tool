@@ -2,6 +2,8 @@ package de.balloncon.cedh_tool_backend.tournament;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +26,7 @@ public class Tournament {
   @Column(name = "name", length = Integer.MAX_VALUE)
   private String name;
 
+  @Enumerated(EnumType.STRING)
   @Column(name = "mode", length = Integer.MAX_VALUE)
-  private String mode;
+  private TournamentMode mode;
 }

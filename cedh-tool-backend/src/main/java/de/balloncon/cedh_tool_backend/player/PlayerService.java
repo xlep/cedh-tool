@@ -1,23 +1,16 @@
 package de.balloncon.cedh_tool_backend.player;
 
 import de.balloncon.cedh_tool_backend.dto.PlayerDto;
+import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PlayerService {
 
-  @Autowired
-  private TournamentPlayerRepository tournamentPlayerRepository;
   @Autowired
   private PlayerRepository playerRepository;
   @Autowired
@@ -51,11 +44,7 @@ public class PlayerService {
     playerRepository.saveAll(players);
   }
 
-  public List<TournamentPlayer> getActiveTournamentPlayers(UUID tournamentId) {
-    return tournamentPlayerRepository.findByTournamentIdAndStatus(tournamentId, TournamentPlayerStatus.active);
-  }
-
-  public List<TournamentPlayer> getTournamentPlayers(UUID tournamentId) {
-    return tournamentPlayerRepository.findByTournamentId(tournamentId);
+  public void save(Player player) {
+    playerRepository.save(player);
   }
 }

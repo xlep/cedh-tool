@@ -1,8 +1,8 @@
 package de.balloncon.cedh_tool_backend.seat;
 
+import de.balloncon.cedh_tool_backend.player.Player;
 import java.util.List;
 import java.util.UUID;
-import de.balloncon.cedh_tool_backend.player.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

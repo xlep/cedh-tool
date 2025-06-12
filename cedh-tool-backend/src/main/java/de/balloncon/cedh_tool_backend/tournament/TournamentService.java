@@ -3,25 +3,21 @@ package de.balloncon.cedh_tool_backend.tournament;
 import de.balloncon.cedh_tool_backend.dto.PlayerDto;
 import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.dto.RoundDto;
-import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
 import de.balloncon.cedh_tool_backend.dto.RoundDto.PodDto;
 import de.balloncon.cedh_tool_backend.dto.RoundDto.SeatDto;
+import de.balloncon.cedh_tool_backend.mapper.PlayerMapper;
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
-import de.balloncon.cedh_tool_backend.pod.PodRepository;
 import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
+import de.balloncon.cedh_tool_backend.score.ScoreService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
-import de.balloncon.cedh_tool_backend.seat.SeatRepository;
 import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
-import de.balloncon.cedh_tool_backend.score.ScoreService;
 import de.balloncon.cedh_tool_backend.util.ResponseMessages;
-import de.balloncon.cedh_tool_backend.util.ShuffleUtil;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,10 +41,6 @@ import org.springframework.stereotype.Service;
 public class TournamentService {
 
   @Autowired
-  private PodRepository podRepository;
-  @Autowired
-  private SeatRepository seatRepository;
-  @Autowired
   private TournamentRepository tournamentRepository;
   @Autowired
   private PodService podService;
@@ -57,13 +49,13 @@ public class TournamentService {
   @Autowired
   private SeatService seatService;
   @Autowired
-  private ShuffleUtil shuffleUtil;
-  @Autowired
   private ScoreService scoreService;
   @Autowired
   private TournamentPlayerService tournamentPlayerService;
   @Autowired
   private PlayerMapper playerMapper;
+
+  private TournamentLogic tournamentLogic;
 
   private static final int POD_SIZE = 4;
 
@@ -79,57 +71,18 @@ public class TournamentService {
   }
 
   public RoundDto generateNextRound(UUID tournamentId) {
-//    List<Player> players =seatService.getPlayerByTournament(tournamentId);
-
-    List<TournamentPlayer> tournamentPlayers = playerService.getActiveTournamentPlayers(tournamentId);
     Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
 
-    // Filter active players from tournamentPlayers
-    List<Player> players = tournamentPlayers.stream()
-        .filter(tp -> tp.getStatus() == TournamentPlayerStatus.active)
-        .map(TournamentPlayer::getPlayer)
-        .collect(Collectors.toList());
-
-    Integer maxRound = tournamentRepository.findMaxRound(tournamentId);
-    int previousRound = maxRound == null ? 0 : maxRound;
-
-    // Shuffle the player list each round, since the seating algorithm uses the first possible pod
-    shuffleUtil.shuffleList(players);
-
-    // if a BYE is needed, give it to the lowest ranking players
-    // !!! REMOVES players that are assigned a bye from the player list
-    createAndAssignByePod(players, tournament, previousRound);
-
-    int numPlayers = players.size();
-    int groupsPerRound = numPlayers / POD_SIZE;
-
-    // reset UUID:INT due to shuffling and new player IDs (just to be safe from orphant entry sets because of drops)
-    indexToPlayer = new HashMap<>();
-    playerIdToIndex = new HashMap<>();
-    // Map UUIDs to integers
-    for (int i = 0; i < players.size(); i++) {
-      indexToPlayer.put(i, players.get(i));
-      playerIdToIndex.put(players.get(i).getId(), i);
+    switch (tournament.getMode()) {
+      case HARERUYA:
+        this.tournamentLogic = new TournamentServiceHareruya();
+        break;
+      case SWISS:
+        this.tournamentLogic = new TournamentServiceSwiss();
+        break;
     }
 
-    // Populate seenPairs from existing pods
-    populateSeenPairs(tournamentId);
-
-    List<List<Integer>> groups = new ArrayList<>();
-    boolean[] used = new boolean[numPlayers];
-
-    boolean solved = backtrack(groups, used, 0, groupsPerRound, POD_SIZE, numPlayers);
-    if (!solved) {
-      throw new RuntimeException("Could not generate valid round.");
-    }
-
-    // Save result to DB
-    int nextRound = previousRound + 1;
-    List<RoundDto.PodDto> podDtos = savePodsAndSeats(groups, nextRound, tournament);
-    // swap pod-/table-names according to table-locks
-    List<PodDto> podDtosTableLockAdjusted = adjustForTableLocks(tournament, podDtos);
-
-    return RoundDto.builder().round(nextRound).pods(podDtosTableLockAdjusted).build();
+    return tournamentLogic.generateNextRound(tournamentId);
   }
 
   private List<PodDto> adjustForTableLocks(Tournament tournament, List<PodDto> podDtos) {
@@ -201,12 +154,12 @@ public class TournamentService {
         Seat byeSeat = new Seat();
         byeSeat.setPod(byePod);
         byeSeat.setPlayer(player);
-        byeSeat.setResult(Result.bye);
+        byeSeat.setResult(Result.BYE);
         byeSeat.setSeat(byePod.getSeats().size() + 1);
         byePod.getSeats().add(byeSeat);
       }
 
-      podRepository.save(byePod);
+      podService.save(byePod);
     }
   }
 
@@ -223,7 +176,7 @@ public class TournamentService {
           .calculatePlayerScoresAfterSwissRounds(tournamentId, previousRound);
 
       // remove players that already received a bye
-      List<Pod> allByePodsForTournament = podRepository.findAllByePodsForTournament(tournamentId);
+      List<Pod> allByePodsForTournament = podService.getPodsByTournamentId(tournamentId);
       for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
         for (Pod pod : allByePodsForTournament) {
           for (Seat seat : pod.getSeats()) {
@@ -302,9 +255,9 @@ public class TournamentService {
     // reset seen pairs due to shuffling and new ids for each player
     seenPairs = new HashSet<>();
 
-    List<Pod> pods = podRepository.findByTournamentId(tournamentId);
+    List<Pod> pods = podService.getPodsByTournamentId(tournamentId);
     for (Pod pod : pods) {
-      List<Seat> seats = seatRepository.findByPodId(pod.getId());
+      List<Seat> seats = seatService.getSeatsByPodId(pod.getId());
       for (int i = 0; i < seats.size(); i++) {
         for (int j = i + 1; j < seats.size(); j++) {
           UUID id1 = seats.get(i).getPlayer().getId();
@@ -565,12 +518,13 @@ public class TournamentService {
     pod.setName(podName);
     pod.setTournament(tournament);
     pod.setType(podType);
-    return podRepository.save(pod); // This will persist the pod and return the saved pod
+    podService.save(pod);
+    return pod;
   }
 
   public List<RoundDto> getRoundsByTournamentId(UUID tournamentId) {
     // Fetch pods sorted by round and name
-    List<Pod> pods = podRepository.findByTournamentIdOrderByRoundAscNameAsc(tournamentId);
+    List<Pod> pods = podService.getByTournamentIdOrderByRoundAscNameAsc(tournamentId);
 
     // Group pods by round number
     Map<Integer, List<Pod>> podsByRound = pods.stream()
@@ -638,7 +592,7 @@ public class TournamentService {
 
   public RoundDto getLatestRoundByTournamentId(UUID tournamentId) {
     // Fetch pods sorted by round and name
-    List<Pod> pods = podRepository.findByTournamentIdOrderByRoundAscNameAsc(tournamentId);
+    List<Pod> pods = podService.findByTournamentIdOrderByRoundAscNameAsc(tournamentId);
 
     if (pods.isEmpty()) {
       return null; // or throw exception, depending on your API strategy
@@ -672,4 +626,11 @@ public class TournamentService {
     return new RoundDto(latestRound, podDtos);
   }
 
+  public Tournament getTournamentByTournamentId(UUID tournamentId) {
+    return tournamentRepository.findById(tournamentId).orElse(null);
+  }
+
+  public Integer findMaxRound(UUID tournamentId) {
+    return tournamentRepository.findMaxRound(tournamentId);
+  }
 }

@@ -1,10 +1,10 @@
 package de.balloncon.cedh_tool_backend.util;
 
+import de.balloncon.cedh_tool_backend.seat.Seat;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import de.balloncon.cedh_tool_backend.seat.Seat;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,6 +20,7 @@ public class ShuffleUtil {
       list.set(j, temp);
     }
   }
+
   public void randomizeSeatNumbers(Set<Seat> seats) {
     if (seats == null || seats.isEmpty()) return;
 

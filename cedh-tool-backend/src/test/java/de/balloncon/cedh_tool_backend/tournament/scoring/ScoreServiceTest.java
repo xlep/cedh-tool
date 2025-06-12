@@ -2,17 +2,17 @@ package de.balloncon.cedh_tool_backend.tournament.scoring;
 
 import de.balloncon.cedh_tool_backend.dto.Result;
 import de.balloncon.cedh_tool_backend.player.Player;
-import de.balloncon.cedh_tool_backend.player.PlayerRepository;
+import de.balloncon.cedh_tool_backend.player.PlayerService;
 import de.balloncon.cedh_tool_backend.pod.Pod;
-import de.balloncon.cedh_tool_backend.pod.PodRepository;
+import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.pod.PodType;
 import de.balloncon.cedh_tool_backend.score.ScoreService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
-import de.balloncon.cedh_tool_backend.seat.SeatRepository;
+import de.balloncon.cedh_tool_backend.seat.SeatService;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
-import de.balloncon.cedh_tool_backend.tournament.TournamentRepository;
+import de.balloncon.cedh_tool_backend.tournament.TournamentService;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
+import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import de.balloncon.cedh_tool_backend.util.TestDataGenerator;
 import jakarta.transaction.Transactional;
 import org.assertj.core.groups.Tuple;
@@ -37,15 +37,15 @@ class ScoreServiceTest {
 @Autowired
 ScoreService scoreService;
 @Autowired
-PodRepository podRepository;
+PodService podService;
 @Autowired
-TournamentRepository tournamentRepository;
+TournamentService tournamentService;
 @Autowired
-PlayerRepository playerRepository;
+PlayerService playerService;
 @Autowired
-SeatRepository seatRepository;
+SeatService seatService;
 @Autowired
-TournamentPlayerRepository tournamentPlayerRepository;
+TournamentPlayerService tournamentPlayerService;
 
 private static Tournament tournament;
 private static Pod pod;
@@ -315,22 +315,22 @@ private static Pod pod;
   }
   void setupTournamentWithOnePod() {
     tournament = TestDataGenerator.generateTournament();
-    tournamentRepository.save(tournament);
+    tournamentService.save(tournament);
 
     pod = TestDataGenerator.generatePod(tournament);
     pod.setType(PodType.SWISS);
-    podRepository.save(pod);
+    podService.save(pod);
 
     for (int i = 1; i <= 4; i++) {
       Player player = TestDataGenerator.generatePlayer("Player" + i);
-      playerRepository.save(player);
+      playerService.save(player);
 
       Seat seat = TestDataGenerator.generateSeatWithoutResult(pod, player, i);
-      seatRepository.save(seat);
+      seatService.save(seat);
 
       TournamentPlayer tournamentPlayer = TestDataGenerator.generateTournamentPlayer(tournament,
           player);
-      tournamentPlayerRepository.save(tournamentPlayer);
+      tournamentPlayerService.save(tournamentPlayer);
     }
   }
 
@@ -339,17 +339,17 @@ private static Pod pod;
     TestTransaction.flagForCommit();
     TestTransaction.end();
     TestTransaction.start();
-    pod = podRepository.findById(pod.getId()).orElseThrow();
+    pod = podService.findByID(pod.getId()).orElseThrow();
 
     // assign win to player 1, assign losses to all other players
     for (Seat seat : pod.getSeats()) {
       if (seat.getSeat() == seatNumber) {
-        seat.setResult(Result.win);
+        seat.setResult(Result.WIN);
       } else {
-        seat.setResult(Result.loss);
+        seat.setResult(Result.LOSS);
       }
     }
-    podRepository.save(pod);
+    podService.save(pod);
   }
 
   private void setupDraw() {
@@ -357,12 +357,12 @@ private static Pod pod;
     TestTransaction.flagForCommit();
     TestTransaction.end();
     TestTransaction.start();
-    pod = podRepository.findById(pod.getId()).orElseThrow();
+    pod = podService.findByID(pod.getId()).orElseThrow();
 
     // assign win to player 1, assign losses to all other players
     for (Seat seat : pod.getSeats()) {
-      seat.setResult(Result.draw);
+      seat.setResult(Result.DRAW);
     }
-    podRepository.save(pod);
+    podService.save(pod);
   }
 }
