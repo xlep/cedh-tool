@@ -21,10 +21,15 @@ CREATE TABLE IF NOT EXISTS tournamentplayers
   player_id uuid NOT NULL,
   score numeric(7, 3) DEFAULT 1000,
   status varchar(255) DEFAULT 'registered',
+  table_lock    INTEGER,
   CONSTRAINT tournamentplayers_pkey PRIMARY KEY (tournament_id, player_id),
   CONSTRAINT tournamentplayers_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.player(id),
   CONSTRAINT tournamentplayers_tournament_id_fkey FOREIGN KEY (tournament_id) REFERENCES public.tournament(id)
 );
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS pod
 (
@@ -45,6 +50,12 @@ CREATE TABLE IF NOT EXISTS seats
   PRIMARY KEY (pod, player)
   );
 --End of table Schema
+
+INSERT INTO public.api_user (username, password) VALUES
+  ('Marciel', '$2a$10$xWyhbzaS2D2yk4oregwZ2.GZn9zrWQnYp/1ES9oJypNcAYX3N4kay');
+
+INSERT into public.users (username, password) VALUES
+  ('Marciel', '$2a$10$XGKw9GZ942byAyqrKN30L.WsoPPoZpPTAWi0oYf/E64w.v87ddvfm');
 
 --Test Data
 -- === Step 1: Insert Players ===

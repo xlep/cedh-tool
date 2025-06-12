@@ -56,6 +56,7 @@ class TournamentServiceTest {
   @Autowired private TournamentRepository tournamentRepository;
 
   @Autowired private TournamentPlayerRepository tournamentPlayerRepository;
+
   @Autowired
   private PodRepository podRepository;
 
@@ -342,7 +343,7 @@ class TournamentServiceTest {
 
   private Tournament generateTestTournament() {
     Tournament tournament = new Tournament();
-    tournament.setMode("Hareruya");
+    tournament.setMode("hareruya");
     tournament.setName("test top ten cut");
     tournamentService.save(tournament);
     return tournament;

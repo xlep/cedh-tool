@@ -38,6 +38,7 @@ CREATE TABLE public.tournament
   id   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name VARCHAR,
   mode VARCHAR
+  --TEXT CHECK (mode IN ('classic', 'hareruya'))
 );
 
 CREATE TABLE public.tournamentplayers (
@@ -45,7 +46,7 @@ CREATE TABLE public.tournamentplayers (
   player_id uuid NOT NULL,
   score numeric(7, 3) DEFAULT 1000,
   status varchar(255) DEFAULT 'registered',
- table_lock    INTEGER,
+  table_lock    INTEGER,
   CONSTRAINT tournamentplayers_pkey PRIMARY KEY (tournament_id, player_id),
   CONSTRAINT tournamentplayers_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.player(id),
   CONSTRAINT tournamentplayers_tournament_id_fkey FOREIGN KEY (tournament_id) REFERENCES public.tournament(id)

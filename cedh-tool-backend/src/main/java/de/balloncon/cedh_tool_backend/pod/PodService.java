@@ -15,6 +15,8 @@ import java.util.UUID;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -56,7 +58,9 @@ public class PodService {
   public Pod getFinalPodByTournamentIdAndType(UUID tournamentId, PodType podType) {
     return podRepository.findPodByTournamentIdAndType(tournamentId, podType);
   }
-
+public List<Pod> getAllByePodsByTournamentId(UUID tournamentId) {
+  return podRepository.findAllByePodsForTournament(tournamentId);
+}
   public void save(Pod pod) {
     podRepository.save(pod);
   }
