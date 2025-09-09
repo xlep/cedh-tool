@@ -1,0 +1,530 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+/* Global styles */
+body {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 2rem;
+}
+
+.title {
+  color: #ff7f11;
+  font-size: 6rem;
+  margin-bottom: 1rem;
+}
+
+.pods-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .pods-grid {
+    grid-template-columns: repeat(5, 1fr); /* changed from 4 to 5 */
+    gap: 0.8rem; /* slightly reduce gap */
+  }
+}
+
+.pod {
+  background-color: #2e2e2e;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid #ff7f11;
+  /* Remove max-width so it fills the grid column */
+  /* max-width: 220px; */ 
+  width: 100%; /* fill grid column */
+  box-sizing: border-box;
+}
+
+.pod:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(255, 127, 17, 0.4);
+}
+
+
+.pod h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: #ff7f11;
+}
+
+.pod ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.pod li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #444;
+}
+
+.pod li:last-child {
+  border-bottom: none;
+}
+
+/* Highlight tentative winner */
+.pod li.tentative-winner {
+  background-color: #ff7f11; /* your app’s orange */
+  color: #1e1e1e; /* dark text for contrast */
+}
+
+/* No results */
+.no-results {
+  color: #999;
+  grid-column: 1 / -1;
+}
+
+/* Table styles */
+/* Shared table styles */
+.players-table,
+.dropped-players-table {
+  border-collapse: collapse;
+  margin-top: 20px;
+  color: #f0f0f0;
+}
+
+.players-table {
+  width: 100%;
+}
+
+.dropped-players-table {
+  width: 30%;
+}
+
+/* Shared cell styles */
+.players-table th,
+.players-table td,
+.dropped-players-table th,
+.dropped-players-table td {
+  border: 1px solid #444;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+/* Shared header style */
+.players-table th,
+.dropped-players-table th {
+  background-color: #2e2e2e;
+  color: #ff7f11;
+  font-weight: bold;
+}
+
+/* Shared body row styles */
+.players-table td,
+.dropped-players-table td {
+  background-color: #1e1e1e;
+}
+
+.players-table tr:nth-child(even) td,
+.dropped-players-table tr:nth-child(even) td {
+  background-color: #252525;
+}
+
+/* Tags */
+.tag {
+  font-size: 0.95rem;
+  font-weight: bold;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.tag.sign-up {
+  background: #21262d;
+  color: #ff7f11;
+  border: 1px solid #555;
+}
+
+.tag.checked-in {
+  background-color: #2e4d2e;
+  color: #80ff80;
+  border: 1px solid #80ff80;
+}
+
+/* Buttons (styled like nav-btn) */
+button, .nav-btn {
+  background: #21262d;
+  color: #ff7f11;
+  padding: 0.5rem 1rem;
+  border: 1px solid #555;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  font-weight: bold;
+  display: inline-block;
+}
+
+button:hover, .nav-btn:hover {
+  background: #30363d;
+  border-color: #777;
+}
+
+button:disabled, .nav-btn:disabled {
+  background-color: #444;
+  color: #999;
+  border-color: #444;
+  cursor: not-allowed;
+}
+
+.nav-btn {
+  background: #21262d;
+  color: #ff7f11;
+  padding: 0.5rem 1rem;
+  border: 1px solid #555;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #30363d;
+  border-color: #777;
+}
+
+.nav-btn:disabled {
+  background-color: #444;
+  color: #999;
+  border-color: #444;
+  cursor: not-allowed;
+}
+
+.nav-btn.active {
+  background: #ff7f11;
+  color: #000000;
+  border-color: #c7cdd6;
+}
+
+.nav-btn.active:hover {
+  background: #ff7f11; /* keep orange */
+  color: #ffffff;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  background-color: #2e2e2e;
+  color: #ff7f11;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.tab:hover {
+  background-color: #3a3a3a;
+}
+
+.tab.active {
+  background-color: #ff7f11;
+  color: #1e1e1e;
+}
+
+.section-title {
+  color: #ff7f11;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.main-content, .top-nav {
+  padding: 0 10px;
+  margin-bottom: 1rem;
+}
+
+/* Search bar */
+.search-bar-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.search-bar {
+  width: 220px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+  border: 1px solid #ff7f11;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  color: #fff;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-bar::placeholder {
+  color: #888;
+}
+
+.search-bar:focus {
+  border-color: #ff9f33;
+  box-shadow: 0 0 5px rgba(255, 127, 17, 0.6);
+}
+
+.submit-btn {
+  background-color: #ff7f11; /* blue */
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  border: 1px solid #555;
+}
+.submit-btn:hover:not(:disabled) {
+  background-color: #ff7f11;
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  font-weight: normal;
+}
+
+.draw-btn {
+  background-color: #ff7f11;
+  color: #000000;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #555;
+}
+
+.draw-btn:hover {
+  color: #ffffff;
+  background-color: #ff7f11;
+}
+
+.drawn-pod {
+  background-color: #e0e0e0; /* Light gray */
+  color: #444;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.undo-draw-btn {
+  background-color: #ff7f11;
+  color: #000000;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.undo-draw-btn:hover {
+  color: #ffffff;
+  background-color: #ff7f11;
+}
+
+.pod-draw-selected li {
+  background-color: #d3d3d3; /* light gray */
+  color: #666;
+}
+
+.player-draw-selected {
+  background-color: #d3d3d3 !important;
+  color: #666 !important;
+}
+
+.player-tentative-selected {
+  background-color: #ff7f11;
+  color: #000000;
+}
+
+.player-confirmed-selected {
+  background-color: #4caf50;
+  color: #666;
+}
+
+.draw-btn {
+  margin-right: 8px;
+}
+
+.player-confirmed-result {
+  color: black;
+}
+
+.container {
+  padding: 1rem;
+  overflow-x: auto; /* Enables horizontal scroll on small screens */
+}
+
+.players-table {
+  width: 100%;
+  min-width: 400px; /* Prevents layout from breaking on small devices */
+  border-collapse: collapse;
+}
+
+.players-table th,
+.players-table td {
+  padding: 0.75rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .players-table th,
+  .players-table td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+/* --- Your existing styles --- */
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* Global styles */
+body {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 1rem; /* merged your two container paddings */
+  overflow-x: auto; /* Enables horizontal scroll on small screens */
+}
+
+.title {
+  color: #ff7f11;
+  font-size: 6rem;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  color: #ff7f11;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Pods grid */
+
+.pods-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Responsive grid columns */
+@media (min-width: 600px) {
+  .pods-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .pods-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .pods-grid {
+    grid-template-columns: repeat(5, 1fr); /* your original 5 column setup */
+    gap: 0.8rem; /* slightly reduce gap */
+  }
+}
+
+/* Pod card styling */
+
+.pod {
+  background-color: #2e2e2e;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid #ff7f11;
+  width: 100%; /* fill grid column */
+  box-sizing: border-box;
+}
+
+.pod:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(255, 127, 17, 0.4);
+}
+
+.pod h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: #ff7f11;
+}
+
+.pod ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.pod li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #444;
+}
+
+.pod li:last-child {
+  border-bottom: none;
+}
+
+/* Highlight tentative winner */
+.pod li.tentative-winner {
+  background-color: #ff7f11;
+  color: #1e1e1e;
+}
+
+/* No results */
+.no-results {
+  color: #999;
+  grid-column: 1 / -1;
+}
+
+/* Other existing styles omitted here for brevity, but keep them in your CSS file */
+
+/* Responsive tweaks for tables and section titles at small widths */
+@media (max-width: 600px) {
+  .players-table th,
+  .players-table td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
