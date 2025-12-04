@@ -257,7 +257,7 @@ class TournamentServiceHareruyaTest {
         .contains(tournamentPlayersSortedByScore.getLast().getPlayer().getId())
         .contains(
             tournamentPlayersSortedByScore
-                .get(tournamentPlayersSortedByScore.size() - 1)
+                .getLast()
                 .getPlayer()
                 .getId());
   }
