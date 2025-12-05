@@ -7,8 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
     description =
         "Only win and draw are valid options at the API level, while loss is only used internally")
 public enum Result {
-  win,
-  draw,
-  loss,
-  bye
+  WIN,
+  DRAW,
+  LOSS,
+  BYE
 }

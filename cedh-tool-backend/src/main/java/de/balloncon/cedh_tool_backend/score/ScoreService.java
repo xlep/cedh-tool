@@ -6,8 +6,6 @@ import de.balloncon.cedh_tool_backend.pod.PodService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -16,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ScoreService {
@@ -100,7 +100,7 @@ public class ScoreService {
     HashMap<UUID, Integer> amountOfByesPerPlayer = new HashMap<>();
     for (Pod pod : podService.getPodsAndSeatsByTournamentId(tournamentId)) {
       for (Seat seat : pod.getSeats()) {
-        if (Result.bye.equals(seat.getResult())) {
+        if (Result.BYE.equals(seat.getResult())) {
           int amountOfByes = amountOfByesPerPlayer.containsKey(seat.getPlayer().getId())
               ? amountOfByesPerPlayer.get(seat.getPlayer().getId()) + 1
               : 1;
@@ -215,7 +215,7 @@ public class ScoreService {
       Result podResult = podService.getResult(pod);
 
       // point totals do not chance got BYE pods
-      if (podResult == Result.win || podResult == Result.draw) {
+      if (podResult == Result.WIN || podResult == Result.DRAW) {
         for (Seat seat : pod.getSeats()) {
           potAmount = potAmount.add(
               performHareruyaCalculationBySeat(tournamentPlayerMap.get(seat.getPlayer().getId()),
@@ -232,8 +232,8 @@ public class ScoreService {
     Result podResult = podService.getResult(pod);
 
     switch (podResult) {
-      case Result.win -> addPointsToPodWinner(tournamentPlayersMap, pod, potAmount);
-      case Result.draw -> addPointsForDraw(tournamentPlayersMap, pod, potAmount);
+      case Result.WIN -> addPointsToPodWinner(tournamentPlayersMap, pod, potAmount);
+      case Result.DRAW -> addPointsForDraw(tournamentPlayersMap, pod, potAmount);
     }
   }
 
@@ -241,7 +241,7 @@ public class ScoreService {
       BigDecimal potAmount) {
     // Winner gets all wagered points. All other players do not get any points
     for (Seat seat : pod.getSeats()) {
-      if (Result.win.equals(seat.getResult())) {
+      if (Result.WIN.equals(seat.getResult())) {
         BigDecimal winnerScore = tournamentPlayersMap.get(seat.getPlayer().getId()).getScore();
         winnerScore = winnerScore.add(potAmount);
         tournamentPlayersMap.get(seat.getPlayer().getId()).setScore(winnerScore);

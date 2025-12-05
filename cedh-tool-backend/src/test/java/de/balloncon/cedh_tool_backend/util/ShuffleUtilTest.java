@@ -1,21 +1,16 @@
 package de.balloncon.cedh_tool_backend.util;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.player.PlayerService;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerRepository;
-import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerService;
 import jakarta.transaction.Transactional;
-import org.checkerframework.checker.units.qual.A;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestClassOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -23,12 +18,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class ShuffleUtilTest {
 
   @Autowired
-  TournamentPlayerRepository tournamentPlayerRepository;
-
-  @Autowired
   ShuffleUtil shuffleUtil;
-  @Autowired
-  private TournamentPlayerService tournamentPlayerService;
   @Autowired
   private PlayerService playerService;
 

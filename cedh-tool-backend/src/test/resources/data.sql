@@ -1,13 +1,13 @@
 -- empty test tournament for TournamentRepositoryTest
 insert into tournament (id, name, mode)
 values ('58e3de5f-1358-48e6-9268-4b5e451a495a', 'test tournament for TournamentRepositoryTest',
-        'cEDH');
+        'HARERUYA');
 
 
 -- test tournament for player seating
 -- test data tournament
 insert into tournament (id, name, mode)
-values ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'Summer cEDH II', 'cEDH');
+values ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', 'Summer cEDH II', 'HARERUYA');
 
 -- test data players
 -- Insert 60 players into H2 test database
@@ -142,7 +142,7 @@ VALUES ('e29fbe3f-1755-43cc-a27a-393ec6d80a09', '22321b1c-cade-4e9e-866c-3461051
 -- Test Tournamet BYE for pod generation
 -- INSERT statement for the 'tournament' table
 INSERT INTO tournament (id, name, mode)
-VALUES ('5a6b7c8d-9e0f-1111-2222-333344455566', 'test tournament BYE', null);
+VALUES ('5a6b7c8d-9e0f-1111-2222-333344455566', 'test tournament BYE', 'HARERUYA');
 
 
 -- INSERT statements for the 'player' table
@@ -207,7 +207,7 @@ VALUES ('5a6b7c8d-9e0f-1111-2222-333344455566', '4e4c2f42-4b3e-4d4a-9c8d-1a2b3c4
 -- test tournament for BYE calculation according to player score
 -- Tournament
 INSERT INTO tournament (id, name, mode)
-VALUES ('28a471f7-2adb-45ed-b9db-1376b473786d', 'BYE last score test', 'cEDH');
+VALUES ('28a471f7-2adb-45ed-b9db-1376b473786d', 'BYE last score test', 'HARERUYA');
 
 ---
 
@@ -385,7 +385,7 @@ VALUES ('20000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-0000000
 -- test tournament BallonCon 4 anonymized (for score calculation)
 -- tournament
 INSERT INTO tournament (id, name, mode)
-VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'BallonCon cEDH Test', null);
+VALUES ('7addec25-9af0-452f-9e01-6481892e545d', 'BallonCon cEDH Test', 'HARERUYA');
 
 --player
 INSERT INTO player (id, nickname, firstname, lastname, email)
@@ -2483,7 +2483,7 @@ VALUES ('6e0f80a4-2e91-4e4b-9d41-3e5f2b8f7c9a', 'DragonSlayer', 'Arthur', 'Pendr
        ('8e1e0232-a8eb-4449-8359-bf7a39a9c6d7', 'Thunderstrike', 'Kai', 'Storm',
         'kai.s@example.com');
 INSERT INTO tournament (id, name, mode)
-VALUES ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', 'Unified Grand Tournament', 'Commander');
+VALUES ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', 'Unified Grand Tournament', 'HARERUYA');
 
 INSERT INTO tournamentplayers (tournament_id, player_id, score, status)
 VALUES ('1a2b3c4d-5e6f-47a8-8b9c-0d1e2f3a4b5c', '6e0f80a4-2e91-4e4b-9d41-3e5f2b8f7c9a', 1500.000,

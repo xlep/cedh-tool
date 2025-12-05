@@ -2,12 +2,12 @@ package de.balloncon.cedh_tool_backend.util;
 
 import de.balloncon.cedh_tool_backend.player.Player;
 import de.balloncon.cedh_tool_backend.pod.Pod;
+import de.balloncon.cedh_tool_backend.score.ScoreService;
 import de.balloncon.cedh_tool_backend.seat.Seat;
 import de.balloncon.cedh_tool_backend.tournament.Tournament;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayer;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerId;
 import de.balloncon.cedh_tool_backend.tournament.player.TournamentPlayerStatus;
-import de.balloncon.cedh_tool_backend.score.ScoreService;
 
 public class TestDataGenerator {
 
